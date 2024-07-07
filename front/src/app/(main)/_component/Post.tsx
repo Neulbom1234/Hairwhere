@@ -6,9 +6,6 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import {faker} from '@faker-js/faker';
-import { Card } from 'antd';
-
-const {Meta} = Card;
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime)
