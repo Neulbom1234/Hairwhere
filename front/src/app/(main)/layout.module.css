@@ -6,7 +6,16 @@
   background-color: #fff;
 }
 
-.main::-webkit-scrollbar { /*웹킷 기반 브라우저(chrome, safari등)*/
+.main {
+  background-color: white;
+  overflow-y: auto;
+  flex: 1;
+  border-color: rgb(239, 243, 244);
+  border-width: 0px 1px 0px 1px;
+  border-style: solid;
+}
+
+.main::-webkit-scrollbar { /*웹킷 기반 브라우저(chrome, safari등)에서 스크롤바 숨기기*/
   display: none;
 }
 
@@ -16,15 +25,6 @@
 
 .main { /* 파이어폭스 구체적인 설정 */
   -ms-overflow-style: none; /* IE and Edge */
-}
-
-.bottomSectionWrapper {
-  background-color: white;
-}
-
-.bottomSectionInner {
-  height: inherit;
-  width: inherit;
 }
 
 .nav {
@@ -46,13 +46,7 @@
 /* 모바일 화면에 대한 스타일 */
 @media all and (min-width: 300px) {
   .main {
-    background-color: white;
-    overflow-y: auto;
     width: 100dvw; 
-    flex: 1;
-    border-color: rgb(239, 243, 244);
-    border-width: 0px 1px 0px 1px;
-    border-style: solid;
   }
 
   .bottomSectionWrapper {
@@ -60,8 +54,6 @@
     height: auto; 
     margin: 0; 
   }
-
-
 }
 
 @media all and (min-width: 602px) {
