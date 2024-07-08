@@ -33,24 +33,25 @@ export default function LoginModal() {
               </g>
             </svg>
           </button>
-          <div>로그인하세요.</div>
+          <div className={style.login}>로그인</div>
         </div>
         <form onSubmit={onSubmit}>
           <div className={style.modalBody}>
+            <div className={style.loginLogo}>LOGO</div>
             <div className={style.inputDiv}>
-              <label className={style.inputLabel} htmlFor="id">아이디</label>
-              <input id="id" className={style.input} value={id} onChange={onChangeId} type="text" placeholder=""/>
+              <input id="id" className={style.topInput} value={id} onChange={onChangeId} type="text" placeholder="아이디"/>
             </div>
             <div className={style.inputDiv}>
-              <label className={style.inputLabel} htmlFor="password">비밀번호</label>
-              <input id="password" className={style.input} value={password} onChange={onChangePassword} type="password" placeholder=""/>
+              <input id="password" className={style.bottomInput} value={password} onChange={onChangePassword} type="password" placeholder="비밀번호"/>
             </div>
+            <div className={style.message}>{message}</div>
           </div>
-          <Link href="/signup">회원가입</Link>
-          <div className={style.message}>{message}</div>
+          
           <div className={style.modalFooter}>
-            <button className={style.actionButton} disabled={!id && !password}>로그인하기</button>
+            <button className={style.actionButton} disabled={!id && !password}>로그인</button>
           </div>
+
+          <Link href="/signup">회원가입</Link>
         </form>
       </div>
     </div>

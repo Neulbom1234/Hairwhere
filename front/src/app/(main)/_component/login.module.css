@@ -3,6 +3,7 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     position: absolute;
     background-color: rgba(0, 0, 0, 0.4);
     top: 0;
@@ -19,11 +20,10 @@
 
 .modal {
     background-color: rgb(var(--background-end-rgb));
-    position: relative;
-    top: 5%;
-    max-width: 80vw;
-    min-width: 600px;
     border-radius: 16px;
+    position: relative;
+    top: 15%;
+    width: 50vw;
     display: flex;
     flex-direction: column;
     height: 450px;
@@ -38,68 +38,149 @@
 .modal form {
     display: flex;
     flex-direction: column;
-    flex: 1;
 }
 
 .modalBody {
-    flex: 1;
+    /* flex: 1; */
     padding: 0 80px;
 }
 @media all and (min-width: 687px) {
     .modal {
         top: 5%;
-        min-width: 600px;
-        max-width: 600px;
+        min-width: 80dvw;
+        max-width: 80dvw;
         height: 450px;
+        max-height: 80dvh;
         padding: 0;
+        border-radius: 16px;
     }
     .modalHeader {
+        min-width: 80dvw;
+        max-width: 80dvw;
         padding: 36px 80px 20px;
     }
     .modalBody {
         padding: 0 80px;
     }
+
+    .modalFooter{
+        padding: 0 80px;
+        display: flex;
+    }
+}
+@media all and (min-width: 300px) {
+    .modal{
+        top: 0%;
+        height: 100dvh;
+        width: 100dvw;
+        border-radius: 0px;
+    }
+    .modalHeader{
+        width: inherit;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        align-items: center;
+    }
+    .modalBody{
+        flex: 1;
+    }
+
+    .inputDiv{
+        max-width: 340px;
+        margin: auto;
+    }
+
+    .actionButton{
+        margin: auto;
+    }
+
+    .message{
+        /* padding: 0 80px;
+        margin: 0; */
+        max-width: 340px;
+        margin: auto;
+    }
+
+    .modalFooter{
+        flex: 1;
+        display: flex;
+    }
+
 }
 
 .inputDiv {
     display: flex;
     flex-direction: column;
-    height: 56px;
+    height: 40px;
     position: relative;
-    margin: 12px 0;
+    /* margin: 12px 0; */
+    margin-bottom: 0px;
 }
-.inputLabel {
+
+/* .inputTopLabel {
     width: 100%;
     display: inline-block;
     position: absolute;
     top: 0;
     border: 1px solid rgb(207, 217, 222);
-    border-radius: 4px;
+    border-radius: 10px 10px 0 0;
+    border-bottom: none;
     font-size: 13px;
     height: 56px;
     padding: 8px 8px 0;
     color: rgb(83, 100, 113);
-}
+} */
+/* .inputBottomLabel {
+    width: 100%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    border: 1px solid rgb(207, 217, 222);
+    border-radius: 0 0 10px 10px;
+    font-size: 13px;
+    height: 56px;
+    padding: 8px 8px 0;
+    color: rgb(83, 100, 113);
+} */
+
 .inputLabel:focus-within {
     color: red;
 }
-.input {
+.topInput {
     width: 100%;
-    border: none;
+    border: 1px solid rgb(207, 217, 222);
+    border-radius: 10px 10px 0 0;
     font-size: 17px;
-    margin-top: 16px;
+    /* margin-top: 16px; */
+    margin-bottom: 0px;
+    padding: 12px 8px 8px;
+    outline: none;
+}
+.bottomInput {
+    width: 100%;
+    border: 1px solid rgb(207, 217, 222);
+    border-radius: 0 0 10px 10px;
+    font-size: 17px;
+    /* margin-bottom: 0px; */
     padding: 12px 8px 8px;
     outline: none;
 }
 
 .modalFooter {
-    padding: 24px 80px;
+    padding: 0 80px;
+    flex: 1;
+    width: 100%;
+    /* max-width: 340px; */
+    /* margin: auto; */
 }
 
 .actionButton {
     width: 100%;
+    max-width: 340px;
+    margin: 0 auto auto auto;
     height: 50px;
-    border-radius: 25px;
+    border-radius: 10px;
     background-color: rgb(15, 20, 25);
     color: white;
     font-size: 17px;
@@ -122,7 +203,7 @@
     background-color: #fff;
     position: absolute;
     left: 16px;
-    top: 16px;
+    top: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -137,4 +218,29 @@
     .closeButton svg {
         fill: white;
     }
+}
+
+.login{
+    font-size: 26px;
+    margin: auto;
+}
+
+.loginLogo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    margin: 0 auto 20px;
+    width: 100px;
+    height: 100px;
+    color: #fff;
+    background-color: gray;
+}
+
+.message{
+    max-width: 340px;
+    margin: 10px auto;
+    /* align-items: flex-start; */
+    width: 100%;
+    color: #FF0101;
 }
