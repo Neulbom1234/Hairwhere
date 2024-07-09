@@ -8,7 +8,6 @@
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px 0px;
   transition: background-color 0.25s ease 0s, height 0.25s ease 0s;
-  height: 80px;
   justify-content: center;
   align-items: center;
 }
@@ -18,6 +17,12 @@
     right: 50%;
     transform: translateX(290px);
   }
+}
+
+.noneCategory {
+  display: none; 
+  appearance: none;
+  background: none;
 }
 
 .allCategory {
@@ -36,7 +41,6 @@
   font-size: inherit;
   border: 0px;
   cursor: pointer;
-  /* background: none;  */
   line-height: 1.5;
 }
 
@@ -48,25 +52,21 @@
 }
 
 .manCategory {
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
   justify-content: center;
   align-items: center;
   flex-direction: column; 
+  display: flex;
   width: 100%;
-  height: 40px;
+  height: 48px;
   background-color: rgb(255, 255, 255); 
   color: rgb(110, 110, 110);
-  /* display: none; */
-  /* appearance: none; */
   font-family: inherit;
   font-size: inherit;
   border: 0px;
   cursor: pointer;
-  /* background: none; */
   line-height: 1.5;
-}
-
-.manCategory svg {
-  display: none;
 }
 
 .manCategory span {
@@ -77,20 +77,20 @@
 }
 
 .womenCategory {
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
   justify-content: center;
   align-items: center;
   flex-direction: column; 
+  display: flex;
   width: 100%;
-  height: 40px;
+  height: 48px;
   background-color: rgb(255, 255, 255); 
   color: rgb(110, 110, 110);
-  /* display: none; */
-  /* appearance: none; */
   font-family: inherit;
   font-size: inherit;
   border: 0px;
   cursor: pointer;
-  /* background: none; */
   line-height: 1.5;
 }
 
@@ -99,8 +99,4 @@
   font-size: 13px;
   line-height: 20px;
   font-family: Pretendard, "Apple SD Gothic Neo", Roboto, "Noto Sans KR", sans-serif;
-}
-
-.womenCategory svg {
-  display: none;
 }
