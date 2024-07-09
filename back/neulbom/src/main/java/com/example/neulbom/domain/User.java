@@ -27,3 +27,4 @@ public class User {
     @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
     public Photo photo;
 }
+

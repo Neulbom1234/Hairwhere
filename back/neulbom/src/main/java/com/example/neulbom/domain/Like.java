@@ -18,4 +18,5 @@ public class Like {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Photo photo;
+
 }
