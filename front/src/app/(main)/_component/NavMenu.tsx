@@ -3,7 +3,6 @@
 import style from "@/app/(main)/_component/navMenu.module.css"
 import { useSelectedLayoutSegment } from "next/navigation"
 import Link from "next/link"
-import { HomeFilled, HomeOutlined } from "@ant-design/icons";
 
 export default function NavMenu() {
   const segment = useSelectedLayoutSegment();
@@ -17,7 +16,7 @@ export default function NavMenu() {
       <li> {/* 메인페이지 */}
         <Link href="/">
           <div className={style.navPill}>
-            {segment && (['search', 'post', 'notice', 'profile'].includes(segment)) ? // segment === ''이 안 되기 때문에 include 사용
+            {segment && (['search', 'post', 'notice', `${me.id}`].includes(segment)) ? // segment === ''이 안 되기 때문에 include 사용
               <>
                 <svg width={26} viewBox="0 0 24 24" aria-hidden="true"
                     className="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-cnnz9e">
@@ -101,9 +100,9 @@ export default function NavMenu() {
         </Link>
       </li>
       <li> {/*  프로필페이지 */}
-        <Link href="/profile">
+        <Link href={`/${me.id}`}>
           <div className={style.navPill}>
-            {segment === 'profile'?
+            {segment === me.id?
             <svg viewBox="0 0 24 24" aria-hidden="true" className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-18jsvk2 r-lwhw9o r-cnnz9e" width={26} height={26}>
               <g>
                 <path d="M17.863 13.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H3.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46C7.627 11.85 9.648 11 12 11s4.373.85 5.863 2.44zM12 2C9.791 2 8 3.79 8 6s1.791 4 4 4 4-1.79 4-4-1.791-4-4-4z"></path>
