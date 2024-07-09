@@ -26,8 +26,8 @@ public class PhotoController {
 
 
     @PostMapping("/upload")
-    public String upload(HttpSession session, @RequestParam("title") String title,@RequestParam("title") String text,
-                         @RequestParam("title") String hairName,@RequestPart("image") MultipartFile image) throws Exception{
+    public String upload(HttpSession session, @RequestParam("title") String title,@RequestParam("text") String text,
+                         @RequestParam("hairName") String hairName,@RequestPart("image") MultipartFile image) throws Exception{
         String name = (String) session.getAttribute("name");
         photoService.upload(title, name, hairName,text,image);
         return "업로드 완료";

@@ -29,6 +29,7 @@ public class PhotoService {
                 .userName(name)
                 .hairName(hairName)
                 .text(text)
+                //.contentType(image.getContentType())
                 .build();
         photorepository.save(photo);
         return "저장완료";

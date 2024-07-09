@@ -1,10 +1,8 @@
 package com.example.neulbom.service;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -77,7 +75,14 @@ public class s3Service {
                     new PutObjectRequest(bucketName, s3FileName, byteArrayInputStream, metadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead);
             amazonS3.putObject(putObjectRequest); // put image to S3
-        } catch (Exception e) {
+        } catch (AmazonS3Exception e) {
+            // S3 관련 예외 처리
+            log.error("S3 서비스에서 예외 발생: {}", e.getMessage());
+            throw new RuntimeException("S3 서비스 예외 발생", e); // 예외를 상위로 전파하며, 원인을 유지
+        } catch (SdkClientException e) {
+            // AWS SDK 클라이언트 예외 처리
+            throw new RuntimeException("AWS SDK 클라이언트 예외 발생");
+        }  catch (Exception e) {
             throw new IllegalArgumentException("s3업로드 오류 발생.");
         } finally {
             byteArrayInputStream.close();
