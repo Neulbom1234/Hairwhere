@@ -1,34 +1,35 @@
-<<<<<<< HEAD
 "use client"
 
-import Header from './_component/Header'
-import style from './postPage.module.css'
-import {faker} from '@faker-js/faker';
+import Header from './_component/Header';
+import style from './postPage.module.css';
+import { faker } from '@faker-js/faker';
 import ImageSlider from './_component/ImageSlider';
-import {useState, useEffect} from 'react';
+import { useEffect, useState } from 'react';
 
-interface Image {
+type Image = {
   imageId: number;
   link: string;
-}
+};
 
-interface Target {
+type User = {
+  id: string;
+  nickname: string;
+};
+
+type Target = {
   postId: number;
-  User: {
-    id: string;
-    nickname: string;
-  };
+  User: User;
   content: string;
   createdAt: Date;
   Images: Image[];
-}
+};
 
 export default function Home() {
   const [target, setTarget] = useState<Target | null>(null);
 
   useEffect(() => {
     const loadTarget = async () => {
-      const newTarget = {
+      const newTarget: Target = {
         postId: 1,
         User: {
           id: 'elonmusk',
@@ -40,7 +41,6 @@ export default function Home() {
           { imageId: 1, link: faker.image.urlLoremFlickr() },
           { imageId: 2, link: faker.image.urlLoremFlickr() },
           { imageId: 3, link: faker.image.urlLoremFlickr() },
-          { imageId: 4, link: faker.image.urlLoremFlickr() },
         ],
       };
 
@@ -54,12 +54,12 @@ export default function Home() {
     return <div>Loading...</div>; // 로딩 상태 표시
   }
 
-=======
-
-export default function Home() {
->>>>>>> origin/develop
-    return (
-      <div>게시글 상세 페이지
+  return (
+    <div className={style.main}>
+      <Header />
+      <div className={style.imageWrapper}>
+        <ImageSlider target={target} />
       </div>
-    )
-  }
+    </div>
+  );
+}
