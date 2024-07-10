@@ -60,40 +60,21 @@ export default function SearchIDModal() {
                 </g>
               </svg>
             </button>
-            <div>아이디를 찾아보아요</div>
+            <div className={style.findId}>아이디 찾기</div>
           </div>
           <form>
             <div className={style.modalBody}>
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="id">아이디</label>
+                <label className={style.inputLabel} htmlFor="id">이메일 입력</label>
                 <input id="id" className={style.input} type="text" placeholder=""
                        value={id}
                        onChange={onChangeId}
                 />
               </div>
-              <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="name">닉네임</label>
-                <input id="name" className={style.input} type="text" placeholder=""
-                       value={nickname}
-                       onChange={onChangeNickname}
-                />
-              </div>
-              <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="password">비밀번호</label>
-                <input id="password" className={style.input} type="password" placeholder=""
-                       value={password}
-                       onChange={onChangePassword}
-                />
-              </div>
-              <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="image">프로필</label>
-                <input id="image" className={style.input} type="file" accept="image/*"
-                       onChange={onChangeImageFile}
-                />
-              </div>
+              
             </div>
             <div className={style.modalFooter}>
-              <button className={style.actionButton} disabled>가입하기</button>
+              <button className={style.actionButton} disabled>메일 발송하기</button>
             </div>
           </form>
         </div>
