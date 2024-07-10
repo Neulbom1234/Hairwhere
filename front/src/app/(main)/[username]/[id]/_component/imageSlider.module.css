@@ -1,0 +1,23 @@
+.slider {
+  background-color: orange;
+  position: relative;
+  display: flex;
+  flex: 1;
+  width: calc(33.3333%);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 90%; /* 부모 요소에 대해 100% 너비를 가지도록 설정 */
+  overflow: hidden;
+  margin: 10px;
+}
+
+.imageWrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover; /* 이미지가 요소에 꽉 차도록 설정 */
+}
