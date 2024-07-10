@@ -29,7 +29,7 @@ export default function Post({ white }: Props) {
   }
 
   target.Images.push(
-    {imageId: 1, link: faker.image.urlLoremFlickr()},
+    {imgageId: 1, link: faker.image.urlLoremFlickr()},
   )
 
   const liked = false;
