@@ -7,6 +7,7 @@ import {ChangeEventHandler, FormEventHandler, useState} from "react";
 export default function SearchPWModal() {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [image, setImage] = useState('');
   const [imageFile, setImageFile] = useState<File>();
@@ -18,6 +19,7 @@ export default function SearchPWModal() {
   }
 
   const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => { setId(e.target.value) };
+  const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => { setEmail(e.target.value) };
 
   const onChangePassword: ChangeEventHandler<HTMLInputElement> = (e) => { setPassword(e.target.value) };
   const onChangeNickname: ChangeEventHandler<HTMLInputElement> = (e) => { setNickname(e.target.value) };
@@ -60,40 +62,29 @@ export default function SearchPWModal() {
                 </g>
               </svg>
             </button>
-            <div>비밀번호를 찾아보아요</div>
+            <div className={style.findPW}>비밀번호 찾기</div>
           </div>
           <form>
             <div className={style.modalBody}>
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="id">아이디</label>
+                <label className={style.inputLabel} htmlFor="id">아이디 입력</label>
                 <input id="id" className={style.input} type="text" placeholder=""
                        value={id}
                        onChange={onChangeId}
                 />
               </div>
+
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="name">닉네임</label>
-                <input id="name" className={style.input} type="text" placeholder=""
-                       value={nickname}
-                       onChange={onChangeNickname}
+                <label className={style.inputLabel} htmlFor="id">이메일 입력</label>
+                <input id="email" className={style.input} type="text" placeholder=""
+                       value={email}
+                       onChange={onChangeEmail}
                 />
               </div>
-              <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="password">비밀번호</label>
-                <input id="password" className={style.input} type="password" placeholder=""
-                       value={password}
-                       onChange={onChangePassword}
-                />
-              </div>
-              <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="image">프로필</label>
-                <input id="image" className={style.input} type="file" accept="image/*"
-                       onChange={onChangeImageFile}
-                />
-              </div>
+              
             </div>
             <div className={style.modalFooter}>
-              <button className={style.actionButton} disabled>가입하기</button>
+              <button className={style.actionButton} disabled>당신의 비밀번호는~?</button>
             </div>
           </form>
         </div>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client"
 
 import Header from './_component/Header'
@@ -53,12 +54,12 @@ export default function Home() {
     return <div>Loading...</div>; // 로딩 상태 표시
   }
 
+=======
+
+export default function Home() {
+>>>>>>> origin/develop
     return (
-      <div className={style.main}>
-        <Header/>
-        <div className={style.imageWrapper}>
-          <ImageSlider target={target}/>
-        </div>
+      <div>게시글 상세 페이지
       </div>
     )
   }
