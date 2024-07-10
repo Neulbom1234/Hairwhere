@@ -1,9 +1,8 @@
-"use client"
-
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import style from './imageSlider.module.css'
+import style from './imageSlider.module.css';
+import { useEffect, useState } from 'react';
 
 type Image = {
   imageId: number;
@@ -27,7 +26,22 @@ type Props = {
   target: Target;
 };
 
-export default function ImageSlider({target}:Props) {
+export default function ImageSlider({ target }: Props) {
+  const [images, setImages] = useState<Image[]>([]);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      setImages(target.Images);
+      console.log('Images loaded:', target.Images);
+    };
+
+    loadImages();
+
+    const slickList = document.querySelector('.slick-list') as HTMLElement; //Slick 내부의 .slick-list를 수정하기 위한 코드
+    if (slickList) {
+      slickList.style.width = '100%';
+    }
+  }, [target]);
 
   const settings = {
     dots: true,
@@ -41,12 +55,12 @@ export default function ImageSlider({target}:Props) {
   return (
     <>
       <Slider {...settings} className={style.slider}>
-        {target.Images.map((v) => (
+        {images.map((v) => (
           <div key={v.imageId} className={style.imageWrapper}>
             <img src={v.link} alt={`image-${v.imageId}`} />
           </div>
         ))}
       </Slider>
     </>
-  )
+  );
 }
