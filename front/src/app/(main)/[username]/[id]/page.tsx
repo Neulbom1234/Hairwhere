@@ -20,6 +20,12 @@ type User = {
   profile: string;
 };
 
+type HairInfo = {
+  hairName: string,
+  hairSalon: string,
+  hairSalonAddress: string,
+}
+
 type Target = {
   postId: number;
   User: User;
@@ -27,6 +33,7 @@ type Target = {
   createdAt: Date;
   Images: Image[];
   likes: string[];
+  HairInfo: HairInfo;
 };
 
 export default function Home() {
@@ -49,7 +56,12 @@ export default function Home() {
           { imageId: 2, link: faker.image.urlLoremFlickr() },
           { imageId: 3, link: faker.image.urlLoremFlickr() },
         ],
-        likes: []
+        likes: [],
+        HairInfo: {
+          hairName: '리프펌',
+          hairSalon: '블루클럽',
+          hairSalonAddress: '서울 용산구 대사관로30길 21'
+        },
       };
 
       setTarget(newTarget);
@@ -81,9 +93,9 @@ export default function Home() {
         <ImageSlider target={target} />
       </div>
       <div className={style.hairInfoWrapper}>
-        <div className={style.hairName}>리프펌</div>
-        <div className={style.hairSalon}>블루클럽</div>
-        <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>서울 용산구 대사관로30길 21</span>
+        <div className={style.hairName}>{target.HairInfo.hairName}</div>
+        <div className={style.hairSalon}>{target.HairInfo.hairSalon}</div>
+        <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{target.HairInfo.hairSalonAddress}</span>
       </div>
       <div className={style.userBadge}>
         <Link href={`/${target.User.id}`}>
@@ -91,7 +103,7 @@ export default function Home() {
             <Avatar size={44} icon={<UserOutlined/>} /> :
             <Avatar size={44} src={target.User.profile} />
           }
-          <div className={style.userName}>헤어웨어</div>
+          <div className={style.userName}>{target.User.nickname}</div>
         </Link>
       </div>
       <Divider/>
