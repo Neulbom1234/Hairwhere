@@ -26,5 +26,11 @@ public class User {
 
     @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
     public Photo photo;
+
+    public User(String loginId, String pw, String name) {
+        this.loginId = loginId;
+        this.pw = pw;
+        this.name = name;
+    }
 }
 

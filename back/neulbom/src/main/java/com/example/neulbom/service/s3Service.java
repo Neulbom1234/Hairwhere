@@ -58,7 +58,7 @@ public class s3Service {
 
     private String uploadImageToS3(MultipartFile image) throws IOException {
         String originalFilename = image.getOriginalFilename(); //원본 파일 명
-        String extention = originalFilename.substring(originalFilename.lastIndexOf(".")); //확장자 명
+        String extention = originalFilename.substring(originalFilename.lastIndexOf(".") + 1); //확장자 명
 
         String s3FileName = UUID.randomUUID().toString().substring(0, 10) + originalFilename; //변경된 파일 명
 
@@ -66,7 +66,11 @@ public class s3Service {
         byte[] bytes = IOUtils.toByteArray(is);
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType("image/" + extention);
+        String contentType = "image/" + extention;
+        if (!isValidImageContentType(contentType)) {
+            throw new IllegalArgumentException("Invalid image content type: " + contentType);
+        }
+        metadata.setContentType(contentType);
         metadata.setContentLength(bytes.length);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
 
@@ -91,6 +95,11 @@ public class s3Service {
 
         return amazonS3.getUrl(bucketName, s3FileName).toString();
     }
+
+    private boolean isValidImageContentType(String contentType) {
+        return contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/gif");
+    }
+
 
     public void deleteImageFromS3(String imageAddress) {
         String key = getKeyFromImageAddress(imageAddress);
