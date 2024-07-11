@@ -94,7 +94,11 @@ export default function Home() {
       </div>
       <div className={style.hairInfoWrapper}>
         <div className={style.hairName}>{target.HairInfo.hairName}</div>
-        <div className={style.hairSalon}>{target.HairInfo.hairSalon}</div>
+        <div className={style.hairSalon}>
+          <Link href={`/salon/${target.HairInfo.hairSalon}`}>
+            {target.HairInfo.hairSalon}
+          </Link>
+          </div>
         <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{target.HairInfo.hairSalonAddress}</span>
       </div>
       <div className={style.userBadge}>
