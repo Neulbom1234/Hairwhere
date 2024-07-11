@@ -40,3 +40,21 @@
 .seemore :hover {
   cursor: pointer;
 }
+
+.like {
+  position: absolute;
+  right: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.like button {
+  border: none;
+  background: none;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.like span {
+  font-size: 19px;
+}

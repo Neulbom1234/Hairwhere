@@ -1,6 +1,5 @@
 package com.example.neulbom.service;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.repository.PhotoRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public class PhotoService {
     @Transactional
     public String upload(String title, String name, String hairName, String text, MultipartFile image) {
         String imagePath = s3Service.upload(image);
-
         Photo photo = Photo.builder()
                 .photoTitle(title)
                 .photoImagePath(imagePath)
@@ -33,7 +31,6 @@ public class PhotoService {
                 .text(text)
                 //.contentType(image.getContentType())
                 .build();
-
         photorepository.save(photo);
         return "저장완료";
     }

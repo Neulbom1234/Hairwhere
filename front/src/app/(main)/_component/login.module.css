@@ -31,7 +31,7 @@
 }
 
 .modalHeader {
-    padding: 36px 80px 20px;
+    padding: 16px 80px 20px;
     font-size: 31px;
     font-weight: bold;
 }
@@ -48,17 +48,17 @@
 @media all and (min-width: 687px) {
     .modal {
         top: 5%;
-        min-width: 80dvw;
-        max-width: 80dvw;
+        min-width: 502px;
+        max-width: 502px;
         height: 450px;
         max-height: 80dvh;
         padding: 0;
-        border-radius: 16px;
+        border-radius: 16px !important;
     }
     .modalHeader {
-        min-width: 80dvw;
-        max-width: 80dvw;
-        padding: 36px 80px 20px;
+        /* min-width: 80dvw; */
+        max-width: 100%;
+        padding: 16px 80px 20px;
     }
     .modalBody {
         padding: 0 80px;
@@ -78,7 +78,7 @@
         top: 0%;
         height: 100dvh;
         width: 100dvw;
-        border-radius: 0px;
+        border-radius: 0;
     }
     .modalHeader{
         width: inherit;
@@ -87,6 +87,7 @@
         position: relative;
         align-items: center;
     }
+    
     .modalBody{
         flex: 1;
     }
@@ -127,32 +128,6 @@
     /* margin: 12px 0; */
     margin-bottom: 0px;
 }
-
-/* .inputTopLabel {
-    width: 100%;
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    border: 1px solid rgb(207, 217, 222);
-    border-radius: 10px 10px 0 0;
-    border-bottom: none;
-    font-size: 13px;
-    height: 56px;
-    padding: 8px 8px 0;
-    color: rgb(83, 100, 113);
-} */
-/* .inputBottomLabel {
-    width: 100%;
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    border: 1px solid rgb(207, 217, 222);
-    border-radius: 0 0 10px 10px;
-    font-size: 13px;
-    height: 56px;
-    padding: 8px 8px 0;
-    color: rgb(83, 100, 113);
-} */
 
 .inputLabel:focus-within {
     color: red;
@@ -218,7 +193,7 @@
     background-color: #fff;
     position: absolute;
     left: 16px;
-    top: 36px;
+    top: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
