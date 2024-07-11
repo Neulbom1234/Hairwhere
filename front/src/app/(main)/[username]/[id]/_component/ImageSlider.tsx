@@ -12,6 +12,7 @@ type Image = {
 type User = {
   id: string;
   nickname: string;
+  profile: string;
 };
 
 type Target = {

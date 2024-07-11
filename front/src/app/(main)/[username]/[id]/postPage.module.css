@@ -4,7 +4,6 @@
   align-items: stretch;
   overflow: hidden;
   position: relative;
-  padding-bottom: 20px;
 }
 
 .imageWrapper {
@@ -12,6 +11,53 @@
   width: 100%;
   align-items: center;
   justify-content: center;
+}
+
+.hairInfoWrapper {
+  /* display: flex;
+  position: relative; */
+  flex-direction: column;
+  padding: 52px 32px 30px 32px;
+}
+
+.hairName {
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.hairSalon {
+  font-size: 13px;
+  line-height: 1.46;
+}
+
+.hairSalonAddress {
+  font-size: 13px;
+  line-height: 1.46;
+  color: rgb(170, 170, 170);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.userBadge {
+  display: flex;
+  align-items: center;
+  padding: 0px 32px;
+}
+
+.userBadge a {
+  display: flex;
+  align-items: center;
+}
+
+.userName {
+  font-size: 20px;
+  font-weight: 550;
+  margin-left: 10px;
+}
+
+.content {
+  margin: 0px 32px 32px 32px;
 }
 
 

@@ -4,7 +4,10 @@ import Header from './_component/Header';
 import style from './postPage.module.css';
 import { faker } from '@faker-js/faker';
 import ImageSlider from './_component/ImageSlider';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { Avatar, Divider } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
 type Image = {
   imageId: number;
@@ -14,6 +17,7 @@ type Image = {
 type User = {
   id: string;
   nickname: string;
+  profile: string;
 };
 
 type Target = {
@@ -22,10 +26,12 @@ type Target = {
   content: string;
   createdAt: Date;
   Images: Image[];
+  likes: string[];
 };
 
 export default function Home() {
   const [target, setTarget] = useState<Target | null>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const loadTarget = async () => {
@@ -34,14 +40,16 @@ export default function Home() {
         User: {
           id: 'elonmusk',
           nickname: 'Elon Musk',
+          profile: '',
         },
-        content: '클론코딩 라이브로 하니 너무 힘들어요 ㅠㅠ',
+        content: '여기 리프펌 완전 잘해요! 짱짱~~',
         createdAt: new Date(),
         Images: [
           { imageId: 1, link: faker.image.urlLoremFlickr() },
           { imageId: 2, link: faker.image.urlLoremFlickr() },
           { imageId: 3, link: faker.image.urlLoremFlickr() },
         ],
+        likes: []
       };
 
       setTarget(newTarget);
@@ -50,15 +58,45 @@ export default function Home() {
     loadTarget();
   }, []);
 
+  const copyToClipboard = () => {
+    if (textRef.current) {
+      navigator.clipboard.writeText(textRef.current.innerText)
+        .then(() => {
+          alert('주소가 클립보드에 복사되었습니다.');
+        })
+        .catch((err) => {
+          console.error('복사 중 에러 발생:', err);
+        });
+    }
+  };
+
   if (!target) {
     return <div>Loading...</div>; // 로딩 상태 표시
   }
 
   return (
     <div className={style.main}>
-      <Header />
+      <Header target={target}/>
       <div className={style.imageWrapper}>
         <ImageSlider target={target} />
+      </div>
+      <div className={style.hairInfoWrapper}>
+        <div className={style.hairName}>리프펌</div>
+        <div className={style.hairSalon}>블루클럽</div>
+        <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>서울 용산구 대사관로30길 21</span>
+      </div>
+      <div className={style.userBadge}>
+        <Link href={`/${target.User.id}`}>
+          {target.User.profile === '' ?
+            <Avatar size={44} icon={<UserOutlined/>} /> :
+            <Avatar size={44} src={target.User.profile} />
+          }
+          <div className={style.userName}>헤어웨어</div>
+        </Link>
+      </div>
+      <Divider/>
+      <div className={style.content}>
+        {target.content}
       </div>
     </div>
   );
