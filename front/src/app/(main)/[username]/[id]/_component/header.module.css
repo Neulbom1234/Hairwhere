@@ -52,6 +52,7 @@
   border: none;
   background: none;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .like span {

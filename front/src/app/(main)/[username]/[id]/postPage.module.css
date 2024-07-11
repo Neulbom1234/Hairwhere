@@ -58,6 +58,10 @@
 
 .content {
   margin: 0px 32px 32px 32px;
+  min-height: 100px;
+  white-space: pre-wrap; /* Preserve whitespace, and wrap when needed */
+  word-wrap: break-word; /* Break words to fit within the width */
+  word-break: break-all; /* Break all words */
 }
 
 
