@@ -1,0 +1,56 @@
+.header {
+  align-items: center;
+  background-color: white;
+  height: 64px;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  border-color: rgb(239, 243, 244);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.categoryButton {
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.form {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.inputDiv {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  align-items: center;
+}
+
+.input{
+  padding: 16px 10px;
+  margin-right: 10px;
+}
+
+@media all and (min-width: 300px) {
+  .header {
+    width: 100dvw; 
+  }
+  .input {
+    width: calc(100dvw - 60px);
+  }
+}
+
+@media all and (min-width: 602px) {
+  .header {
+    width: 602px;
+  }
+  .input {
+    width: 540px;
+  }
+}
