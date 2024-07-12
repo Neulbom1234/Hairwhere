@@ -1,0 +1,50 @@
+.header {
+  align-items: center;
+  background-color: white;
+  width: inherit;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-color: rgb(239, 243, 244);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.backButton {
+  position: absolute;
+  left: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+}
+
+.backButton :hover{
+  cursor: pointer;
+}
+
+.hairSalonWrapper {
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.hairSalon {
+  line-height: 1.46;
+  margin-bottom: 3px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.hairSalonAddress {
+  font-size: 13px;
+  line-height: 1.46;
+  color: rgb(170, 170, 170);
+  cursor: pointer;
+  text-decoration: underline;
+}

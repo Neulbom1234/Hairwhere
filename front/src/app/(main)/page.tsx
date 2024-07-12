@@ -1,5 +1,4 @@
 import style from "@/app/(main)/home.module.css"
-import Link from "next/link"
 import Post from "./_component/Post"
 import CommonLayout from "./_component/CommonLayout"
 import Header from "./_component/Headet";
