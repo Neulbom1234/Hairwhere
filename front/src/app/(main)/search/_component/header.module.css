@@ -11,7 +11,7 @@
 }
 
 .categoryButton {
-  margin: 16px 10px;
+  margin: 16px 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,6 +23,7 @@
   display: flex;
   flex-grow: 1;
   height: 100%;
+  flex-direction: column;
 }
 
 .inputDiv {
@@ -34,7 +35,25 @@
 
 .input{
   padding: 16px 10px;
-  margin-right: 10px;
+  border: none;
+  background-color: #F3F3F3;
+  border-radius: 5px;
+  font-family: Pretendard-Regular, sans-serif;
+  font-size: 15px;
+}
+
+.searchButton {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 26px;
+  margin-top: 2px;
 }
 
 @media all and (min-width: 300px) {
@@ -51,6 +70,6 @@
     width: 602px;
   }
   .input {
-    width: 540px;
+    width: 530px;
   }
 }
