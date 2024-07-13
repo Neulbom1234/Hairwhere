@@ -7,7 +7,7 @@ import HairCategoryMenu from './HairCategoryMenu';
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [categoryVisible, setCategoryVisible] = useState(true);
+  const [categoryVisible, setCategoryVisible] = useState(false);
   const router = useRouter();
 
   const onChangeSearchQuery: ChangeEventHandler<HTMLInputElement> = (e) => { setSearchQuery(e.target.value) };

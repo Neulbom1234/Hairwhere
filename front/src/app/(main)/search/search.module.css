@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0px;
+}
+
+.recentSearch {
+  padding-left: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.allClear {
+  padding-right: 20px;
+  font-family: Pretendard-Regular, sans-serif;
+  font-size: 14px;
+  color: rgb(110, 110, 110);
+  cursor: pointer;
+}
+
+
+.body {
+  padding-top: 10px;
+  margin-left: 20px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.body div {
+  cursor: pointer;
+}
+
+.body span {
+  padding-right: 20px;
+  cursor: pointer;
+}
