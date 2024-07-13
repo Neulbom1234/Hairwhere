@@ -19,6 +19,47 @@
   background: none;
   cursor: pointer;
 }
+
+.hairCategory {
+  background-color: white;
+  width: 255px;
+  height: 100dvh;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-right: 1px solid #F0F0F0;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.hairCategory.visible {
+  transform: translateX(0);
+}
+
+.hairCategoryFooter {
+  background-color: white;
+  width: inherit;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hairCategoryFooter span {
+  font-size: 16px;
+  font-weight: 550;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
 .form {
   display: flex;
   flex-grow: 1;
