@@ -84,7 +84,7 @@
 
   }
 
-  @media all and(min-width: 300px) {
+  @media all and (min-width: 300px) {
     .modal{
       top: 0%;
       height: 100dvh;
@@ -92,6 +92,8 @@
       border-radius: 0;
       display: flex;
       justify-content: center;
+      /* min-height: 75%; */
+      /* min-height: 450px; */
     }
     
     .modalHeader{
@@ -107,7 +109,7 @@
     }
     .modalBody{
       margin: 0 auto;
-      flex: 0;
+      flex: 1;
       max-width: 90dvw;
       /* display: flex; */
       /* flex-direction: column; */

@@ -10,7 +10,9 @@ export default function SignupModal() {
   const [secondPassword, setSecondPassword] = useState('');
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
-  const [message, setMessage] = useState('');
+  const [idError, setIdError] = useState('');
+  const [pwCheck, setPWCheck] = useState('');
+  const [emailError, setEmailError] = useState('');
   // const [image, setImage] = useState('');
   // const [imageFile, setImageFile] = useState<File>();
 
@@ -21,14 +23,46 @@ export default function SignupModal() {
     // TODO: 뒤로가기가 /home이 아니면 /home으로 보내기
   }
 
-  const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => { setId(e.target.value) };
+  const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => { 
+    const value=e.target.value;
+    setId(value);
+    const list=/[^a-zA-Z0-9]/;
+    if(list.test(value)){
+      setIdError('영어와 숫자만 입력 가능합니다.');
+    } else{
+      setIdError('');
+    } 
+  };
 
-  const onChangePassword: ChangeEventHandler<HTMLInputElement> = (e) => { setPassword(e.target.value) };
-  const onChangeSecondPassword: ChangeEventHandler<HTMLInputElement> = (e) => { setSecondPassword(e.target.value) };
-  const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => { setEmail(e.target.value) };
+  const onChangePassword: ChangeEventHandler<HTMLInputElement> = (e) => { 
+    setPassword(e.target.value)
+   };
+  const onChangeSecondPassword: ChangeEventHandler<HTMLInputElement> = (e) => { 
+    // 1차 비밀번호랑 같은지 확인하기 구현해야 함
+    const value=e.target.value;
+    setSecondPassword(e.target.value)
+    if(password===value){
+      setPWCheck('비밀번호가 일치합니다');
+    } else{
+      setPWCheck('비밀번호가 일치하지 않습니다');
+    }
+   };
+
+  const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => { 
+    const value=e.target.value;
+    setEmail(value);
+    const list=/[^a-zA-Z0-9@.]/;
+    if(list.test(value)){
+      setEmailError('영어와 숫자 및 특수문자(@ .)만 입력 가능합니다.');
+    } else{
+      setEmailError('');
+    }
+   };
+
   const onChangeNickname: ChangeEventHandler<HTMLInputElement> = (e) => { setNickname(e.target.value) };
+
   // const onChangeImageFile: ChangeEventHandler<HTMLInputElement> = (e) => {
-    // e.target.files && setImageFile(e.target.files[0])
+  //   e.target.files && setImageFile(e.target.files[0])
   // };
 
   const onSubmit: FormEventHandler = (e) => {
@@ -76,6 +110,7 @@ export default function SignupModal() {
                        value={id}
                        onChange={onChangeId}
                 />
+                {idError && <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>{idError}</span>}
               </div>
 
               {/* 비밀번호 */}
@@ -89,20 +124,23 @@ export default function SignupModal() {
               {/* 비밀번호(재입력) => 입력창만 만들었음 !*/}
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="secondPassword">비밀번호 재입력</label>
-                <input id="secondPassword" className={style.input} type="text" placeholder=""
+                <input id="secondPassword" className={style.input} type="password" placeholder=""
                        value={secondPassword}
                        onChange={onChangeSecondPassword} 
                 />
+                {pwCheck && <span className="errorMessage" style={{color: 'red', fontSize:'10px'}}>{pwCheck}</span>}
               </div>
-              <div className={style.message}>{message}</div>
 
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="email">이메일</label>
-                <input id="email" className={style.input} type="text" placeholder=""
-                       value={email}
+                <input id="email" className={style.input} type="email" placeholder=""
+                       value={email} 
                        onChange={onChangeEmail}
                 />
+                {emailError && <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>{emailError}</span>}
               </div>
+
+
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="nickname">닉네임</label>
                 <input id="nickname" className={style.input} type="text" placeholder=""
@@ -113,7 +151,7 @@ export default function SignupModal() {
 
               <div className={style.inputDiv}>
                 <select className={style.gender}>
-                  <option value="0">성별</option>
+                  <option value="0" disabled>성별</option>
                   <option value="1">남자</option>
                   <option value="2">여자</option>
                 </select>
