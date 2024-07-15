@@ -15,23 +15,34 @@ export default function Post() {
   const onChangeHair = () => {};
   const onChangeContent = () => {};
 
-  const onAddImage=(e:React.ChangeEvent<HTMLInputElement>)=>{
-    const imgList=e.target.files;
-    let imgUrlList:string[]=[];
-
-    if(imgList){
-      for(let i=0; i<imgList.length; i++){
-        const imgUrl=URL.createObjectURL(imgList[i]);
+  const onAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const imgList = e.target.files;
+    let imgUrlList: string[] = [];
+  
+    if (imgList) {
+      // 이미지 URL이 3개 이상인 경우 먼저 자릅니다.
+      if (imageUrls.length > 3) {
+        imgUrlList = imageUrls.slice(0, 3);
+        setImageUrls(imgUrlList);
+        return;
+      }
+  
+      // 새로 추가된 이미지 파일들의 URL을 생성합니다.
+      for (let i = 0; i < imgList.length; i++) {
+        const imgUrl = URL.createObjectURL(imgList[i]);
         imgUrlList.push(imgUrl);
       }
-      if(imgUrlList.length>3){
-        imgUrlList=imgUrlList.slice(0,3);
+  
+      // 기존 URL과 새로 추가된 URL을 합칩니다.
+      setImageUrls([...imageUrls, ...imgUrlList]);
+  
+      // 만약 총 URL 수가 3개를 초과한다면 잘라냅니다.
+      if (imageUrls.length + imgUrlList.length > 3) {
+        setImageUrls((prevUrls) => prevUrls.slice(0, 3));
       }
-
-      setImageUrls(imgUrlList);
-      
     }
-  }
+  };
+  
 
   return (
     <div className={style.main}>
