@@ -1,7 +1,7 @@
 .commonLayout {
   bottom: calc(env(safe-area-inset-bottom) + 80px);
   position: fixed;
-  right: 60px;
+  right: 70px;
   z-index: 50;
   width: 40px;
   overflow: hidden;
