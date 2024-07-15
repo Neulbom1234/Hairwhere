@@ -3,6 +3,7 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -17,22 +18,30 @@
 }
 .modal {
   background-color: rgb(var(--background-end-rgb));
-  position: relative;
-  top: 5%;
-  max-width: 80vw;
-  min-width: 600px;
   border-radius: 16px;
+  position: relative;
+  top: 15%;
+  /* max-width: 80vw;
+  min-width: 600px; */
+  width: 50vw;
   display: flex;
   flex-direction: column;
-  height: 550px;
+  z-index: 99;
 }
 
 .modalHeader {
-  padding: 36px 80px 20px;
+  /* padding: 36px 80px 20px; */
+  margin: auto;
   font-size: 31px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
-
+.signIn{
+  font-size: 26px;
+  margin: auto;
+  /* margin: 16px auto 0; */
+}
 .modal form {
   display: flex;
   flex-direction: column;
@@ -40,31 +49,130 @@
 }
 
 .modalBody {
-  flex: 1;
+  /* flex: 1; */
   padding: 0 80px;
+}
+
+.idError{
+  font-size: 12px;
+  color: red;
+  margin-left: 8px;
 }
 @media all and (min-width: 687px) {
   .modal {
       top: 5%;
-      min-width: 600px;
-      max-width: 600px;
-      height: 550px;
+      min-width: 502px;
+      max-width: 502px;
+
+      height: 450px;
+      min-height: 80dvh;
+      max-height: 80dvh;
       padding: 0;
+      border-radius: 16px !important;
+
+      /* display: flex; */
   }
   .modalHeader {
-      padding: 36px 80px 20px;
+      /* padding: 36px 80px 20px; */
+      max-width: 100%;
+      /* padding: 0px 80px 20px; */
+      margin-bottom: 0px;
+      /* min-height: 10%; */
+      padding: 16px 80px 20px;
   }
+
   .modalBody {
       padding: 0 80px;
+      min-height: 75%;
+      max-height: 75%;
+      position: relative;
+      overflow-y: scroll;
   }
+  .modalBody::-webkit-scrollbar{
+    width: 25px;
+    }
+  .modalBody::-webkit-scrollbar-thumb{
+    background-color: rgb(207, 217, 222);
+    background-clip: padding-box;
+    border: 10px solid transparent;
+  }
+  .modalBody::-webkit-scrollbar-track{
+    background-color: #fff;
+  }
+  .modalFooter{
+    min-height: 10%;
+    position: relative;
+    bottom: -10% !important;
+  }
+
+  .closeButton {
+    /* position: relative; */
+    /* left: 16px; */
+  }
+}
+@media all and (min-width: 300px){
+  .modal{
+    top: 0%;
+    height: 100dvh;
+    width: 100dvw;
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .modalHeader{
+    width: 100%;
+    max-width: 100dvw;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    align-items: center;
+    /* padding-top: 16px; */
+    /* top: 32px; */
+    min-height: 10%;
+  }
+  .modalBody{
+    margin: 0 auto;
+    flex: 0;
+    max-width: 90dvw;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    padding: 0 0;
+
+    position: relative;
+    top: 5%;
+    min-height: 75%;
+    max-height: 75%;
+  }
+  
+  .modalFooter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 10%;
+    bottom: -5%;
+  }
+  .actionButton{
+    width: 90%;
+    max-width: 90dvw;
+    margin: auto;
+  }
+
 }
 
 .inputDiv {
+  width: 100%;
   display: flex;
   flex-direction: column;
   height: 56px;
   position: relative;
-  margin: 12px 0;
+  margin: 16px 0;
+}
+.inputDiv:last-child{
+  margin-bottom: 0;
 }
 .inputLabel {
   width: 100%;
@@ -90,8 +198,16 @@
   outline: none;
 }
 
+.gender{
+  height: 40px;
+  width: 100%;
+  font-size: 13px;
+  border-color: rgb(207, 217, 222);
+  color: rgb(83, 100, 113);
+}
+
 .modalFooter {
-  padding: 24px 80px;
+  padding: 0 80px;
 }
 
 .actionButton {
@@ -126,11 +242,7 @@
 .closeButton:hover {
   background-color: rgba(15,20,25, 0.1);
 }
-@media all and (min-width: 687px) {
-  .closeButton {
-      left: 16px;
-  }
-}
+
 @media (prefers-color-scheme: dark) {
   .closeButton {
       background-color: black;

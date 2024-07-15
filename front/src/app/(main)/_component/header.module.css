@@ -1,0 +1,40 @@
+.header {
+  align-items: center;
+  background-color: white;
+  width: inherit;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-color: rgb(239, 243, 244);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.header a {
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+}
+
+.logo {
+  margin: auto;
+}
+
+.loginButton {
+  position: absolute;
+  right: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
+  background-color: black;
+  width: 70px;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 14px;
+}

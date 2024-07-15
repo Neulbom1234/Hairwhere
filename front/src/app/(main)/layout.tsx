@@ -1,13 +1,9 @@
 import {ReactNode} from "react";
-import Link from "next/link";
 import style from "@/app/(main)/layout.module.css";
 import NavMenu from "./_component/NavMenu";
 
 type Props = { children: ReactNode, modal: ReactNode };
 export default function AfterLoginLayout({ children, modal }: Props) {
-  const me = { // 임시로 내 정보 있는것처럼
-    id: 'person'
-  }
 
   return (
     <div className={style.container}>
@@ -15,23 +11,11 @@ export default function AfterLoginLayout({ children, modal }: Props) {
         {children}
       </main>
       <div className={style.bottomSectionWrapper}>
-        <div className={style.bottomSectionInner}>
-          <nav className={style.nav}>
-            <NavMenu/>
-          </nav>
-        </div>
+        <nav className={style.nav}>
+          <NavMenu/>
+        </nav>
       </div>
+      {modal}
     </div>
-    // <div>
-    //     {children}
-    //     하단 탭바 
-    //     <Link href="/"> 홈</Link>
-    //     <Link href="/search"> 검색</Link>
-    //     <Link href="/post"> 게시글 작성</Link>
-    //     <Link href="/notice"> 알림</Link>
-    //     <Link href={`/${me?.id}`}> 프로필</Link>
-    //     <Link href="/login"> 로그인</Link>
-    //   {modal}
-    // </div>
   )
 }

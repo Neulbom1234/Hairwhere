@@ -1,0 +1,60 @@
+.header {
+  align-items: center;
+  background-color: white;
+  width: inherit;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-color: rgb(239, 243, 244);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.backButton {
+  position: absolute;
+  left: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+}
+
+.backButton :hover{
+  cursor: pointer;
+}
+
+.seemore {
+  position: absolute;
+  right: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: none;
+}
+
+.seemore :hover {
+  cursor: pointer;
+}
+
+.like {
+  position: absolute;
+  right: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.like button {
+  border: none;
+  background: none;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.like span {
+  font-size: 19px;
+}
