@@ -108,7 +108,7 @@ export default function Post() {
 
         {/* 게시글 내용 작성 */}
         <div className={style.postContent}>
-          <input id="content" className={style.content} value={content} onChange={onChangeContent} type="text" placeholder="게시글 작성..."/>
+          <textarea id="content" className={style.content} value={content} onChange={onChangeContent} placeholder="게시글 작성..."/>
         </div>
 
         <Link href="/login" className={style.postButton}>게시글 등록</Link>
