@@ -3,17 +3,8 @@
 import style from './notice.module.css'
 import Link from 'next/link'
 import { useState } from 'react';
-// import dayjs from 'dayjs';
-// import relativeTime from 'dayjs/plugin/relativeTime';
-// import 'dayjs/locale/ko';
-// import {faker} from '@faker-js/faker';
 
 export default function Notice(){
-    // const[comment, setComment]=useState();
-    // const[like, setLike]=useState();
-    // const[user, setUser]=useState();
-
-
     return(
         <div className={style.noticeBox}>
             <div className={style.noticeLeft}>
@@ -22,6 +13,7 @@ export default function Notice(){
                 </div>
             </div>
             <div className={style.noticeRight}>
+                {/* 댓글 알림 */}
                 <div className={style.noticeComment}>
                     <div className={style.txtTop}>
                         <div className={style.userName}>산호티비</div>
@@ -35,8 +27,10 @@ export default function Notice(){
                     </div>
                    
                 </div>
+
+                {/* 좋아요 알림 */}
                 {/* <div className={style.noticeLike}>
-                    <div className={style.txt}>
+                    <div className={style.txtTop}>
                         <div className={style.userName}>산호티비</div>
                         님이 좋아요를 눌렀습니다.
                     </div>

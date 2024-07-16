@@ -1,0 +1,97 @@
+/* 헤더 영역 */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-y: auto;
+    position: relative;
+  }
+  
+  .header{
+    align-items: center;
+    background-color: white;
+    width: inherit;
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    border-color: rgb(239, 243, 244);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    box-sizing: border-box;
+  }
+  .header span{
+    margin: auto;
+    font-weight: 900;
+  }
+.gear{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 3%;
+}
+
+/* 프로필 영역 */
+.body{
+    height: 100dvh;
+}
+.container{
+    width: 100%;
+    height: 50%;
+    /* background-color: aquamarine; */
+    display: flex;
+    justify-content: center;
+    align-items:end;
+    margin-bottom: 2px;
+    /* 배경색 머 하지 ~~? */
+    /* background-color: rgb(170, 170, 170); */
+}
+.profileDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    height: 45%;
+}
+.profile{
+    width: 60px;
+    height: 60px;
+    border-radius: 40px;
+    background-color: aqua;
+}
+.nickname{
+    font-weight: 900;
+    font-size: 20px;
+}
+.editProfile{
+    padding: 4px 9px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    font-size: 13px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* 게시글 영역 */
+.contents{
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content{
+    position: relative;
+    width: calc((100% - 6px) / 3);
+    padding-bottom: calc((100% - 6px) / 3);
+    overflow: hidden;
+    margin: 2px 1px 0 1px;
+}
+.content img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+}

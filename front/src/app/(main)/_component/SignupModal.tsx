@@ -27,7 +27,7 @@ export default function SignupModal() {
     const value=e.target.value;
     setId(value);
     const list=/[^a-zA-Z0-9]/;
-    if(list.test(value)){
+    if(list.test(value)){ 
       setIdError('영어와 숫자만 입력 가능합니다.');
     } else{
       setIdError('');

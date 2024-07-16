@@ -150,6 +150,7 @@
     /* margin-bottom: 0px; */
     padding: 12px 8px 8px;
     outline: none;
+
 }
 
 .modalFooter {
@@ -168,7 +169,7 @@
 .actionButton {
     width: 100%;
     max-width: 340px;
-    margin: 0 auto auto auto;
+    margin: 4px auto auto auto;
     height: 50px;
     border-radius: 10px;
     background-color: rgb(15, 20, 25);

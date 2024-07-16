@@ -1,14 +1,15 @@
 "use client";
 
 import style from '@/app/(main)/_component/login.module.css';
-import {useState} from "react";
+import {ChangeEventHandler, FormEventHandler, useState} from "react";
 import {useRouter} from "next/navigation";
 import Link from 'next/link';
 
 export default function LoginModal() {
-  const [id, setId] = useState();
+  const [id, setId] = useState<string | undefined>(undefined);
   const [password, setPassword] = useState();
   const [message, setMessage] = useState();
+  const [idError, setIdError] = useState<string>('');
 
   const router = useRouter();
   const onSubmit = () => {};
@@ -16,7 +17,17 @@ export default function LoginModal() {
     router.back();
   };
 
-  const onChangeId = () => {};
+  const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const value=e.target.value;
+    
+    setId(value);
+    const list=/[^a-zA-Z0-9]/;
+    if(list.test(value)){
+      setIdError('영어와 숫자만 입력 가능합니다.');
+    } else{
+      setIdError('');
+    } 
+  };
 
   const onChangePassword = () => {};
 
@@ -44,7 +55,8 @@ export default function LoginModal() {
             <div className={style.inputDiv}>
               <input id="password" className={style.bottomInput} value={password} onChange={onChangePassword} type="password" placeholder="비밀번호"/>
             </div>
-            <div className={style.message}>{message}</div>
+            {idError && <span className="errorMessage" style={{color: 'red', fontSize: '10px', maxWidth: '340px', display:'block', margin:'4px auto'}}>{idError}</span>}
+
           </div>
           
           <div className={style.modalFooter}>

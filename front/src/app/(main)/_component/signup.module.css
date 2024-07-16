@@ -21,8 +21,6 @@
   border-radius: 16px;
   position: relative;
   top: 15%;
-  /* max-width: 80vw;
-  min-width: 600px; */
   width: 50vw;
   display: flex;
   flex-direction: column;
@@ -30,7 +28,6 @@
 }
 
 .modalHeader {
-  /* padding: 36px 80px 20px; */
   margin: auto;
   font-size: 31px;
   font-weight: bold;
@@ -39,8 +36,8 @@
 }
 .signIn{
   font-size: 26px;
-  margin: auto;
-  /* margin: 16px auto 0; */
+  /* margin: auto; */
+  margin: 16px auto;
 }
 .modal form {
   display: flex;
@@ -76,7 +73,7 @@
       /* padding: 36px 80px 20px; */
       max-width: 100%;
       /* padding: 0px 80px 20px; */
-      margin-bottom: 0px;
+      /* margin-bottom: 0px; */
       /* min-height: 10%; */
       padding: 16px 80px 20px;
   }
@@ -128,7 +125,7 @@
     position: relative;
     align-items: center;
     /* padding-top: 16px; */
-    /* top: 32px; */
+    /* top: 16px; */
     min-height: 10%;
   }
   .modalBody{

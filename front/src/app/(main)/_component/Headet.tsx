@@ -8,9 +8,10 @@ type prop = {
   me: boolean;
 }
 
+
 export default function Header({me}: prop) {
   const segment = useSelectedLayoutSegment();
-
+  me=true;
   return (
     <>
       <div className={style.header}>

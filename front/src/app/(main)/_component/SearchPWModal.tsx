@@ -9,8 +9,8 @@ export default function SearchPWModal() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
-  const [image, setImage] = useState('');
-  const [imageFile, setImageFile] = useState<File>();
+  const [idError, setIdError] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   const router = useRouter();
   const onClickClose = () => {
@@ -18,14 +18,36 @@ export default function SearchPWModal() {
     // TODO: 뒤로가기가 /home이 아니면 /home으로 보내기
   }
 
-  const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => { setId(e.target.value) };
-  const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => { setEmail(e.target.value) };
+  // const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => { setId(e.target.value) };
+  // const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => { setEmail(e.target.value) };
 
   const onChangePassword: ChangeEventHandler<HTMLInputElement> = (e) => { setPassword(e.target.value) };
   const onChangeNickname: ChangeEventHandler<HTMLInputElement> = (e) => { setNickname(e.target.value) };
-  const onChangeImageFile: ChangeEventHandler<HTMLInputElement> = (e) => {
-    e.target.files && setImageFile(e.target.files[0])
+  // const onChangeImageFile: ChangeEventHandler<HTMLInputElement> = (e) => {
+    // e.target.files && setImageFile(e.target.files[0])
+  // };
+
+  const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => { 
+    const value=e.target.value;
+    setId(value);
+    const list=/[^a-zA-Z0-9]/;
+    if(list.test(value)){ 
+      setIdError('영어와 숫자만 입력 가능합니다.');
+    } else{
+      setIdError('');
+    } 
   };
+
+  const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => { 
+    const value=e.target.value;
+    setEmail(value);
+    const list=/[^a-zA-Z0-9@.]/;
+    if(list.test(value)){
+      setEmailError('영어와 숫자 및 특수문자(@ .)만 입력 가능합니다.');
+    } else{
+      setEmailError('');
+    }
+   };
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault();
@@ -34,8 +56,8 @@ export default function SearchPWModal() {
       body: JSON.stringify({
         id,
         nickname,
-        image,
         password,
+        email,
       }),
       credentials: 'include',
     }).then((response: Response) => {
@@ -72,14 +94,16 @@ export default function SearchPWModal() {
                        value={id}
                        onChange={onChangeId}
                 />
+                {idError && <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>{idError}</span>}
               </div>
 
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="id">이메일 입력</label>
+                <label className={style.inputLabel} htmlFor="email">이메일 입력</label>
                 <input id="email" className={style.input} type="text" placeholder=""
                        value={email}
                        onChange={onChangeEmail}
                 />
+                {emailError && <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>{emailError}</span>}
               </div>
               
             </div>

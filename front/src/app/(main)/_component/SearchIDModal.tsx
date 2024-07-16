@@ -10,6 +10,8 @@ export default function SearchIDModal() {
   const [nickname, setNickname] = useState('');
   const [image, setImage] = useState('');
   const [imageFile, setImageFile] = useState<File>();
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   const router = useRouter();
   const onClickClose = () => {
@@ -24,6 +26,18 @@ export default function SearchIDModal() {
   const onChangeImageFile: ChangeEventHandler<HTMLInputElement> = (e) => {
     e.target.files && setImageFile(e.target.files[0])
   };
+
+  const onChangeEmail: ChangeEventHandler<HTMLInputElement> = (e) => { 
+    const value=e.target.value;
+    setEmail(value);
+    const list=/[^a-zA-Z0-9@.]/;
+    if(list.test(value)){
+      setEmailError('영어와 숫자 및 특수문자(@ .)만 입력 가능합니다.');
+    } else{
+      setEmailError('');
+    }
+   };
+
 
   const onSubmit: FormEventHandler = (e) => {
     e.preventDefault();
@@ -67,9 +81,10 @@ export default function SearchIDModal() {
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="id">이메일 입력</label>
                 <input id="id" className={style.input} type="text" placeholder=""
-                       value={id}
-                       onChange={onChangeId}
+                       value={email}
+                       onChange={onChangeEmail}
                 />
+                {emailError && <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>{emailError}</span>}
               </div>
               
             </div>

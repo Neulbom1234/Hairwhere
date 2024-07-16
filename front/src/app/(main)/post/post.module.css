@@ -17,6 +17,7 @@
     border-color: rgb(239, 243, 244);
     border-bottom-width: 1px;
     border-bottom-style: solid;
+    margin-bottom: 3%;
   }
   .header span{
     margin: auto;
@@ -39,31 +40,62 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   .reLoading svg{
     width: 15px;
     height: 15px;
   }
+ 
   .gender, .hairLength, .hairColor{
     border: 1px solid rgb(207, 217, 222);
-    width: 90px;
     height: 30px;
     border-radius: 30px;
     padding-left: 8px;
+    cursor: pointer;
   }
   
-  
+  .photo{
+    display: none;
+  }
+  .imgBtn{
+    text-align: center;
+    margin: 0 0 3% 3%;
+    width: 80px;
+    border: 2px solid rgb(207, 217, 222);
+    padding: 8px;
+    border-radius: 10px;
+    color: #000;
+    font-size: 11px;
+  }
   .addPhoto{
     margin: 5% 3%;
   }
-  .photos{
+  .imgContainer{
     width: 100%;
     display: flex;
 
   }
+  .imgBox{
+    position: relative;
+    margin: 3%;
+  }
   .previewImage{
     width: 150px;
     height: 150px;
+  }
+  .closeButton{
+    right: 0px;
+    position: absolute;
+    width: 30px;
+    background-color: inherit;
+    border: none;
+    fill: #fff;
+  }
+  .imgMax{
+    margin: 0 0 3% 3%;
+    color: red;
+    font-size: 12px;
   }
 
   .choiceShop{
@@ -113,6 +145,7 @@
     height: 200px;
     border: 2px solid rgb(207, 217, 222);
     padding-left: 8px;
+    padding-top: 8px;
     resize: none;
     box-sizing: border-box;
   }
@@ -135,10 +168,26 @@
   @media all and (min-width: 300px) {
     .choiceShop{
     max-width: 600px;
-  }
+    }
+
+    .previewImage{
+      width: 100px;
+      height: 100px;
+    }
+
+    .gender, .hairLength, .hairColor{
+      width: 60px;
+    }
   
   }
+  @media all and (min-width: 602px){
 
-  /* 게시글 작성 ... 을 위로 올리고 싶엉요 */
-  /* 이미지 여러 개 추가했는데 왜 안되지..... */
-  /* 길이, 색상 옵션 고민해야 해용 */
+    .previewImage{
+      width: 150px;
+      height: 150px;
+    }
+
+    .gender, .hairLength, .hairColor{
+      width: 90px;
+    }
+  }
