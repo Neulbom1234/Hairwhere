@@ -133,8 +133,9 @@ export default function Post() {
           <select className={style.hairLength} value={selectedHairLength} onChange={(e) => setSelectedHairLength(e.target.value)}>
             <option value="0" disabled>길이</option>
             <option value="1">전체</option>
-            <option value="2">남자</option>
-            <option value="3">여자</option>
+            <option value="2">롱</option>
+            <option value="3">미디움</option>
+            <option value="4">쇼트</option>
           </select>
         </div>
 
@@ -143,15 +144,52 @@ export default function Post() {
           <select className={style.hairColor} value={selectedHairColor} onChange={(e) => setSelectedHairColor(e.target.value)}>
             <option value="0" disabled>색상</option>
             <option value="1">전체</option>
-            <option value="2">남자</option>
-            <option value="3">여자</option>
+            <option value="2">골드브라운</option>
+            <option value="3">그레이</option>
+            <option value="4">다크브라운</option>
+            <option value="5">레드바이올렛</option>
+            <option value="6">레드브라운</option>
+            <option value="7">레드오렌지</option>
+            <option value="8">레드와인</option>
+            <option value="9">매트브라운</option>
+            <option value="10">머쉬룸블론드</option>
+            <option value="11">밀크브라운</option>
+            <option value="12">발레아쥬</option>
+            <option value="13">보라색</option>
+            <option value="14">브라운</option>
+            <option value="15">브릿지</option>
+            <option value="16">블랙</option>
+            <option value="17">블론드</option>
+            <option value="18">블루블랙</option>
+            <option value="19">새치염색</option>
+            <option value="20">솜브레</option>
+            <option value="21">애쉬그레이</option>
+            <option value="22">애쉬바이올렛</option>
+            <option value="23">애쉬베이지</option>
+            <option value="24">애쉬브라운</option>
+            <option value="25">애쉬블론드</option>
+            <option value="26">애쉬블루</option>
+            <option value="27">애쉬카키</option>
+            <option value="28">애쉬카키브라운</option>
+            <option value="29">애쉬퍼플</option>
+            <option value="30">애쉬핑크</option>
+            <option value="31">오렌지브라운</option>
+            <option value="32">옴브레</option>
+            <option value="33">초코브라운</option>
+            <option value="34">카키</option>
+            <option value="35">카키브라운</option>
+            <option value="36">탈색</option>
+            <option value="37">투톤</option>
+            <option value="38">핑크브라운</option>
+
+            
           </select>
         </div>
       </div>
 
       {/* 미용실 입력 */}
       <div className={style.choiceShop}>
-        <input id="shop" className={style.shopInput} value={shop} onChange={onChangeShop} type="text" placeholder="미용실 입력..." />
+        <input id="shop" disabled className={style.shopInput} value={shop} onChange={onChangeShop} type="text" placeholder="미용실 입력..." />
         <Link href="post/findShop" className={style.shopBtn}>미용실 찾기</Link>
       </div>
 
