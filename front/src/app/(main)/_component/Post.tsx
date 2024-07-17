@@ -32,7 +32,7 @@ export default function Post({ white }: Props) {
     {imgageId: 1, link: faker.image.urlLoremFlickr()},
   )
 
-  const liked = false;
+  const liked = true;
 
   const onClickHeart = () => {}
 
