@@ -189,7 +189,7 @@ export default function Post() {
 
       {/* 미용실 입력 */}
       <div className={style.choiceShop}>
-        <input id="shop" className={style.shopInput} value={shop} onChange={onChangeShop} type="text" placeholder="미용실 입력..." />
+        <input id="shop" disabled className={style.shopInput} value={shop} onChange={onChangeShop} type="text" placeholder="미용실 입력..." />
         <Link href="post/findShop" className={style.shopBtn}>미용실 찾기</Link>
       </div>
 
