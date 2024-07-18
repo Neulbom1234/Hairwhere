@@ -40,6 +40,10 @@ public class PhotoService {
         return findPhotoById(id);
     }
 
+    @Transactional
+    public List<Photo> findByGender(String gender) {
+        return photorepository.findByGender(gender);
+    }
 
     @Transactional
     public List<Photo> findAll() {

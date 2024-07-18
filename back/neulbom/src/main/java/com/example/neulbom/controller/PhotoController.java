@@ -24,7 +24,6 @@ public class PhotoController {
 
     private final PhotoService photoService;
 
-
     @PostMapping("/upload")
     public String upload(HttpSession session, @RequestParam("title") String title,@RequestParam("text") String text,
                          @RequestParam("hairName") String hairName,@RequestPart("image") MultipartFile image) throws Exception{
@@ -49,4 +48,10 @@ public class PhotoController {
         photoService.deletePhoto(id,name);
         return "삭제 완료";
     }
+
+    @GetMapping("/findByGender/{gender}")
+    public List<Photo> findByGender(@PathVariable("gender") String gender){
+        return photoService.findByGender(gender);
+    }
+
 }

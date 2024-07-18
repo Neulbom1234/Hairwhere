@@ -39,6 +39,9 @@ public class Photo {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "gender")
+    private String gender; // male or female or all
+
     @OneToMany(mappedBy = "photo")
     @JsonIgnore
     private List<Like> likes = new ArrayList<>();
