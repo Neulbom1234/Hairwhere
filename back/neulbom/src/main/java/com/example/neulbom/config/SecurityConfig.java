@@ -37,7 +37,7 @@ public class SecurityConfig {
                             };
                             c.configurationSource(source);
                         }
-                ).csrf().disable() // CSRF 비활성화
+                ).csrf(csrf -> csrf.disable()) // CSRF 비활성화
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll() // 모든 요청 허용
                 );

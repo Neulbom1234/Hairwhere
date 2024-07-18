@@ -24,6 +24,9 @@ public class User {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "profile")
+    private String profile;
+
     @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
     public Photo photo;
 
