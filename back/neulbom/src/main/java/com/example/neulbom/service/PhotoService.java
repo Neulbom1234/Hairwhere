@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,17 +22,25 @@ public class PhotoService {
     private final int MIN_RANDOM_NUM = 1;
 
     @Transactional
-    public String upload(String title, String name, String hairName, String text, MultipartFile image) {
-        String imagePath = s3Service.upload(image);
+    public String upload(String title, String name, String hairName, String text, MultipartFile[] image) {
+        List<String> imagePaths = new ArrayList<>();
+
+        for( MultipartFile file : image ) {
+            String imagePath = s3Service.upload(file);
+            imagePaths.add(imagePath);
+        }
+
         Photo photo = Photo.builder()
                 .photoTitle(title)
-                .photoImagePath(imagePath)
+                .photoImagePath(imagePaths)
                 .userName(name)
                 .hairName(hairName)
                 .text(text)
                 //.contentType(image.getContentType())
                 .build();
+
         photorepository.save(photo);
+
         return "저장완료";
     }
 
@@ -55,7 +64,10 @@ public class PhotoService {
         Photo photo = findPhotoById(photoId);
         validateUserName(name, photo.getUserName());
 
-        s3Service.deleteImageFromS3(photo.getPhotoImagePath());
+        for(String imagePath : photo.getPhotoImagePath()) {
+            s3Service.deleteImageFromS3(imagePath);
+        }
+
         photorepository.delete(photo);
         return "삭제 완료";
     }

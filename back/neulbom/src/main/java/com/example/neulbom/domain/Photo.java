@@ -27,8 +27,10 @@ public class Photo {
     @Column(name = "user_name")
     private String userName;
 
+    @ElementCollection
+    @CollectionTable(name = "photo_image_paths", joinColumns = @JoinColumn(name = "photo_id"))
     @Column(name = "photo_imagePath")
-    private String photoImagePath;
+    private List<String> photoImagePath = new ArrayList<>();
 
     @Column(name = "like_count")
     private int likeCount = DEFAULT_LIKE_NUM;
