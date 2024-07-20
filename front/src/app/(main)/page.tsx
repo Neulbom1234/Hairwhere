@@ -5,11 +5,9 @@ import Header from "./_component/Headet";
 
 export default function Home() {
 
-  const me = false;
-
   return (
     <div className={style.main}>
-      <Header me={me}/>
+      <Header/>
       <div className={style.postsWrapper}>
         <Post/>
         <Post/>

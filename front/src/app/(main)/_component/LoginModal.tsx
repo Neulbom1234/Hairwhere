@@ -4,22 +4,36 @@ import style from '@/app/(main)/_component/login.module.css';
 import {ChangeEventHandler, FormEventHandler, useState} from "react";
 import {useRouter} from "next/navigation";
 import Link from 'next/link';
+import {signIn} from "next-auth/react";
 
 export default function LoginModal() {
   const [id, setId] = useState<string | undefined>(undefined);
-  const [password, setPassword] = useState();
-  const [message, setMessage] = useState();
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
   const [idError, setIdError] = useState<string>('');
 
   const router = useRouter();
-  const onSubmit = () => {};
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    try {
+      await signIn("credentials", {
+        username: id,
+        password,
+        redirect: false, //클라이언트 컴포넌트면 서버 redirect는 false로 꺼준다.
+      })
+      router.back(); //여기서 페이지 이동
+    } catch (err) {
+      console.error(err);
+      setMessage('아이디와 비밀번호가 일치하지 않습니다.');
+    }
+  };
   const onClickClose = () => {
     router.back();
   };
 
   const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => {
     const value=e.target.value;
-    
     setId(value);
     const list=/[^a-zA-Z0-9]/;
     if(list.test(value)){
@@ -29,7 +43,9 @@ export default function LoginModal() {
     } 
   };
 
-  const onChangePassword = () => {};
+  const onChangePassword: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setPassword(e.target.value);
+  };
 
   return (
     <div className={style.modalBackground}>
@@ -56,9 +72,8 @@ export default function LoginModal() {
               <input id="password" className={style.bottomInput} value={password} onChange={onChangePassword} type="password" placeholder="비밀번호"/>
             </div>
             {idError && <span className="errorMessage" style={{color: 'red', fontSize: '10px', maxWidth: '340px', display:'block', margin:'4px auto'}}>{idError}</span>}
-
           </div>
-          
+          <div className={style.message}>{message}</div>
           <div className={style.modalFooter}>
             <button className={style.actionButton} disabled={!id && !password}>로그인</button>
 
