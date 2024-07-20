@@ -1,7 +1,13 @@
-import Style from "@/app/(main)/login/login.module.css"
-import LoginModal from "../_component/LoginModal"
+import LoginModal from "../_component/LoginModal";
+import {auth} from "@/auth";
+import { redirect } from "next/navigation";
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth(); //useSession의 서버 컴포넌트 버전
+  if (session?.user) {
+    redirect('/');
+    return null;
+  }
   return (
     <div>
       <LoginModal/>
