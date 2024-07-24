@@ -45,14 +45,14 @@ public class Photo {
     @Column(name = "gender")
     private String gender; // male or female or all
 
-    @Column(name = "date")
-    private LocalDateTime date;
+    @Column(name = "created")
+    private LocalDateTime created;
 
     @Column(name = "hairSalon")
     private String hairSalon;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "hairSalonAddress")
+    private String hairSalonAddress;
 
     @Column(name = "hairLength")
     private String hairLength;
