@@ -41,6 +41,13 @@
   text-decoration: underline;
 }
 
+.postDate{
+  font-size: 13px;
+  line-height: 1.46;  
+  margin-top: 6px;
+
+}
+
 .userBadge {
   display: flex;
   align-items: center;
