@@ -41,6 +41,11 @@ public class PhotoController {
         return photoService.findAll();
     }
 
+    @GetMapping("/findHair/{hairSalon}")
+    public List<Photo> findByHairSalon(@PathVariable("hairSalon") String hairSalon){
+        return photoService.findByHairSalon(hairSalon);
+    }
+
     @GetMapping("/find/{id}")
     public Photo search(@PathVariable("id") Long id){
         return photoService.findById(id);

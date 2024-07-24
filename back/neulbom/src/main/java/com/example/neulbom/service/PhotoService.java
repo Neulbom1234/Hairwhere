@@ -45,6 +45,11 @@ public class PhotoService {
     }
 
     @Transactional
+    public List<Photo> findByHairSalon(String hairSalon){
+        return photorepository.findByHairSalon(hairSalon);
+    }
+
+    @Transactional
     public Photo findById(Long id) {
         return findPhotoById(id);
     }

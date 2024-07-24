@@ -13,4 +13,6 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
     Optional<Photo> findById(long id);
 
     List<Photo> findByGender(String gender);
+
+    List<Photo> findByHairSalon(String hairSalon);
 }
