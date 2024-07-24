@@ -8,6 +8,12 @@ import { useEffect, useState, useRef } from 'react';
 import { Avatar, Divider } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
+dayjs.extend(relativeTime)
 
 type Image = {
   imageId: number;
@@ -100,6 +106,9 @@ export default function Home() {
           </Link>
           </div>
         <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{target.HairInfo.hairSalonAddress}</span>
+        <div className={style.postDate}>{dayjs(target.createdAt).fromNow(true)} 전</div>
+        {/* <div className={style.postDate}>{}</div> */}
+
       </div>
       <div className={style.userBadge}>
         <Link href={`/${target.User.id}`}>
