@@ -10,9 +10,11 @@ function generateDate() {
   });
 }
 const User = [
-  {id: 'elonmusk', nickname: 'Elon Musk', image: '/yRsRRjGO.jpg'},
-  {id: 'zerohch0', nickname: '제로초', image: '/5Udwvqim.jpg'},
-  {id: 'leoturtle', nickname: '레오', image: faker.image.avatar()},
+  {id: 'kimsanho', nickname: '산호초', profile: '/yRsRRjGO.jpg'},
+  {id: 'winter', nickname: '윈터', profile: '/5Udwvqim.jpg'},
+  {id: 'eseo0eseo0', nickname: '서빵이', profile: faker.image.avatar()},
+  {id: 'elonmusk', nickname: '일론 머스크', profile: faker.image.avatar()},
+  {id: 'trump', nickname: '트럼프입니다', profile: faker.image.avatar()},
 ]
 const Posts = [];
 
@@ -45,56 +47,99 @@ export const handlers = [
     })
   }),
   http.get('/api/postRecommends', ({ request }) => {
-    const url = new URL(request.url)
-    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0
+    // const url = new URL(request.url)
+    // const cursor = parseInt(url.searchParams.get('cursor') as string) || 0
     return HttpResponse.json(
       [
         {
-          postId: cursor + 1,
+          postId: 1,
           User: User[0],
-          content: `${cursor + 1} Z.com is so marvelous. I'm gonna buy that.`,
+          content: '리프펌 너무 예쁘게 해주세요!',
+          createdAt: generateDate(),
           Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          createdAt: generateDate(),
+          likes: [User[0].id, User[1].id],
+          HairInfo: {
+            hairname: "리프펌",
+            hairSalon: "블루클럽",
+            hairSalonAddress: "서울 용산구 대사관로30길 21"
+          },
+          HairCategory: {
+            gender: "남성",
+            hairLength: "롱",
+            hairColor: "그레이"
+          }
         },
         {
-          postId: cursor + 2,
-          User: User[0],
-          content: `${cursor + 2} Z.com is so marvelous. I'm gonna buy that.`,
-          Images: [
-            {imageId: 1, link: faker.image.urlLoremFlickr()},
-            {imageId: 2, link: faker.image.urlLoremFlickr()},
-          ],
+          postId: 2,
+          User: User[1],
+          content: '레이어드컷 맛집입니당',
           createdAt: generateDate(),
+          Images: [{imageId: 2, link: faker.image.urlLoremFlickr()}],
+          likes: [],
+          HairInfo: {
+            hairname: "레이어드컷",
+            hairSalon: "아이디어",
+            hairSalonAddress: "경기도 고양시 하이파크 3로"
+          },
+          HairCategory: {
+            gender: "여성",
+            hairLength: "롱",
+            hairColor: "블랙"
+          }
         },
         {
-          postId: cursor + 3,
-          User: User[0],
-          content: `${cursor + 3} Z.com is so marvelous. I'm gonna buy that.`,
-          Images: [],
+          postId: 3,
+          User: User[2],
+          content: '숏컷 완전 레전드 ㅠㅠㅠㅠㅠㅠㅠ',
           createdAt: generateDate(),
+          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
+          likes: [User[0].id, User[1].id, User[2].id],
+          HairInfo: {
+            hairname: "숏컷",
+            hairSalon: "머리잘하는집",
+            hairSalonAddress: "서울 구로구 경인로30길 21"
+          },
+          HairCategory: {
+            gender: "여성",
+            hairLength: "쇼트",
+            hairColor: "블랙"
+          }
         },
         {
-          postId: cursor + 4,
-          User: User[0],
-          content: `${cursor + 4} Z.com is so marvelous. I'm gonna buy that.`,
-          Images: [
-            {imageId: 1, link: faker.image.urlLoremFlickr()},
-            {imageId: 2, link: faker.image.urlLoremFlickr()},
-            {imageId: 3, link: faker.image.urlLoremFlickr()},
-            {imageId: 4, link: faker.image.urlLoremFlickr()},
-          ],
+          postId: 4,
+          User: User[3],
+          content: '손질 하는 방법도 알려주시고 너무 맘에 드는 미용실 발견',
           createdAt: generateDate(),
+          Images: [{imageId: 4, link: faker.image.urlLoremFlickr()}],
+          likes: [User[0].id],
+          HairInfo: {
+            hairname: "가일컷",
+            hairSalon: "블루클럽",
+            hairSalonAddress: "서울 동작구 무슨로30길 21"
+          },
+          HairCategory: {
+            gender: "남성",
+            hairLength: "쇼트",
+            hairColor: "블랙"
+          }
         },
         {
-          postId: cursor + 5,
-          User: User[0],
-          content: `${cursor + 5} Z.com is so marvelous. I'm gonna buy that.`,
-          Images: [
-            {imageId: 1, link: faker.image.urlLoremFlickr()},
-            {imageId: 2, link: faker.image.urlLoremFlickr()},
-            {imageId: 3, link: faker.image.urlLoremFlickr()},
-          ],
+          postId: 5,
+          User: User[4],
+          content: '여기 머리 개못함 다시는 안 간다',
           createdAt: generateDate(),
+          Images: [{imageId: 5, link: faker.image.urlLoremFlickr()}],
+          likes: [User[0].id, User[1].id, User[2].id],
+          HairInfo: {
+            hairname: "가르마펌",
+            hairSalon: "두루루루룰",
+            hairSalonAddress: "서울 구로구 경인로30길 21"
+          },
+          HairCategory: {
+            gender: "남성",
+            hairLength: "미디움",
+            hairColor: "블랙"
+          }
         },
       ]
     )

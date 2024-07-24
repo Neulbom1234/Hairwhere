@@ -6,34 +6,21 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import {faker} from '@faker-js/faker';
+import type {Post}  from '../../../model/Post';
 
 
 type Props = {
-  white?: boolean
+  post: Post,
 }
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime)
 
-export default function Post({ white }: Props) {
+export default function Post({ post }: Props) {
 
-  const target = {
-    postId: 1,
-    User: {
-      id: 'elonmusk',
-      nickname: 'Elon Musk',
-    },
-    content: '클론코딩 라이브로 하니 너무 힘들어요 ㅠㅠ',
-    createdAt: new Date(),
-    Images: [] as any[],
-  }
+  const target = post;
 
-  target.Images.push(
-    {imgageId: 1, link: faker.image.urlLoremFlickr()},
-  )
-
-
-  const liked = true;
+  const liked = false;
 
   const onClickHeart = () => {}
 
@@ -63,9 +50,9 @@ export default function Post({ white }: Props) {
         </div>
         <div className={style.body}>
           <div className={style.meta}>
-            <div className={style.hairName}>리프펌</div>
-            <div className={style.hairSalon}>블루클럽</div>
-            <div className={style.hairSalonAddress}>서울특별시 용산구</div>            
+            <div className={style.hairName}>{target.HairInfo.hairname}</div>
+            <div className={style.hairSalon}>{target.HairInfo.hairSalon}</div>
+            <div className={style.hairSalonAddress}>{target.HairInfo.hairSalonAddress}</div>
             <div className={style.heartCount}>
               <svg width={14} height={14} viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M17.373 20.8056C14.7475 23.4311 13.2725 26.992 13.2725 30.7051C13.2725 34.4181 14.7475 37.9791 17.373 40.6046L31.5151 54.7467L38.5862 61.8178C39.3672 62.5988 40.6335 62.5988 41.4146 61.8178L48.4857 54.7467L62.6278 40.6046C65.2533 37.9791 66.7283 34.4181 66.7283 30.7051C66.7283 26.992 65.2533 23.4311 62.6278 20.8056C60.0023 18.1801 56.4413 16.7051 52.7283 16.7051C49.0153 16.7051 45.4543 18.1801 42.8288 20.8056L40.6914 22.943C40.3098 23.3246 39.691 23.3246 39.3094 22.943L37.172 20.8056C34.5464 18.1801 30.9855 16.7051 27.2725 16.7051C23.5594 16.7051 19.9985 18.1801 17.373 20.8056Z" />
