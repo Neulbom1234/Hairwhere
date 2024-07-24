@@ -1,11 +1,12 @@
 "use client"
 
+import { CategoryContext } from './CategoryProvider';
 import style from './commonLayout.module.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 
 export default function CommonLayout() {
-  const [category, setCategory] = useState('전체');
+  const { category, setCategory } = useContext(CategoryContext);
   const [isAllCategoryVisible, setAllCategoryVisible] = useState(true);
 
   const openAllCategoryClick = () => {
