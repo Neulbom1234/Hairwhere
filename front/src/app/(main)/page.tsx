@@ -5,6 +5,8 @@ import Header from "./_component/Headet";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import { getPostRecommends } from "./_lib/getPostRecommends";
 import PostRecommends from "./_component/PostRecommends";
+import CategoryProvider from "./_component/CategoryProvider";
+import CategoryDecider from "./_component/CategoryDecider";
 
 export default async function Home() {
   const queryClient = new QueryClient();
@@ -17,11 +19,13 @@ export default async function Home() {
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className={style.main}>
-        <Header/>
-        <div className={style.postsWrapper}>
-          <PostRecommends/>
-        </div>
-        <CommonLayout/>
+        <CategoryProvider>
+          <Header/>
+          <div className={style.postsWrapper}>
+            <CategoryDecider/>
+          </div>
+          <CommonLayout/>
+        </CategoryProvider>
       </div>
     </HydrationBoundary>
   )

@@ -144,43 +144,104 @@ export const handlers = [
       ]
     )
   }),
-  http.get('/api/followingPosts', ({ request }) => {
+  http.get('/api/manPosts', ({ request }) => {
     return HttpResponse.json(
       [
         {
           postId: 1,
           User: User[0],
-          content: `${1} Stop following me. I'm too famous.`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
+          content: '리프펌 너무 예쁘게 해주세요!',
           createdAt: generateDate(),
-        },
-        {
-          postId: 2,
-          User: User[0],
-          content: `${2} Stop following me. I'm too famous.`,
           Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          createdAt: generateDate(),
-        },
-        {
-          postId: 3,
-          User: User[0],
-          content: `${3} Stop following me. I'm too famous.`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          createdAt: generateDate(),
+          likes: [User[0].id, User[1].id],
+          HairInfo: {
+            hairname: "리프펌",
+            hairSalon: "블루클럽",
+            hairSalonAddress: "서울 용산구 대사관로30길 21"
+          },
+          HairCategory: {
+            gender: "남성",
+            hairLength: "롱",
+            hairColor: "그레이"
+          }
         },
         {
           postId: 4,
-          User: User[0],
-          content: `${4} Stop following me. I'm too famous.`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
+          User: User[3],
+          content: '손질 하는 방법도 알려주시고 너무 맘에 드는 미용실 발견',
           createdAt: generateDate(),
+          Images: [{imageId: 4, link: faker.image.urlLoremFlickr()}],
+          likes: [User[0].id],
+          HairInfo: {
+            hairname: "가일컷",
+            hairSalon: "블루클럽",
+            hairSalonAddress: "서울 동작구 무슨로30길 21"
+          },
+          HairCategory: {
+            gender: "남성",
+            hairLength: "쇼트",
+            hairColor: "블랙"
+          }
         },
         {
           postId: 5,
-          User: User[0],
-          content: `${5} Stop following me. I'm too famous.`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
+          User: User[4],
+          content: '여기 머리 개못함 다시는 안 간다',
           createdAt: generateDate(),
+          Images: [{imageId: 5, link: faker.image.urlLoremFlickr()}],
+          likes: [User[0].id, User[1].id, User[2].id],
+          HairInfo: {
+            hairname: "가르마펌",
+            hairSalon: "두루루루룰",
+            hairSalonAddress: "서울 구로구 경인로30길 21"
+          },
+          HairCategory: {
+            gender: "남성",
+            hairLength: "미디움",
+            hairColor: "블랙"
+          }
+        },
+      ]
+    )
+  }),
+  http.get('/api/womenPosts', ({ request }) => {
+    return HttpResponse.json(
+      [
+        {
+          postId: 2,
+          User: User[1],
+          content: '레이어드컷 맛집입니당',
+          createdAt: generateDate(),
+          Images: [{imageId: 2, link: faker.image.urlLoremFlickr()}],
+          likes: [],
+          HairInfo: {
+            hairname: "레이어드컷",
+            hairSalon: "아이디어",
+            hairSalonAddress: "경기도 고양시 하이파크 3로"
+          },
+          HairCategory: {
+            gender: "여성",
+            hairLength: "롱",
+            hairColor: "블랙"
+          }
+        },
+        {
+          postId: 3,
+          User: User[2],
+          content: '숏컷 완전 레전드 ㅠㅠㅠㅠㅠㅠㅠ',
+          createdAt: generateDate(),
+          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
+          likes: [User[0].id, User[1].id, User[2].id],
+          HairInfo: {
+            hairname: "숏컷",
+            hairSalon: "머리잘하는집",
+            hairSalonAddress: "서울 구로구 경인로30길 21"
+          },
+          HairCategory: {
+            gender: "여성",
+            hairLength: "쇼트",
+            hairColor: "블랙"
+          }
         },
       ]
     )
