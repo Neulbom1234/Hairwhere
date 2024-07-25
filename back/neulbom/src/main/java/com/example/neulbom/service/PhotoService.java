@@ -2,6 +2,8 @@ package com.example.neulbom.service;
 
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.repository.PhotoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,8 +62,8 @@ public class PhotoService {
     }
 
     @Transactional
-    public List<Photo> findAll() {
-        return photorepository.findAll();
+    public Page<Photo> findAll(Pageable pageable) {
+        return photorepository.findAll(pageable);
     }
 
     @Transactional

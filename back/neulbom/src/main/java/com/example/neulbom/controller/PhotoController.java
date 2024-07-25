@@ -2,6 +2,10 @@ package com.example.neulbom.controller;
 
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.service.PhotoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,8 +41,16 @@ public class PhotoController {
     }
 
     @GetMapping("/find/all")
-    public List<Photo> findAllByLike(){
-        return photoService.findAll();
+    public Page<Photo> findAll(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "15") int size,
+                               @RequestParam(defaultValue = "created") String sortBy,
+                               @RequestParam(defaultValue = "desc") String sortOrder){
+
+        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return photoService.findAll(pageable);
     }
 
     @GetMapping("/findHair/{hairSalon}")
