@@ -47,8 +47,8 @@ public class PhotoService {
     }
 
     @Transactional
-    public List<Photo> findByHairSalon(String hairSalon){
-        return photorepository.findByHairSalon(hairSalon);
+    public Page<Photo> findByHairSalon(String hairSalon,Pageable pageable){
+        return photorepository.findByHairSalon(hairSalon,pageable);
     }
 
     @Transactional
@@ -57,8 +57,9 @@ public class PhotoService {
     }
 
     @Transactional
-    public List<Photo> findByGender(String gender) {
-        return photorepository.findByGender(gender);
+    public Page<Photo> findByGender(String gender,Pageable pageable) {
+
+        return photorepository.findByGender(gender,pageable);
     }
 
     @Transactional

@@ -54,8 +54,16 @@ public class PhotoController {
     }
 
     @GetMapping("/findHair/{hairSalon}")
-    public List<Photo> findByHairSalon(@PathVariable("hairSalon") String hairSalon){
-        return photoService.findByHairSalon(hairSalon);
+    public Page<Photo> findByHairSalon(@RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "15") int size,
+                                       @RequestParam(defaultValue = "created") String sortBy,
+                                       @RequestParam(defaultValue = "desc") String sortOrder,
+                                       @PathVariable("hairSalon") String hairSalon){
+        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return photoService.findByHairSalon(hairSalon,pageable);
     }
 
     @GetMapping("/find/{id}")
@@ -71,8 +79,17 @@ public class PhotoController {
     }
 
     @GetMapping("/findByGender/{gender}")
-    public List<Photo> findByGender(@PathVariable("gender") String gender){
-        return photoService.findByGender(gender);
+    public Page<Photo> findByGender(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "15") int size,
+                                    @RequestParam(defaultValue = "created") String sortBy,
+                                    @RequestParam(defaultValue = "desc") String sortOrder,
+                                    @PathVariable("gender") String gender){
+
+        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return photoService.findByGender(gender,pageable);
     }
 
 }
