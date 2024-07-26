@@ -31,6 +31,7 @@
   border-right: 1px solid #F0F0F0;
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
+  z-index: 1;
 }
 
 .hairCategory.visible {
@@ -81,6 +82,14 @@
   border-radius: 5px;
   font-family: Pretendard-Regular, sans-serif;
   font-size: 15px;
+}
+
+.input::-ms-clear {
+  display: none;
+}
+
+.input::-webkit-search-cancel-button {
+  display: none;
 }
 
 .searchButton {
