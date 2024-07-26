@@ -1,11 +1,13 @@
 "use client"
 
-import style from './header.module.css';
-import { useState, ChangeEventHandler } from 'react';
+import style from './searchHeader.module.css';
+import { useState, ChangeEventHandler, FormEventHandler } from 'react';
 import { useRouter } from 'next/navigation';
 import HairCategoryMenu from './HairCategoryMenu';
 
-export default function Header() {
+type Props = { q?: string };
+
+export default function SearchHeader({q}: Props) {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryVisible, setCategoryVisible] = useState(false);
   const router = useRouter();
@@ -19,7 +21,7 @@ export default function Header() {
   const redirectToPage = (e: React.FormEvent) => {
     e.preventDefault(); // 기본 동작 방지
     if (searchQuery.trim() !== '') {
-      router.push(`/search/${searchQuery}`);
+      router.push(`/searchResult?q=${searchQuery}`);
     }
   };
 
@@ -48,7 +50,7 @@ export default function Header() {
         </section>
         <form>
           <div className={style.inputDiv}>
-            <input id="searchQuery" className={style.input} type="text" placeholder="헤어명을 입력하세요"
+            <input className={style.input} name="search" type="search" placeholder="헤어명을 입력하세요"
               value={searchQuery}
               onChange={onChangeSearchQuery}
             />

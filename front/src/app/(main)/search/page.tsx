@@ -3,6 +3,7 @@
 import style from "@/app/(main)/search/search.module.css"
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
+import SearchHeader from '../_component/SearchHeader';
 
 export default function Search() {
   const [searchKeywords, setSearchKeywords] = useState<string[]>([]);
@@ -23,11 +24,12 @@ export default function Search() {
   }
 
   const redirectToPage = (searchedKeyword: string) => {
-    router.push(`/search/${searchedKeyword}`);
+    router.push(`/searchResult?q=${searchedKeyword}`);
   };
 
     return (
       <>
+        <SearchHeader/>
         <div className={style.header}>
           <h2 className={style.recentSearch}>최근 검색어</h2>
           <span className={style.allClear} onClick={onAllDelete}>전체 삭제</span>

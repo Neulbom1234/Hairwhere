@@ -16,7 +16,7 @@ export default function NavMenu() {
       <li> {/* 메인페이지 */}
         <Link href="/">
           <div className={style.navPill}>
-            {segment && (['search', 'post', 'notice', 'likes', `${me.id}`].includes(segment)) ? // segment === ''이 안 되기 때문에 include 사용
+            {segment && (['search', 'searchResult', 'post', 'notice', 'likes', `${me.id}`].includes(segment)) ? // segment === ''이 안 되기 때문에 include 사용
               <>
                 <svg width={26} viewBox="0 0 24 24" aria-hidden="true"
                     className="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-cnnz9e">
@@ -41,7 +41,7 @@ export default function NavMenu() {
       <li> {/* 검색페이지 */}
         <Link href="/search">
           <div className={style.navPill}>
-            {segment === 'search' ?
+            {segment && (['search', 'searchResult'].includes(segment)) ?
               <>
                 <svg width={26} viewBox="0 0 24 24" aria-hidden="true"
                     className="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-cnnz9e">
