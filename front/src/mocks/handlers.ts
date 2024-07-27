@@ -10,8 +10,8 @@ function generateDate() {
   });
 }
 const User = [
-  {id: 'kimsanho', nickname: '산호초', profile: '/yRsRRjGO.jpg'},
-  {id: 'winter', nickname: '윈터', profile: '/5Udwvqim.jpg'},
+  {id: 'kimsanho', nickname: '산호초', profile: ''},
+  {id: 'winter', nickname: '윈터', profile: ''},
   {id: 'eseo0eseo0', nickname: '서빵이', profile: faker.image.avatar()},
   {id: 'elonmusk', nickname: '일론 머스크', profile: faker.image.avatar()},
   {id: 'trump', nickname: '트럼프입니다', profile: faker.image.avatar()},
@@ -470,7 +470,7 @@ export const handlers = [
           {imageId: 4, link: faker.image.urlLoremFlickr()},
           {imageId: 5, link: faker.image.urlLoremFlickr()},
         ],
-        likes: [User[0].id, User[1].id, User[2].id],
+        likes: ['dsf', 'sldjlf'],
         HairInfo: {
           hairname: `게시글 Id ${postId}의 내용`,
           hairSalon: "머리잘하는집",

@@ -9,7 +9,7 @@ export interface Post {
   content: string;
   createdAt: Date;
   Images: PostImage[];
-  Likes: string[]; 
+  likes: string[]; 
   HairInfo: HairInfo;
   HairCategory: HairCategory;
 }
