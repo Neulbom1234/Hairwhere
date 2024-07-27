@@ -17,6 +17,9 @@ const User = [
   {id: 'trump', nickname: '트럼프입니다', profile: faker.image.avatar()},
 ]
 const Posts = [];
+const delay = (ms: number) => new Promise((res) => {
+  setTimeout(res, ms);
+});
 
 export const handlers = [
   http.post('/api/login', () => {
@@ -46,7 +49,8 @@ export const handlers = [
       }
     })
   }),
-  http.get('/api/postRecommends', ({ request }) => {
+  http.get('/api/postRecommends', async ({ request }) => {
+    await delay(7000);
     // const url = new URL(request.url)
     // const cursor = parseInt(url.searchParams.get('cursor') as string) || 0
     return HttpResponse.json(
@@ -144,7 +148,8 @@ export const handlers = [
       ]
     )
   }),
-  http.get('/api/manPosts', ({ request }) => {
+  http.get('/api/manPosts', async ({ request }) => {
+    await delay(3000);
     return HttpResponse.json(
       [
         {
@@ -204,7 +209,8 @@ export const handlers = [
       ]
     )
   }),
-  http.get('/api/womenPosts', ({ request }) => {
+  http.get('/api/womenPosts', async ({ request }) => {
+    await delay(3000);
     return HttpResponse.json(
       [
         {
