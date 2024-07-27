@@ -4,34 +4,16 @@ import { useState } from 'react';
 import SeeMore from './SeeMore';
 import style from './header.module.css'
 import { useRouter } from 'next/navigation'
-
-type Image = {
-  imageId: number;
-  link: string;
-};
-
-type User = {
-  id: string;
-  nickname: string;
-  profile: string;
-};
-
-type Target = {
-  postId: number;
-  User: User;
-  content: string;
-  createdAt: Date;
-  Images: Image[];
-  likes: string[];
-};
+import { Post } from '@/model/Post';
 
 type Props = {
-  target: Target;
+  post: Post;
 };
 
-export default function Header({ target }: Props) {
+export default function Header({ post }: Props) {
   const [liked, setLiked] = useState(false);
   const router = useRouter();
+  console.log(post);
 
   const onClickBack = () => {
     router.back();
@@ -39,9 +21,9 @@ export default function Header({ target }: Props) {
 
   const onClickHeart = () => {
     if(!liked) {
-      target.likes.push(target.User.id);
+      post.likes.push(post.User.id);
     } else {
-      target.likes.pop();
+      post.likes.pop();
     }
     setLiked(!liked);
   }
@@ -69,7 +51,7 @@ export default function Header({ target }: Props) {
               </svg>
             }
           </button>
-          <span>{target.likes.length}</span>
+          <span>{post.likes.length}</span>
         </div>
         <div className={style.seemore}>
           <SeeMore/>  

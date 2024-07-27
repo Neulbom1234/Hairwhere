@@ -1,19 +1,17 @@
-"use client"
-
 import Header from './_component/Header';
 import style from './postPage.module.css';
 import { faker } from '@faker-js/faker';
 import ImageSlider from './_component/ImageSlider';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, PropsWithRef } from 'react';
 import { Avatar, Divider } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
 
-dayjs.locale('ko');
-dayjs.extend(relativeTime)
+import SinglePost from './_component/SinglePost';
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import { getSinglePost } from './_lib/getSinglePost';
+
+
 
 type Image = {
   imageId: number;
@@ -42,87 +40,27 @@ type Target = {
   HairInfo: HairInfo;
 };
 
-export default function Home() {
-  const [target, setTarget] = useState<Target | null>(null);
-  const textRef = useRef<HTMLSpanElement>(null);
+type Props = {
+  params: {id: string}
+}
 
-  useEffect(() => {
-    const loadTarget = async () => {
-      const newTarget: Target = {
-        postId: 1,
-        User: {
-          id: 'elonmusk',
-          nickname: 'Elon Musk',
-          profile: '',
-        },
-        content: '여기 리프펌 완전 잘해요! 짱짱~~yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
-        createdAt: new Date(),
-        Images: [
-          { imageId: 1, link: faker.image.urlLoremFlickr() },
-          { imageId: 2, link: faker.image.urlLoremFlickr() },
-          { imageId: 3, link: faker.image.urlLoremFlickr() },
-        ],
-        likes: [],
-        HairInfo: {
-          hairName: '리프펌',
-          hairSalon: '블루클럽',
-          hairSalonAddress: '서울 용산구 대사관로30길 21'
-        },
-      };
+export default async function Home({params}: Props) {
+  const {id} = params;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({queryKey: ['posts', id], queryFn: getSinglePost});
+  const dehydratedState = dehydrate(queryClient);
 
-      setTarget(newTarget);
-    };
 
-    loadTarget();
-  }, []);
 
-  const copyToClipboard = () => {
-    if (textRef.current) {
-      navigator.clipboard.writeText(textRef.current.innerText)
-        .then(() => {
-          alert('주소가 클립보드에 복사되었습니다.');
-        })
-        .catch((err) => {
-          console.error('복사 중 에러 발생:', err);
-        });
-    }
-  };
-
-  if (!target) {
+  if (!id) {
     return <div>Loading...</div>; // 로딩 상태 표시
   }
 
   return (
     <div className={style.main}>
-      <Header target={target}/>
-      <div className={style.imageWrapper}>
-        <ImageSlider target={target} />
-      </div>
-      <div className={style.hairInfoWrapper}>
-        <div className={style.hairName}>{target.HairInfo.hairName}</div>
-        <div className={style.hairSalon}>
-          <Link href={`/salon/${target.HairInfo.hairSalon}`}>
-            {target.HairInfo.hairSalon}
-          </Link>
-          </div>
-        <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{target.HairInfo.hairSalonAddress}</span>
-        <div className={style.postDate}>{dayjs(target.createdAt).fromNow(true)} 전</div>
-        {/* <div className={style.postDate}>{}</div> */}
-
-      </div>
-      <div className={style.userBadge}>
-        <Link href={`/${target.User.id}`}>
-          {target.User.profile === '' ?
-            <Avatar size={44} icon={<UserOutlined/>} /> :
-            <Avatar size={44} src={target.User.profile} />
-          }
-          <div className={style.userName}>{target.User.nickname}</div>
-        </Link>
-      </div>
-      <Divider/>
-      <div className={style.content}>
-        {target.content}
-      </div>
+      <HydrationBoundary state={dehydratedState}>
+        <SinglePost id={id}/>
+      </HydrationBoundary>
     </div>
   );
 }
