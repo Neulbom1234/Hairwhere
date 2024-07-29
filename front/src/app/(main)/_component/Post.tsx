@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import {faker} from '@faker-js/faker';
 import type {Post}  from '../../../model/Post';
+import {useState} from "react";
 
 
 type Props = {
@@ -19,10 +20,28 @@ dayjs.extend(relativeTime)
 export default function Post({ post }: Props) {
 
   const target = post;
+  const [liked, setLiked] = useState<boolean>(false);
+  // const liked = false;
 
-  const liked = false;
+  // const onClickHeart = () => {}
+  const onClickHeart = async () => {
+    const apiUrl = `/api/posts/${target.postId}/like`;
+  
+    const response = await fetch(apiUrl, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // body: JSON.stringify({ userId: '현재 사용자 ID' }), 
+      body: JSON.stringify(`${target.User.id}`), 
+    });
 
-  const onClickHeart = () => {}
+    if (response.ok) {
+      setLiked(!liked); 
+    } else {
+      console.error('Failed to fetch data');
+    }
+  };
 
   return (
     <>
