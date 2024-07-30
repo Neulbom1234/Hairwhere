@@ -60,6 +60,11 @@ margin-top: 2px;
   font-weight: 400;
   color: gray;
 }
+.placeCategory{
+  font-size: 13px;
+  font-weight: 500;
+  color: rgb(53, 53, 53);
+}
 
 @media all and (min-width: 602px) {
     .input{
