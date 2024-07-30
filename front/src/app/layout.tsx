@@ -20,9 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <script 
-        type="text/javascript" 
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&libraries=services`}/>
+      <head>
+        <script 
+          type="text/javascript" 
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&libraries=services`}/>
+      </head>
       <body className={inter.className}>
         <MSWComponent />
         {/* 이렇게 children을 AuthSession으로 감싸야 children에서 useSession을 사용할 수 있음 */}
