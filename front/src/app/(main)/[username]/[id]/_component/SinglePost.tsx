@@ -5,7 +5,7 @@ import Link from "next/link";
 import Header from "./Header";
 import ImageSlider from "./ImageSlider";
 import { Avatar, Divider } from "antd";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getSinglePost } from "../_lib/getSinglePost";
 import { Post } from "@/model/Post";
 import { useRef } from "react";
@@ -72,8 +72,6 @@ export default function SinglePost({id}: Props) {
           </div>
         <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{post.HairInfo.hairSalonAddress}</span>
         <div className={style.postDate}>{dayjs(post.createdAt).fromNow(true)} 전</div>
-        {/* <div className={style.postDate}>{}</div> */}
-
       </div>
       <div className={style.userBadge}>
         <Link href={`/${post.User.id}`}>
