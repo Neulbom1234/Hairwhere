@@ -1,7 +1,7 @@
 "use client"
 
 import style from './searchHeader.module.css';
-import { useState, ChangeEventHandler, FormEventHandler } from 'react';
+import { useState, ChangeEventHandler, FormEventHandler, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import HairCategoryMenu from './HairCategoryMenu';
 
@@ -10,7 +10,16 @@ type Props = { q?: string };
 export default function SearchHeader({q}: Props) {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryVisible, setCategoryVisible] = useState(false);
+  const [gender, setGender] = useState<string>('');
+  const [hairLength, setHairLength] = useState<string>('');
+  const [hairColor, setHairColor] = useState<string>('');
   const router = useRouter();
+
+  useEffect(() => {
+    if(!searchQuery && q) {
+      setSearchQuery(q);
+    }
+  }, [q])
 
   const onChangeSearchQuery: ChangeEventHandler<HTMLInputElement> = (e) => { setSearchQuery(e.target.value) };
 
@@ -46,7 +55,14 @@ export default function SearchHeader({q}: Props) {
               </svg>
           </button>
           </div>
-          <HairCategoryMenu/>
+          <HairCategoryMenu 
+            gender={gender} 
+            setGender={setGender} 
+            hairLength={hairLength} 
+            setHairLength={setHairLength} 
+            hairColor={hairColor} 
+            setHairColor={setHairColor} 
+          />
         </section>
         <form>
           <div className={style.inputDiv}>

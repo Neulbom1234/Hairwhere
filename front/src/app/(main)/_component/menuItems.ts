@@ -4,7 +4,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
   {
-    key: 'sub1',
+    key: 'gender',
     label: '성별',
     children: [
       { key: '1', label: '남성' },
@@ -15,7 +15,7 @@ const items: MenuItem[] = [
     type: 'divider',
   },
   {
-    key: 'sub2',
+    key: 'length',
     label: '기장',
     children: [
       { key: '3', label: '롱' },
@@ -27,7 +27,7 @@ const items: MenuItem[] = [
     type: 'divider',
   },
   {
-    key: 'sub4',
+    key: 'color',
     label: '염색',
     children: [
       { key: '9', label: '골드브라운' },
@@ -71,4 +71,4 @@ const items: MenuItem[] = [
   },
 ];
 
-export default items
+export default items;

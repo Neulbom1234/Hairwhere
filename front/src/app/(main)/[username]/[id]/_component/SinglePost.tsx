@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { UserOutlined } from "@ant-design/icons";
+import { Tag } from 'antd';
 
 dayjs.locale('ko');
 dayjs.extend(relativeTime)
@@ -72,6 +73,11 @@ export default function SinglePost({id}: Props) {
           </div>
         <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{post.HairInfo.hairSalonAddress}</span>
         <div className={style.postDate}>{dayjs(post.createdAt).fromNow(true)} 전</div>
+      </div>
+      <div className={style.badgeWrapper}>
+        <Tag>{post.HairCategory.gender}</Tag>
+        <Tag>{post.HairCategory.hairLength}</Tag>
+        <Tag>{post.HairCategory.hairColor}</Tag>
       </div>
       <div className={style.userBadge}>
         <Link href={`/${post.User.id}`}>
