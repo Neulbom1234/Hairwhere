@@ -10,6 +10,9 @@ type Props = { q?: string };
 export default function SearchHeader({q}: Props) {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryVisible, setCategoryVisible] = useState(false);
+  const [gender, setGender] = useState<string>('');
+  const [hairLength, setHairLength] = useState<string>('');
+  const [hairColor, setHairColor] = useState<string>('');
   const router = useRouter();
 
   useEffect(() => {
@@ -52,7 +55,14 @@ export default function SearchHeader({q}: Props) {
               </svg>
           </button>
           </div>
-          <HairCategoryMenu/>
+          <HairCategoryMenu 
+            gender={gender} 
+            setGender={setGender} 
+            hairLength={hairLength} 
+            setHairLength={setHairLength} 
+            hairColor={hairColor} 
+            setHairColor={setHairColor} 
+          />
         </section>
         <form>
           <div className={style.inputDiv}>
