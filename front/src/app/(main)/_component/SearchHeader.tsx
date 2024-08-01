@@ -1,7 +1,7 @@
 "use client"
 
 import style from './searchHeader.module.css';
-import { useState, ChangeEventHandler, FormEventHandler } from 'react';
+import { useState, ChangeEventHandler, FormEventHandler, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import HairCategoryMenu from './HairCategoryMenu';
 
@@ -11,6 +11,12 @@ export default function SearchHeader({q}: Props) {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryVisible, setCategoryVisible] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if(!searchQuery && q) {
+      setSearchQuery(q);
+    }
+  }, [q])
 
   const onChangeSearchQuery: ChangeEventHandler<HTMLInputElement> = (e) => { setSearchQuery(e.target.value) };
 
