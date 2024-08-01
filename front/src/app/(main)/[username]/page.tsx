@@ -16,7 +16,11 @@ export default async function Profile({params}: Props) {
   const {username} = params;
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({queryKey: ['users', username], queryFn: getUser});
-  await queryClient.prefetchQuery({queryKey: ['posts', 'users', username], queryFn: getUserPosts});
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['posts', 'users', username], 
+    queryFn: getUserPosts,
+    initialPageParam: 0,
+  });
   const dehydrateState = dehydrate(queryClient);
     return (
       <>

@@ -1,20 +1,50 @@
 "use client"
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { InfiniteData, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { getManPosts } from "../_lib/getManPosts";
 import Post from "./Post";
 import type { Post as IPost } from "@/model/Post";
+import { Fragment, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 export default function ManPosts() {
-  const { data } = useSuspenseQuery<IPost[]>({
+  const { 
+    data,
+    fetchNextPage,
+    hasNextPage, 
+    isFetching, 
+  } = useSuspenseInfiniteQuery<IPost[], Object, InfiniteData<IPost[]>, [_1: string, _2: string], number>({
     queryKey: ['posts', 'mans'], 
     queryFn: getManPosts,
+    initialPageParam:0,
+    getNextPageParam: (lastPage)=>lastPage.at(-1)?.postId,
     staleTime: 60 * 1000, //fresh -> stale로 바뀌는 시간, gcTime보다 작아야함
     gcTime: 300 * 1000, //캐싱한 데이터가 없어지는 시간
     
   });
 
-  return data?.map((post) => (
-    <Post key={post.postId} post={post}/>
-  ))
+  const { ref, inView } = useInView({
+    threshold: 0,
+    delay: 0,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      !isFetching && hasNextPage && fetchNextPage();
+    }
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+
+  console.log(data)
+
+  return (
+    <>
+      {data?.pages?.map((page, idx) => (
+        <Fragment key={idx}>
+          {page?.map((post) => (
+            <Post key={post.postId} post={post} />
+          ))}
+        </Fragment>))}
+        <div ref={ref} style={{height: 50}}/>
+    </>
+  );
 }

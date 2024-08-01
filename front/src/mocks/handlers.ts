@@ -15,6 +15,7 @@ const User = [
   {id: 'eseo0eseo0', nickname: '서빵이', profile: faker.image.avatar()},
   {id: 'elonmusk', nickname: '일론 머스크', profile: faker.image.avatar()},
   {id: 'trump', nickname: '트럼프입니다', profile: faker.image.avatar()},
+  {id: 'bbook', nickname: '뿍뿍이입니다', profile: faker.image.avatar()},
 ]
 const Posts = [];
 const delay = (ms: number) => new Promise((res) => {
@@ -50,13 +51,13 @@ export const handlers = [
     })
   }),
   http.get('/api/postRecommends', async ({ request }) => {
-    await delay(7000);
-    // const url = new URL(request.url)
-    // const cursor = parseInt(url.searchParams.get('cursor') as string) || 0
-    return HttpResponse.json(
+    await delay(2000);
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+    return HttpResponse.json( 
       [
         {
-          postId: 1,
+          postId: cursor + 1,
           User: User[0],
           content: '리프펌 너무 예쁘게 해주세요!',
           createdAt: generateDate(),
@@ -74,7 +75,7 @@ export const handlers = [
           }
         },
         {
-          postId: 2,
+          postId: cursor + 2,
           User: User[1],
           content: '레이어드컷 맛집입니당',
           createdAt: generateDate(),
@@ -92,7 +93,7 @@ export const handlers = [
           }
         },
         {
-          postId: 3,
+          postId: cursor + 3,
           User: User[2],
           content: '숏컷 완전 레전드 ㅠㅠㅠㅠㅠㅠㅠ',
           createdAt: generateDate(),
@@ -110,7 +111,7 @@ export const handlers = [
           }
         },
         {
-          postId: 4,
+          postId: cursor + 4,
           User: User[3],
           content: '손질 하는 방법도 알려주시고 너무 맘에 드는 미용실 발견',
           createdAt: generateDate(),
@@ -128,7 +129,7 @@ export const handlers = [
           }
         },
         {
-          postId: 5,
+          postId: cursor + 5,
           User: User[4],
           content: '여기 머리 개못함 다시는 안 간다',
           createdAt: generateDate(),
@@ -145,15 +146,36 @@ export const handlers = [
             hairColor: "블랙"
           }
         },
+        {
+          postId: cursor + 6,
+          User: User[5],
+          content: '여기 머리 개못함 다시는 안 간다',
+          createdAt: generateDate(),
+          Images: [{imageId: 5, link: faker.image.urlLoremFlickr()}],
+          likes: [User[0].id, User[1].id, User[2].id],
+          HairInfo: {
+            hairname: "반삭",
+            hairSalon: "두루루루룰",
+            hairSalonAddress: "서울 구로구 경인로30길 21"
+          },
+          HairCategory: {
+            gender: "남성",
+            hairLength: "미디움",
+            hairColor: "블랙"
+          }
+        },
       ]
     )
   }),
   http.get('/api/manPosts', async ({ request }) => {
     await delay(3000);
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
     return HttpResponse.json(
       [
         {
-          postId: 1,
+          postId: cursor + 1,
           User: User[0],
           content: '리프펌 너무 예쁘게 해주세요!',
           createdAt: generateDate(),
@@ -171,7 +193,7 @@ export const handlers = [
           }
         },
         {
-          postId: 4,
+          postId: cursor + 4,
           User: User[3],
           content: '손질 하는 방법도 알려주시고 너무 맘에 드는 미용실 발견',
           createdAt: generateDate(),
@@ -189,7 +211,7 @@ export const handlers = [
           }
         },
         {
-          postId: 5,
+          postId: cursor + 5,
           User: User[4],
           content: '여기 머리 개못함 다시는 안 간다',
           createdAt: generateDate(),
@@ -211,10 +233,12 @@ export const handlers = [
   }),
   http.get('/api/womenPosts', async ({ request }) => {
     await delay(3000);
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
     return HttpResponse.json(
       [
         {
-          postId: 2,
+          postId: cursor + 2,
           User: User[1],
           content: '레이어드컷 맛집입니당',
           createdAt: generateDate(),
@@ -232,7 +256,7 @@ export const handlers = [
           }
         },
         {
-          postId: 3,
+          postId: cursor + 3,
           User: User[2],
           content: '숏컷 완전 레전드 ㅠㅠㅠㅠㅠㅠㅠ',
           createdAt: generateDate(),
@@ -252,12 +276,16 @@ export const handlers = [
       ]
     )
   }),
-  http.get('/api/search/:tag', ({ request, params }) => {
+  http.get('/api/search/:tag', async ({ request, params }) => {
     const { tag } = params;
+    await delay(3000);
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
     return HttpResponse.json(
       [
         {
-          postId: 1,
+          postId: cursor + 1,
           User: User[1],
           content: `${1} 검색결과 ${tag}`,
           createdAt: generateDate(),
@@ -275,7 +303,7 @@ export const handlers = [
           }
         },
         {
-          postId: 2,
+          postId: cursor + 2,
           User: User[2],
           content: `${2} 검색결과 ${tag}`,
           createdAt: generateDate(),
@@ -293,7 +321,7 @@ export const handlers = [
           }
         },
         {
-          postId: 3,
+          postId: cursor + 3,
           User: User[1],
           content: `${3} 검색결과 ${tag}`,
           createdAt: generateDate(),
@@ -311,7 +339,7 @@ export const handlers = [
           }
         },
         {
-          postId: 4,
+          postId: cursor + 4,
           User: User[1],
           content: `${4} 검색결과 ${tag}`,
           createdAt: generateDate(),
@@ -329,7 +357,7 @@ export const handlers = [
           }
         },
         {
-          postId: 5,
+          postId: cursor + 5,
           User: User[1],
           content: `${5} 검색결과 ${tag}`,
           createdAt: generateDate(),
@@ -349,12 +377,16 @@ export const handlers = [
       ]
     )
   }),
-  http.get('/api/users/:userId/posts', ({ request, params }) => {
+  http.get('/api/users/:userId/posts', async({ request, params }) => {
     const { userId } = params;
+    await delay(3000);
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
     return HttpResponse.json(
       [
         {
-          postId: 1,
+          postId: cursor + 1,
           User: User[1],
           content: `${1} ${userId}의 게시글`,
           createdAt: generateDate(),
@@ -372,7 +404,7 @@ export const handlers = [
           }
         },
         {
-          postId: 2,
+          postId: cursor + 2,
           User: User[2],
           content: `${2} ${userId}의 게시글`,
           createdAt: generateDate(),
@@ -390,7 +422,7 @@ export const handlers = [
           }
         },
         {
-          postId: 3,
+          postId: cursor + 3,
           User: User[1],
           content: `${3} ${userId}의 게시글`,
           createdAt: generateDate(),
@@ -408,7 +440,7 @@ export const handlers = [
           }
         },
         {
-          postId: 4,
+          postId: cursor + 4,
           User: User[1],
           content: `${4} ${userId}의 게시글`,
           createdAt: generateDate(),
@@ -426,7 +458,7 @@ export const handlers = [
           }
         },
         {
-          postId: 5,
+          postId: cursor + 5,
           User: User[1],
           content: `${5} ${userId}의 게시글`,
           createdAt: generateDate(),
@@ -534,12 +566,16 @@ export const handlers = [
   }),
 
   //좋아하는 게시글
-  http.get('api/users/:user/likes', ({request, params})=>{
+  http.get('api/users/:user/likes', async({request, params})=>{
     const { userId } = params;
+    await delay(3000);
+    const url = new URL(request.url);
+    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+  
     return HttpResponse.json(
       [
         {
-          postId: 1,
+          postId: cursor + 1,
           User: User[1],
           content: '리프펌',
           createdAt: generateDate(),
@@ -557,14 +593,14 @@ export const handlers = [
           }
         },
         {
-          postId: 2,
+          postId: cursor + 2,
           User: User[2],
           content: `${2} ${userId}의 게시글`,
           createdAt: generateDate(),
           Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
           likes: [User[0].id, User[1].id, User[2].id],
           HairInfo: {
-            hairname: `어쩔뿡뿡`,
+            hairname: `모히칸`,
             hairSalon: "머리잘하는집",
             hairSalonAddress: "서울 구로구 경인로30길 21"
           },
@@ -575,14 +611,14 @@ export const handlers = [
           }
         },
         {
-          postId: 3,
+          postId: cursor + 3,
           User: User[1],
           content: `${3} ${userId}의 게시글`,
           createdAt: generateDate(),
           Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
           likes: [User[0].id, User[1].id, User[2].id],
           HairInfo: {
-            hairname: `말렌카머리`,
+            hairname: `폭탄머리`,
             hairSalon: "머리잘하는집",
             hairSalonAddress: "서울 구로구 경인로30길 21"
           },
@@ -593,7 +629,7 @@ export const handlers = [
           }
         },
         {
-          postId: 4,
+          postId: cursor + 4,
           User: User[1],
           content: `${4} ${userId}의 게시글`,
           createdAt: generateDate(),
@@ -611,14 +647,14 @@ export const handlers = [
           }
         },
         {
-          postId: 5,
+          postId: cursor + 5,
           User: User[1],
           content: `${5} ${userId}의 게시글`,
           createdAt: generateDate(),
           Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
           likes: [User[0].id, User[1].id, User[2].id],
           HairInfo: {
-            hairname: `이서뿡방구냄새레전드;;`,
+            hairname: `숏컷`,
             hairSalon: "머리잘하는집",
             hairSalonAddress: "서울 구로구 경인로30길 21"
           },
@@ -630,102 +666,5 @@ export const handlers = [
         },
       ]
     )
-  }),
-  http.get('/api/salon/:salonName', ({ request, params }) => {
-    const { salonName } = params;
-    return HttpResponse.json(
-      [
-        {
-          postId: 1,
-          User: User[1],
-          content: `${1} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${1} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
-        },
-        {
-          postId: 2,
-          User: User[2],
-          content: `${2} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${2} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
-        },
-        {
-          postId: 3,
-          User: User[1],
-          content: `${3} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${3} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
-        },
-        {
-          postId: 4,
-          User: User[1],
-          content: `${4} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${4} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
-        },
-        {
-          postId: 5,
-          User: User[1],
-          content: `${5} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${5} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
-        },
-      ]
-    )
-  }),
+  })
 ];
