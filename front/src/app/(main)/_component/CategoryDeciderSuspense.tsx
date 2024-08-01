@@ -5,9 +5,10 @@ import { getPostRecommends } from "../_lib/getPostRecommends";
 
 export default async function CategoryDeciderSuspense() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
+  await queryClient.prefetchInfiniteQuery({
     queryKey: ['posts', 'recommends'],
-    queryFn: getPostRecommends
+    queryFn: getPostRecommends,
+    initialPageParam: 0,
   })
   const dehydratedState = dehydrate(queryClient) //hydrate는 서버에서 온 데이터를 클라이언트에서 그대로 물려받는 것
   
