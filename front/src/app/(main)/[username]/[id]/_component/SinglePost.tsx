@@ -58,6 +58,8 @@ export default function SinglePost({id}: Props) {
   if (!post) {
     return null;
   }
+
+  console.log(`포스트: ${post}`);
   return (
     <>
       <Header post={post}/>
