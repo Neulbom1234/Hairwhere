@@ -30,10 +30,10 @@ export default function PostRecommends() {
   useEffect(() => {
     if (inView) {
       !isFetching && hasNextPage && fetchNextPage();
+      console.log(`데이터: ${data}`);
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
-
-  console.log(data)
+  console.log(`데이터: ${data}`);
 
   return (
     <>
