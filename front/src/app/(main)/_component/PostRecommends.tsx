@@ -17,7 +17,7 @@ export default function PostRecommends() {
     queryKey: ['posts', 'recommends'], 
     queryFn: getPostRecommends,
     initialPageParam:0,
-    getNextPageParam: (lastPage)=>lastPage.at(-1)?.postId,
+    getNextPageParam: (lastPage)=>lastPage.at(-1)?.id,
     staleTime: 60 * 1000, //fresh -> stale로 바뀌는 시간, gcTime보다 작아야함
     gcTime: 300 * 1000, //캐싱한 데이터가 없어지는 시간
   });
@@ -33,14 +33,14 @@ export default function PostRecommends() {
       console.log(`데이터: ${data}`);
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
-  console.log(`데이터: ${data}`);
+  console.log(data);
 
   return (
     <>
       {data?.pages?.map((page, idx) => (
         <Fragment key={idx}>
           {page?.map((post) => (
-            <Post key={post.postId} post={post} />
+            <Post key={post.id} post={post} />
           ))}
         </Fragment>))}
         <div ref={ref} style={{height: 50}}/>

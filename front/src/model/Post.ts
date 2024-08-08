@@ -4,12 +4,17 @@ import { PostImage } from "./PostImage";
 import { User } from "./User";
 
 export interface Post {
-  postId: number;
-  User: User;
-  content: string;
-  createdAt: Date;
-  Images: PostImage[];
-  likes: string[]; 
-  HairInfo: HairInfo;
-  HairCategory: HairCategory;
+  
+  id: number;
+  userName: string;
+  photoImagePath: string[];
+  likeCount: number; 
+  hairName: string;
+  text: string;
+  gender: string;
+  created: Date;
+  hairSalon: string;
+  hairSalonAddress: string;
+  hairLength: string;
+  hairColor: string;  
 }
