@@ -29,9 +29,10 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping("/upload")
-    public String upload(HttpSession session, @RequestParam("title") String title,@RequestParam("text") String text,
+    public String upload(/*HttpSession session,*/ @RequestParam("title") String title,@RequestParam("text") String text,
                          @RequestParam("hairName") String hairName,@RequestPart("image") MultipartFile[] image) throws Exception{
-        String name = (String) session.getAttribute("name");
+        //String name = (String) session.getAttribute("name");
+        String name = "testName";
 
         if(image.length > 3){
             return "이미지는 최대 3개까지만 업로드 가능합니다.";
