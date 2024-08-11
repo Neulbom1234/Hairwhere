@@ -1,6 +1,7 @@
 package com.example.neulbom.service;
 
 import com.example.neulbom.domain.Photo;
+import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -78,6 +79,11 @@ public class PhotoService {
 
         photorepository.delete(photo);
         return "삭제 완료";
+    }
+
+    @Transactional
+    public List<Photo> findByUser(User user) {
+        return photorepository.findByUser(user);
     }
 
     @Transactional

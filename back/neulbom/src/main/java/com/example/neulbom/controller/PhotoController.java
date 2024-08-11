@@ -35,7 +35,7 @@ public class PhotoController {
         String name = "testName";
 
         if(image.length > 3){
-            return "이미지는 최대 3개까지만 업로드 가능합니다.";
+            return "이미지는 최대 3개까지만 업로드 가능합니다."; 
         }
         photoService.upload(title, name, hairName,text,image);
         return "업로드 완료";

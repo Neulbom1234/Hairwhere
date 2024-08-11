@@ -1,9 +1,12 @@
 package com.example.neulbom.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,8 +32,9 @@ public class User {
     @Column(name = "profilePath")
     private String profilePath;
 
-    @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
-    public Photo photo;
+    @OneToMany(mappedBy = "id")
+    @JsonIgnore
+    public List<Photo> photo;
 
     public User(String loginId, String pw, String name, String profilePath) {
         this.loginId = loginId;
