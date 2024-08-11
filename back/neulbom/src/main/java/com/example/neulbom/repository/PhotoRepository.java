@@ -1,6 +1,7 @@
 package com.example.neulbom.repository;
 
 import com.example.neulbom.domain.Photo;
+import com.example.neulbom.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
     Page<Photo> findByGender(String gender, Pageable pageable);
 
     Page<Photo> findByHairSalon(String hairSalon, Pageable pageable);
+
+    List<Photo> findByUser(User user);
 }

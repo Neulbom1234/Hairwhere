@@ -64,9 +64,8 @@ public class Photo {
     @JsonIgnore
     private List<Like> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "photo")
-    @JsonIgnore
-    private List<User> users = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public void increaseLikeCount() {
         this.likeCount++;

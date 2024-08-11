@@ -22,6 +22,10 @@ public class UserService {
         return userRepository.findByLoginId(loginId);
     }
 
+    public User findByName(String name) {
+        return userRepository.findByName(name);
+    }
+
     public boolean findByLoginIdAndPw(String loginId, String pw){
 
         User user=  userRepository.findByLoginIdAndPw(loginId,pw);
