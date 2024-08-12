@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,15 +32,22 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping("/upload")
-    public String upload(/*HttpSession session,*/ @RequestParam("title") String title,@RequestParam("text") String text,
-                         @RequestParam("hairName") String hairName,@RequestPart("image") MultipartFile[] image) throws Exception{
+    public String upload(/*HttpSession session,*/ @RequestParam("title") String title, @RequestParam("text") String text,
+                                                  @RequestParam("hairName") String hairName, @RequestPart("image") MultipartFile[] image,
+                                                  @RequestParam("gender") String gender, @RequestParam("created") String createdStr,
+                                                  @RequestParam("hairSalon") String hairSalon,@RequestParam("hairSalonAddress") String hairSalonAddress,
+                                                  @RequestParam("hairLength") String hairLength, @RequestParam("hairColor") String hairColor) throws Exception{
         //String name = (String) session.getAttribute("name");
-        String name = "testName";
+        String name = "Dummy Name";
+        int likeCount = 0;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime created = LocalDateTime.parse(createdStr, formatter);
 
         if(image.length > 3){
             return "이미지는 최대 3개까지만 업로드 가능합니다."; 
         }
-        photoService.upload(title, name, hairName,text,image);
+        photoService.upload(title, name, image,likeCount,hairName,text,gender,created,hairSalon,hairSalonAddress,hairLength,hairColor);
         return "업로드 완료";
     }
 

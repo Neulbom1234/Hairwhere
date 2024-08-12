@@ -7,6 +7,10 @@ import com.example.neulbom.service.PhotoService;
 import com.example.neulbom.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -87,10 +91,19 @@ public class UserController {
     }
 
     @GetMapping("find/{name}/photos")
-    public List<Photo> findUserPhotos(@PathVariable String name) {
-        User user = userService.findByName(name);
+    public Page<Photo> findUserPhotos(@RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "15") int size,
+                                      @RequestParam(defaultValue = "created") String sortBy,
+                                      @RequestParam(defaultValue = "desc") String sortOrder,
+                                      @PathVariable String name) {
 
-        return photoService.findByUser(user);
+        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        //User user = userService.findByName(name);
+
+        return photoService.findByUserName(name,pageable);
     }
 
     private boolean isValidUser(String loginId, String pw) {

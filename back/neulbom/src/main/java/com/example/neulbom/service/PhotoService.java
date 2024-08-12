@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +27,9 @@ public class PhotoService {
     private final int MIN_RANDOM_NUM = 1;
 
     @Transactional
-    public String upload(String title, String name, String hairName, String text, MultipartFile[] image) {
+    public String upload(String title, String name, MultipartFile[] image,
+                         int likeCount, String hairName, String text, String gender, LocalDateTime created,
+                         String hairSalon, String hairSalonAddress, String hairLength, String hairColor) {
         List<String> imagePaths = new ArrayList<>();
 
         for( MultipartFile file : image ) {
@@ -35,10 +39,17 @@ public class PhotoService {
 
         Photo photo = Photo.builder()
                 .photoTitle(title)
-                .photoImagePath(imagePaths)
                 .userName(name)
+                .photoImagePath(imagePaths)
+                .likeCount(likeCount)
                 .hairName(hairName)
                 .text(text)
+                .gender(gender)
+                .created(created)
+                .hairSalon(hairSalon)
+                .hairSalonAddress(hairSalonAddress)
+                .hairLength(hairLength)
+                .hairColor(hairColor)
                 //.contentType(image.getContentType())
                 .build();
 
@@ -82,8 +93,8 @@ public class PhotoService {
     }
 
     @Transactional
-    public List<Photo> findByUser(User user) {
-        return photorepository.findByUser(user);
+    public Page<Photo> findByUserName(String userName,Pageable pageable) {
+        return photorepository.findByUserName(userName,pageable);
     }
 
     @Transactional
