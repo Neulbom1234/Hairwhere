@@ -101,8 +101,6 @@ public class UserController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        //User user = userService.findByName(name);
-
         return photoService.findByUserName(name,pageable);
     }
 

@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface LikeRepository extends CrudRepository<Like, Long> {
 
     int countLikesByPhotoId(Long photoId);
-
 }
