@@ -19,5 +19,5 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
     Page<Photo> findByHairSalon(String hairSalon, Pageable pageable);
 
-    List<Photo> findByUser(User user);
+    Page<Photo> findByUserName(String userName,Pageable pageable);
 }
