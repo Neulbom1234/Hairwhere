@@ -1,8 +1,10 @@
 package com.example.neulbom.controller;
 
 import com.amazonaws.Response;
+import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
+import com.example.neulbom.service.LikeService;
 import com.example.neulbom.service.PhotoService;
 import com.example.neulbom.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +26,7 @@ public class UserController {
 
     private final UserService userService;
     private final PhotoService photoService;
+    private final LikeService likeService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String loginId, @RequestParam String pw, HttpSession session) {
@@ -75,6 +78,27 @@ public class UserController {
         userService.update(session,name,profile);
 
         return "수정 완료";
+    }
+
+    @GetMapping("/mypage/like")
+    public Page<Photo> getMyLikePage(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "15") int size,
+                                     @RequestParam(defaultValue = "created") String sortBy,
+                                     @RequestParam(defaultValue = "desc") String sortOrder
+                                     /*HttpSession session*/) {
+
+        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        //Long id = (Long)session.getAttribute("id");
+        Long id = 1L;
+
+        User user = userService.findById(id);
+
+        List<Like> likes = likeService.findByUser(user);//user를 기준으로 좋아요한 게시글들 찾기
+
+        return photoService.findLikedPhotosByUser(likes, pageable);
     }
 
     @GetMapping("find/{name}")
