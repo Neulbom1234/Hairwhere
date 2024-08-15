@@ -1,9 +1,11 @@
 package com.example.neulbom.service;
 
+import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 
@@ -111,6 +114,22 @@ public class PhotoService {
 
     private Photo findPhotoById(Long photoId) {
         return photorepository.findById(photoId).orElseThrow(() -> new IllegalArgumentException("해당 사진이 없습니다."));
+    }
+
+    public void save(Photo photo) {
+        photorepository.save(photo);
+    }
+
+    public Page<Photo> findLikedPhotosByUser(List<Like> likes, Pageable pageable) {
+
+        List<Photo> photos = likes.stream()
+                .map(Like::getPhoto)
+                .collect(Collectors.toList());
+
+        int start = (int) pageable.getOffset();  // 페이지 시작 인덱스
+        int end = Math.min((start + pageable.getPageSize()), photos.size());
+        // 페이지 끝 인덱스
+        return new PageImpl<>(photos.subList(start, end), pageable, photos.size());
     }
 
     private void validateUserName(String photoName, String userName) {

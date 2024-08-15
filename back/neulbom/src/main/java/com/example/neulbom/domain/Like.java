@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "likes")
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Like {
 
     @Id
@@ -16,7 +16,21 @@ public class Like {
     @Column(name = "like_id")
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "photo_id")
     private Photo photo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Like(Photo photo, User user) {
+        this.photo = photo;
+        this.user = user;
+    }
+
+    public Photo getPhoto() {
+        return this.photo;
+    }
 
 }
