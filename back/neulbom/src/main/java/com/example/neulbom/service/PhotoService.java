@@ -132,6 +132,12 @@ public class PhotoService {
         return new PageImpl<>(photos.subList(start, end), pageable, photos.size());
     }
 
+    public Page<Photo> search(String hairName, String hairLength,String hairColor,
+                              String gender, Pageable pageable){
+
+        return photorepository.search(hairName,hairLength,hairColor,gender,pageable);
+    }
+
     private void validateUserName(String photoName, String userName) {
         if (!photoName.equals(userName)) {
             throw new IllegalArgumentException("사진을 삭제할 권한이 없습니다.");
