@@ -103,4 +103,21 @@ public class PhotoController {
         return photoService.findByGender(gender,pageable);
     }
 
+    @GetMapping("/search")
+    public Page<Photo> search(@RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "15") int size,
+                              @RequestParam(defaultValue = "created") String sortBy,
+                              @RequestParam(defaultValue = "desc") String sortOrder,
+                              @RequestParam("hairName") String hairName,
+                              @RequestParam(value = "hairLength", required = false) String hairLength,
+                              @RequestParam(value = "hairColor", required = false) String hairColor,
+                              @RequestParam(value = "gender", required = false) String gender){
+
+        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return photoService.search(hairName,hairLength,hairColor,gender,pageable);
+    }
+
 }
