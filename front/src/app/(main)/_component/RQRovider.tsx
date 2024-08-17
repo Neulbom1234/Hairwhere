@@ -15,7 +15,7 @@ function RQProvider({children}: Props) {
         queries: {
           refetchOnWindowFocus: false, //탭 전환
           retryOnMount: true, // 마운트 됐을 때
-          refetchOnReconnect: false, // 인테넷 접속이 끊겼다가 다시 연결 됐을 때
+          refetchOnReconnect: false, // 인터넷 접속이 끊겼다가 다시 연결 됐을 때
           retry: false, // 데이터를 가져오는 중 오류가 생겼을 때
         },
       },

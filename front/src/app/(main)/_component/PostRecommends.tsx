@@ -33,7 +33,13 @@ export default function PostRecommends() {
       console.log(`데이터: ${data}`);
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
+<<<<<<< HEAD
   console.log(data);
+=======
+
+  console.log(data)
+  
+>>>>>>> 5f21712 ([fix] 남성, 여성 게시글 조회 API 연결)
 
   return (
     <>
@@ -47,6 +53,5 @@ export default function PostRecommends() {
     </>
   );
   
-    
   
 }

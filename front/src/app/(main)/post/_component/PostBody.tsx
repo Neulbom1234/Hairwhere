@@ -47,7 +47,6 @@ export default function PostBody({params}: Props) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const reader = new FileReader();
-
         reader.onload = (event) => {
           if (event.target && event.target.result) {
             const result = event.target.result as string;
@@ -60,7 +59,6 @@ export default function PostBody({params}: Props) {
             }
           }
         };
-
         reader.readAsDataURL(file); 
       }
     }
@@ -90,15 +88,14 @@ export default function PostBody({params}: Props) {
       <div className={style.imgContainer}>
         {previews.map((preview, index) => (
           <div key={index} className={style.imgBox}>
-            <img src={preview} className={style.previewImage} alt={`Preview ${index}`} />
-              
+            <img src={preview} className={style.previewImage} alt={`Preview ${index}`} />            
             <button className={style.closeButton} onClick={() => handleDeletePreview(index)}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
             </button>
           </div>
         ))}
       </div>
-
+      
       {/* 이미지 개수 제한 안내 */}
       {previews.length === 3 && (
         <span className={style.imgMax}>{imgMax}</span>

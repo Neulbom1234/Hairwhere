@@ -1,6 +1,6 @@
 "use client";
 
-import { InfiniteData, useInfiniteQuery, useQuery, useQueryClient} from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
 import {getUserPosts} from "../_lib/getUserPosts";
 import Post from "../../_component/Post";
 import {Post as IPost} from "@/model/Post";
@@ -21,7 +21,7 @@ export default function UserPosts({username}: Props) {
     queryKey: ['posts', 'users', username],
     queryFn: getUserPosts,
     initialPageParam:0,
-    getNextPageParam: (lastPage)=>lastPage.at(-1)?.postId,
+    getNextPageParam: (lastPage)=>lastPage.at(-1)?.id,
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
   })
@@ -46,7 +46,7 @@ export default function UserPosts({username}: Props) {
       {data?.pages?.map((page, idx) => (
         <Fragment key={idx}>
           {page.map((post) => (
-            <Post key={post.postId} post={post} />
+            <Post key={post.id} post={post} />
           ))}
         </Fragment>))}
         <div ref={ref} style={{height: 50}}/>

@@ -1,6 +1,6 @@
 "use client"
 
-import { InfiniteData, useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { InfiniteData, useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { getWomenPosts } from "../_lib/getWomenPosts";
 import Post from "./Post";
 import type { Post as IPost } from "@/model/Post";

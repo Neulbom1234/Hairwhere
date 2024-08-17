@@ -1,8 +1,5 @@
 import style from './person.module.css';
-import Link from 'next/link'
-import {faker} from '@faker-js/faker';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import UserPosts from './_component/UserPosts';
 import UserInfo from './_component/UserInfo';
 import { getUser } from './_lib/getUser';
 import { getUserPosts } from './_lib/getUserPosts';

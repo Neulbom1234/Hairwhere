@@ -1,7 +1,7 @@
 type Props = {pageParam?: number};
 
 export async function getManPosts({pageParam}: Props) {
-  const res = await fetch(`http://localhost:9090/api/manPosts?cursor=${pageParam}`,{
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/photo/findByGender/male?page=${pageParam}&size=15`,{
     next: {
       tags: ['posts', 'mans'], //캐시 초기화를 위한 태그
     },

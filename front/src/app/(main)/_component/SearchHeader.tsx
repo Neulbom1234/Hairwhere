@@ -1,7 +1,7 @@
 "use client"
 
 import style from './searchHeader.module.css';
-import { useState, ChangeEventHandler, FormEventHandler, useEffect } from 'react';
+import { useState, ChangeEventHandler, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import HairCategoryMenu from './HairCategoryMenu';
 
