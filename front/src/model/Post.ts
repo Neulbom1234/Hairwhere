@@ -17,5 +17,4 @@ export interface Post {
   hairSalonAddress: string;
   hairLength: string;
   hairColor:string;
- 
 }
