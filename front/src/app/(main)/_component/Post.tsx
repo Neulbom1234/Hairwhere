@@ -53,10 +53,6 @@ export default function Post({ post }: Props) {
       <div className={style.card}>
         <div className={style.cover}>
           <Link href={`/${target.userName}/${target.id}`}>
-<<<<<<< HEAD
-            {/* <img src={target.photoImagePath[0]} alt=""/> */}
-            <img src={faker.image.urlLoremFlickr()} alt="" />
-=======
             <img src={target.photoImagePath[0]} alt=""/>             
 
             {/* 제로초 아저씨가 알려준 rewrites 써봄! */}
@@ -64,7 +60,6 @@ export default function Post({ post }: Props) {
             
 
             {/* <img src={faker.image.urlLoremFlickr()} alt="" /> */}
->>>>>>> 5f21712 ([fix] 남성, 여성 게시글 조회 API 연결)
           </Link>
 
           <div className={style.heartButton}>
@@ -86,11 +81,7 @@ export default function Post({ post }: Props) {
         </div>
         <div className={style.body}>
           <div className={style.meta}>
-<<<<<<< HEAD
             <div className={style.hairName}>{target.hairName}</div>
-=======
-            <div className={style.hairName}>{target.id}</div>
->>>>>>> 5f21712 ([fix] 남성, 여성 게시글 조회 API 연결)
             <div className={style.hairSalon}>{target.hairSalon}</div>
             <div className={style.hairSalonAddress}>{target.hairSalonAddress}</div>
             <div className={style.heartCount}>
