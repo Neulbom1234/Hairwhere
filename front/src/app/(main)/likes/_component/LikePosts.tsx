@@ -1,6 +1,5 @@
 import { Post as IPost } from "@/model/Post";
-
-import { InfiniteData, useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query"
+import { InfiniteData, useSuspenseInfiniteQuery } from "@tanstack/react-query"
 import { getLikePosts } from "../_lib/getLikePosts"
 import Post from "../../_component/Post";
 import { Fragment, useEffect } from "react";
@@ -26,7 +25,7 @@ export default function LikePosts({userId}: Props) {
         queryKey:["posts","likes",userId],
         queryFn:getLikePosts,
         initialPageParam:0,
-        getNextPageParam: (lastPage)=>lastPage.at(-1)?.postId,
+        getNextPageParam: (lastPage)=>lastPage.at(-1)?.id,
     
         staleTime:60*1000,
         gcTime:300*1000,
@@ -51,7 +50,7 @@ export default function LikePosts({userId}: Props) {
           {data?.pages?.map((page, idx) => (
             <Fragment key={idx}>
               {page?.map((post) => (
-                <Post key={post.postId} post={post} />
+                <Post key={post.id} post={post} />
               ))}
             </Fragment>))}
             <div ref={ref} style={{height: 50}}/>

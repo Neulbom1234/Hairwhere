@@ -23,7 +23,7 @@ const delay = (ms: number) => new Promise((res) => {
 });
 
 export const handlers = [
-  http.post('/api/login', () => {
+  http.post('/login', () => {
     console.log('로그인');
     return HttpResponse.json(User[1], {
       headers: {
@@ -31,7 +31,7 @@ export const handlers = [
       }
     })
   }),
-  http.post('/api/logout', () => {
+  http.post('/logout', () => {
     console.log('로그아웃');
     return new HttpResponse(null, {
       headers: {
@@ -39,7 +39,7 @@ export const handlers = [
       }
     })
   }),
-  http.post('/api/users', async ({ request }) => {
+  http.post('/register', async ({ request }) => {
     console.log('회원가입');
     // return HttpResponse.text(JSON.stringify('user_exists'), {
     //   status: 403,
@@ -50,228 +50,176 @@ export const handlers = [
       }
     })
   }),
-  http.get('/api/postRecommends', async ({ request }) => {
+  http.get('/photo/find/all ', async ({ request }) => {
     await delay(2000);
     const url = new URL(request.url);
-    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+    const page = parseInt(url.searchParams.get('cursor') as string) || 0;
     return HttpResponse.json( 
       [
         {
-          postId: cursor + 1,
+          id: page + 1,
           User: User[0],
-          content: '리프펌 너무 예쁘게 해주세요!',
-          createdAt: generateDate(),
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id],
-          HairInfo: {
-            hairname: "리프펌",
-            hairSalon: "블루클럽",
-            hairSalonAddress: "서울 용산구 대사관로30길 21"
-          },
-          HairCategory: {
-            gender: "남성",
-            hairLength: "롱",
-            hairColor: "그레이"
-          }
+          text: '리프펌 너무 예쁘게 해주세요!',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],
+          likeCount: [User[0].id, User[1].id],
+          hairName: "리프펌",
+          hairSalon: "블루클럽",
+          hairSalonAddress: "서울 용산구 대사관로30길 21",
+          gender: "남성",
+          hairLength: "롱",
+          hairColor: "그레이"
         },
         {
-          postId: cursor + 2,
+          id: page + 2,
           User: User[1],
-          content: '레이어드컷 맛집입니당',
-          createdAt: generateDate(),
-          Images: [{imageId: 2, link: faker.image.urlLoremFlickr()}],
-          likes: [],
-          HairInfo: {
-            hairname: "레이어드컷",
-            hairSalon: "아이디어",
-            hairSalonAddress: "경기도 고양시 하이파크 3로"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "롱",
-            hairColor: "블랙"
-          }
+          text: '레이어드컷 맛집입니당',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [],
+          hairName: "레이어드컷",
+          hairSalon: "아이디어",
+          hairSalonAddress: "경기도 고양시 하이파크 3로",
+          gender: "여성",
+          hairLength: "롱",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 3,
+          id: page + 3,
           User: User[2],
-          content: '숏컷 완전 레전드 ㅠㅠㅠㅠㅠㅠㅠ',
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: "숏컷",
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: '숏컷 완전 레전드 ㅠㅠㅠㅠㅠㅠㅠ',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          hairName: "숏컷",
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 4,
+          id: page + 4,
           User: User[3],
-          content: '손질 하는 방법도 알려주시고 너무 맘에 드는 미용실 발견',
-          createdAt: generateDate(),
-          Images: [{imageId: 4, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id],
-          HairInfo: {
-            hairname: "가일컷",
-            hairSalon: "블루클럽",
-            hairSalonAddress: "서울 동작구 무슨로30길 21"
-          },
-          HairCategory: {
-            gender: "남성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: '손질 하는 방법도 알려주시고 너무 맘에 드는 미용실 발견',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id],
+          hairName: "가일컷",
+          hairSalon: "블루클럽",
+          hairSalonAddress: "서울 동작구 무슨로30길 21",
+          gender: "남성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 5,
+          id: page + 5,
           User: User[4],
-          content: '여기 머리 개못함 다시는 안 간다',
-          createdAt: generateDate(),
-          Images: [{imageId: 5, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: "가르마펌",
-            hairSalon: "두루루루룰",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "남성",
-            hairLength: "미디움",
-            hairColor: "블랙"
-          }
+          text: '여기 머리 개못함 다시는 안 간다',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: "가르마펌",
+          hairSalon: "두루루루룰",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "남성",
+          hairLength: "미디움",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 6,
+          id: page + 6,
           User: User[5],
-          content: '여기 머리 개못함 다시는 안 간다',
-          createdAt: generateDate(),
-          Images: [{imageId: 5, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: "반삭",
-            hairSalon: "두루루루룰",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "남성",
-            hairLength: "미디움",
-            hairColor: "블랙"
-          }
+          text: '여기 머리 개못함 다시는 안 간다',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: "반삭",
+          hairSalon: "두루루루룰",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "남성",
+          hairLength: "미디움",
+          hairColor: "블랙"
         },
       ]
     )
   }),
-  http.get('/api/manPosts', async ({ request }) => {
+  http.get('/photo/findByGender/male', async ({ request }) => {
     await delay(3000);
     const url = new URL(request.url);
-    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+    const page = parseInt(url.searchParams.get('cursor') as string) || 0;
 
     return HttpResponse.json(
       [
         {
-          postId: cursor + 1,
+          id: page + 1,
           User: User[0],
-          content: '리프펌 너무 예쁘게 해주세요!',
-          createdAt: generateDate(),
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id],
-          HairInfo: {
-            hairname: "리프펌",
-            hairSalon: "블루클럽",
-            hairSalonAddress: "서울 용산구 대사관로30길 21"
-          },
-          HairCategory: {
-            gender: "남성",
-            hairLength: "롱",
-            hairColor: "그레이"
-          }
+          text: '리프펌 너무 예쁘게 해주세요!',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id],
+          hairName: "리프펌",
+          hairSalon: "블루클럽",
+          hairSalonAddress: "서울 용산구 대사관로30길 21",
+          gender: "남성",
+          hairLength: "롱",
+          hairColor: "그레이"
         },
         {
-          postId: cursor + 4,
+          id: page + 4,
           User: User[3],
-          content: '손질 하는 방법도 알려주시고 너무 맘에 드는 미용실 발견',
-          createdAt: generateDate(),
-          Images: [{imageId: 4, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id],
-          HairInfo: {
-            hairname: "가일컷",
-            hairSalon: "블루클럽",
-            hairSalonAddress: "서울 동작구 무슨로30길 21"
-          },
-          HairCategory: {
-            gender: "남성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: '손질 하는 방법도 알려주시고 너무 맘에 드는 미용실 발견',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id],
+          hairName: "가일컷",
+          hairSalon: "블루클럽",
+          hairSalonAddress: "서울 동작구 무슨로30길 21",
+          gender: "남성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 5,
+          id: page + 5,
           User: User[4],
-          content: '여기 머리 개못함 다시는 안 간다',
-          createdAt: generateDate(),
-          Images: [{imageId: 5, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: "가르마펌",
-            hairSalon: "두루루루룰",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "남성",
-            hairLength: "미디움",
-            hairColor: "블랙"
-          }
+          text: '여기 머리 개못함 다시는 안 간다',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: "가르마펌",
+          hairSalon: "두루루루룰",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "남성",
+          hairLength: "미디움",
+          hairColor: "블랙"
         },
       ]
     )
   }),
-  http.get('/api/womenPosts', async ({ request }) => {
+  http.get('/photo/findByGender/female ', async ({ request }) => {
     await delay(3000);
     const url = new URL(request.url);
-    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+    const page = parseInt(url.searchParams.get('cursor') as string) || 0;
     return HttpResponse.json(
       [
         {
-          postId: cursor + 2,
+          id: page + 2,
           User: User[1],
-          content: '레이어드컷 맛집입니당',
-          createdAt: generateDate(),
-          Images: [{imageId: 2, link: faker.image.urlLoremFlickr()}],
-          likes: [],
-          HairInfo: {
-            hairname: "레이어드컷",
-            hairSalon: "아이디어",
-            hairSalonAddress: "경기도 고양시 하이파크 3로"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "롱",
-            hairColor: "블랙"
-          }
+          text: '레이어드컷 맛집입니당',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],
+          likeCount: [],
+          hairName: "레이어드컷",
+          hairSalon: "아이디어",
+          hairSalonAddress: "경기도 고양시 하이파크 3로",
+          gender: "여성",
+          hairLength: "롱",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 3,
+          id: page + 3,
           User: User[2],
-          content: '숏컷 완전 레전드 ㅠㅠㅠㅠㅠㅠㅠ',
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: "숏컷",
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: '숏컷 완전 레전드 ㅠㅠㅠㅠㅠㅠㅠ',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: "숏컷",
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
       ]
     )
@@ -285,94 +233,69 @@ export const handlers = [
     return HttpResponse.json(
       [
         {
-          postId: cursor + 1,
+          id: cursor + 1,
           User: User[1],
-          content: `${1} 검색결과 ${tag}`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${1} 검색결과 ${tag}`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${1} 검색결과 ${tag}`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${1} 검색결과 ${tag}`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 2,
+          id: cursor + 2,
           User: User[2],
-          content: `${2} 검색결과 ${tag}`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${2} 검색결과 ${tag}`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${2} 검색결과 ${tag}`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${2} 검색결과 ${tag}`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 3,
+          id: cursor + 3,
           User: User[1],
-          content: `${3} 검색결과 ${tag}`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${3} 검색결과 ${tag}`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${3} 검색결과 ${tag}`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${3} 검색결과 ${tag}`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 4,
+          id: cursor + 4,
           User: User[1],
-          content: `${4} 검색결과 ${tag}`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${4} 검색결과 ${tag}`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${4} 검색결과 ${tag}`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${4} 검색결과 ${tag}`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 5,
+          id: cursor + 5,
           User: User[1],
-          content: `${5} 검색결과 ${tag}`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${5} 검색결과 ${tag}`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${5} 검색결과 ${tag}`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${5} 검색결과 ${tag}`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
       ]
     )
@@ -386,94 +309,72 @@ export const handlers = [
     return HttpResponse.json(
       [
         {
-          postId: cursor + 1,
+          id: cursor + 1,
           User: User[1],
-          content: `${1} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${1} ${userId}의 게시글`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${1} ${userId}의 게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${1} ${userId}의 게시글`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 2,
+          id: cursor + 2,
           User: User[2],
-          content: `${2} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${2} ${userId}의 게시글`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${2} ${userId}의 게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${2} ${userId}의 게시글`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 3,
+          id: cursor + 3,
           User: User[1],
-          content: `${3} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${3} ${userId}의 게시글`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${3} ${userId}의 게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${3} ${userId}의 게시글`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
+        
         },
         {
-          postId: cursor + 4,
+          id: cursor + 4,
           User: User[1],
-          content: `${4} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${4} ${userId}의 게시글`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${4} ${userId}의 게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${4} ${userId}의 게시글`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
+        
         },
         {
-          postId: cursor + 5,
+          id: cursor + 5,
           User: User[1],
-          content: `${5} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${5} ${userId}의 게시글`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${5} ${userId}의 게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${5} ${userId}의 게시글`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
+        
         },
       ]
     )
@@ -490,179 +391,158 @@ export const handlers = [
       status: 404,
     })
   }),
-  http.get('/api/posts/:postId', ({ request, params }): StrictResponse<any> => {
-    const {postId} = params;
-    if (parseInt(postId as string) > 10) {
+  http.get('/photo/find/:id', ({ request, params }): StrictResponse<any> => {
+    const {id} = params;
+    if (parseInt(id as string) > 10) {
       return HttpResponse.json({ message: 'no_such_post' }, {
         status: 404,
       })
     }
     return HttpResponse.json(
       {
-        postId: 5,
+        id: 5,
         User: User[1],
-        content: `게시글 Id ${postId}의 내용`,
-        createdAt: generateDate(),
-        Images: [
-          {imageId: 3, link: faker.image.urlLoremFlickr()},
-          {imageId: 4, link: faker.image.urlLoremFlickr()},
-          {imageId: 5, link: faker.image.urlLoremFlickr()},
+        text: `게시글 Id ${id}의 내용`,
+        created: generateDate(),
+        photoImagePath: [
+          [faker.image.urlLoremFlickr()],
+          [faker.image.urlLoremFlickr()],
+          [faker.image.urlLoremFlickr()],
         ],
-        likes: ['dsf', 'sldjlf'],
-        HairInfo: {
-          hairname: `게시글 Id ${postId}의 내용`,
-          hairSalon: "머리잘하는집",
-          hairSalonAddress: "서울 구로구 경인로30길 21"
-        },
-        HairCategory: {
-          gender: "여성",
-          hairLength: "쇼트",
-          hairColor: "블랙"
-        }
+        likeCount: ['dsf', 'sldjlf'],
+        hairName: `게시글 Id ${id}의 내용`,
+        hairSalon: "머리잘하는집",
+        hairSalonAddress: "서울 구로구 경인로30길 21",
+        gender: "여성",
+        hairLength: "쇼트",
+        hairColor: "블랙"
+      
       },
     );
   }),
-  http.get('/api/posts/:postId/comments', ({ request, params }) => {
-    const { postId } = params;
+  http.get('/api/posts/:id/comments', ({ request, params }) => {
+    const { id } = params;
     return HttpResponse.json(
       [
         {
-          postId: 1,
+          id: 1,
           User: User[0],
-          content: `${1} 게시글 ${postId}의 답글`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          createdAt: generateDate(),
+          text: `${1} 게시글 ${id}의 답글`,
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          created: generateDate(),
         },
         {
-          postId: 2,
+          id: 2,
           User: User[0],
-          content: `${2} 게시글 ${postId}의 답글`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          createdAt: generateDate(),
+          text: `${2} 게시글 ${id}의 답글`,
+          photoImagePath: [faker.image.urlLoremFlickr()],
+          created: generateDate(),
         },
         {
-          postId: 3,
+          id: 3,
           User: User[0],
-          content: `${3} 게시글 ${postId}의 답글`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          createdAt: generateDate(),
+          text: `${3} 게시글 ${id}의 답글`,
+          photoImagePath: [faker.image.urlLoremFlickr()],
+          created: generateDate(),
         },
         {
-          postId: 4,
+          id: 4,
           User: User[0],
-          content: `${4} 게시글 ${postId}의 답글`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          createdAt: generateDate(),
+          text: `${4} 게시글 ${id}의 답글`,
+          photoImagePath: [faker.image.urlLoremFlickr()],
+          created: generateDate(),
         },
         {
-          postId: 5,
+          id: 5,
           User: User[0],
-          content: `${5} 게시글 ${postId}의 답글`,
-          Images: [{imageId: 1, link: faker.image.urlLoremFlickr()}],
-          createdAt: generateDate(),
+          text: `${5} 게시글 ${id}의 답글`,
+          photoImagePath: [faker.image.urlLoremFlickr()],
+          created: generateDate(),
         },
       ]
     )
   }),
 
   //좋아하는 게시글
-  http.get('api/users/:user/likes', async({request, params})=>{
-    const { userId } = params;
+  http.get('/mypage/like', async({request, params})=>{
     await delay(3000);
     const url = new URL(request.url);
-    const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+    const page = parseInt(url.searchParams.get('cursor') as string) || 0;
   
     return HttpResponse.json(
       [
         {
-          postId: cursor + 1,
+          id: page + 1,
           User: User[1],
-          content: '리프펌',
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `리프펌`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: '리프펌',
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `리프펌`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 2,
+          id: page + 2,
           User: User[2],
-          content: `${2} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `모히칸`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `모히칸`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
+        
         },
         {
-          postId: cursor + 3,
+          id: page + 3,
           User: User[1],
-          content: `${3} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `폭탄머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `폭탄머리`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: cursor + 4,
+          id: page + 4,
           User: User[1],
-          content: `${4} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `레이어드컷`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `레이어드컷`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
+        
         },
         {
-          postId: cursor + 5,
+          id: page + 5,
           User: User[1],
-          content: `${5} ${userId}의 게시글`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `숏컷`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `게시글`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `숏컷`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
+        
         },
       ]
     )
@@ -672,94 +552,75 @@ export const handlers = [
     return HttpResponse.json(
       [
         {
-          postId: 1,
+          id: 1,
           User: User[1],
-          content: `${1} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${1} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${1} ${salonName}에서 한 머리`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${1} ${salonName}에서 한 머리`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: 2,
+          id: 2,
           User: User[2],
-          content: `${2} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${2} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${2} ${salonName}에서 한 머리`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${2} ${salonName}에서 한 머리`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: 3,
+          id: 3,
           User: User[1],
-          content: `${3} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${3} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${3} ${salonName}에서 한 머리`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${3} ${salonName}에서 한 머리`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: 4,
+          id: 4,
           User: User[1],
-          content: `${4} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${4} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${4} ${salonName}에서 한 머리`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${4} ${salonName}에서 한 머리`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
         },
         {
-          postId: 5,
+          id: 5,
           User: User[1],
-          content: `${5} ${salonName}에서 한 머리`,
-          createdAt: generateDate(),
-          Images: [{imageId: 3, link: faker.image.urlLoremFlickr()}],
-          likes: [User[0].id, User[1].id, User[2].id],
-          HairInfo: {
-            hairname: `${5} ${salonName}에서 한 머리`,
-            hairSalon: "머리잘하는집",
-            hairSalonAddress: "서울 구로구 경인로30길 21"
-          },
-          HairCategory: {
-            gender: "여성",
-            hairLength: "쇼트",
-            hairColor: "블랙"
-          }
+          text: `${5} ${salonName}에서 한 머리`,
+          created: generateDate(),
+          photoImagePath: [faker.image.urlLoremFlickr()],          
+          likeCount: [User[0].id, User[1].id, User[2].id],
+          hairName: `${5} ${salonName}에서 한 머리`,
+          hairSalon: "머리잘하는집",
+          hairSalonAddress: "서울 구로구 경인로30길 21",
+          gender: "여성",
+          hairLength: "쇼트",
+          hairColor: "블랙"
+        
         },
       ]
     )

@@ -38,9 +38,9 @@ export default function ImageSlider({ post }: Props) {
   return (
     <>
       <Slider {...settings} className={style.slider}>
-        {post.Images.map((v) => (
-          <div key={v.imageId} className={style.imageWrapper}>
-            <img src={v.link} alt={`image-${v.imageId}`} />
+        {post.photoImagePath.map((v) => (
+          <div className={style.imageWrapper}>
+            <img src={v}/>
           </div>
         ))}
       </Slider>

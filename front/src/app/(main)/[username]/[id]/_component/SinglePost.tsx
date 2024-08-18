@@ -67,19 +67,19 @@ export default function SinglePost({id}: Props) {
         <ImageSlider post={post} />
       </div>
       <div className={style.hairInfoWrapper}>
-        <div className={style.hairName}>{post.HairInfo.hairname}</div>
+        <div className={style.hairName}>{post.hairName}</div>
         <div className={style.hairSalon}>
-          <Link href={`/salon/${post.HairInfo.hairSalon}`}>
-            {post.HairInfo.hairSalon}
+          <Link href={`/salon/${post.hairSalon}`}>
+            {post.hairSalon}
           </Link>
           </div>
-        <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{post.HairInfo.hairSalonAddress}</span>
-        <div className={style.postDate}>{dayjs(post.createdAt).fromNow(true)} 전</div>
+        <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{post.hairSalonAddress}</span>
+        <div className={style.postDate}>{dayjs(post.created).fromNow(true)} 전</div>
       </div>
       <div className={style.badgeWrapper}>
-        <Tag>{post.HairCategory.gender}</Tag>
-        <Tag>{post.HairCategory.hairLength}</Tag>
-        <Tag>{post.HairCategory.hairColor}</Tag>
+        <Tag>{post.gender}</Tag>
+        <Tag>{post.hairLength}</Tag>
+        <Tag>{post.hairColor}</Tag>
       </div>
       <div className={style.userBadge}>
         <Link href={`/${post.User.id}`}>
@@ -92,7 +92,7 @@ export default function SinglePost({id}: Props) {
       </div>
       <Divider/>
       <div className={style.content}>
-        {post.content}
+        {post.text}
       </div>
     </>
   )

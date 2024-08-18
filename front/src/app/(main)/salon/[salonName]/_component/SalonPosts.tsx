@@ -18,6 +18,6 @@ export default function SalonPosts({salonName}: Props) {
   });
 
   return data?.map((post) => (
-    <Post key={post.postId} post={post} />
+    <Post key={post.id} post={post} />
   ))
 }

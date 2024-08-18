@@ -1,7 +1,6 @@
 "use client"
 
 import style from "@/app/(main)/searchResult/searchResult.module.css";
-import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import SearchHeader from '../_component/SearchHeader';
 import SearchResult from "./_component/SearchResult";

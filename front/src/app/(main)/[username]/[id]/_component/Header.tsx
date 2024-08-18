@@ -21,9 +21,9 @@ export default function Header({ post }: Props) {
 
   const onClickHeart = () => {
     if(!liked) {
-      post.likes.push(post.User.id);
+      post.likeCount + 1;
     } else {
-      post.likes.pop();
+      post.likeCount - 1;
     }
     setLiked(!liked);
   }
@@ -51,7 +51,7 @@ export default function Header({ post }: Props) {
               </svg>
             }
           </button>
-          <span>{post.likes.length}</span>
+          <span>{post.likeCount}</span>
         </div>
         <div className={style.seemore}>
           <SeeMore/>  

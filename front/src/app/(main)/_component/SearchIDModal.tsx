@@ -85,8 +85,7 @@ export default function SearchIDModal() {
                        onChange={onChangeEmail}
                 />
                 {emailError && <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>{emailError}</span>}
-              </div>
-              
+              </div>              
             </div>
             <div className={style.modalFooter}>
               <button className={style.actionButton} disabled>메일 발송하기</button>

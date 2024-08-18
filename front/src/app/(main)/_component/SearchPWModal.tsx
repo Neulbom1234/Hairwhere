@@ -96,7 +96,6 @@ export default function SearchPWModal() {
                 />
                 {idError && <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>{idError}</span>}
               </div>
-
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="email">이메일 입력</label>
                 <input id="email" className={style.input} type="text" placeholder=""
@@ -104,8 +103,7 @@ export default function SearchPWModal() {
                        onChange={onChangeEmail}
                 />
                 {emailError && <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>{emailError}</span>}
-              </div>
-              
+              </div>              
             </div>
             <div className={style.modalFooter}>
               <button className={style.actionButton} disabled>당신의 비밀번호는~?</button>

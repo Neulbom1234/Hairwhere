@@ -76,7 +76,6 @@ export default function LoginModal() {
           <div className={style.message}>{message}</div>
           <div className={style.modalFooter}>
             <button className={style.actionButton} disabled={!id && !password}>로그인</button>
-
             <div className={style.user}>
               <Link href="/signup">회원가입</Link>
               <div className={style.stick}></div>
