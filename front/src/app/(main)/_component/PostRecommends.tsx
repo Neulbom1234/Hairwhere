@@ -14,7 +14,7 @@ export default function PostRecommends() {
     fetchNextPage,
     hasNextPage, 
     isFetching,
-  } = useSuspenseInfiniteQuery<PageInfo[], Object, InfiniteData<PageInfo[]>, [_1: string, _2: string], number>({ 
+  } = useSuspenseInfiniteQuery<PageInfo, Object, InfiniteData<PageInfo>, [_1: string, _2: string], number>({ 
     queryKey: ['posts', 'recommends'], 
     queryFn: getPostRecommends,
     initialPageParam:0,
@@ -42,7 +42,6 @@ export default function PostRecommends() {
 
   console.log(data)
   
-
   return (
     <>
       {data?.pages?.map((page, idx) => (
@@ -54,6 +53,4 @@ export default function PostRecommends() {
         <div ref={ref} style={{height: 50}}/>
     </>
   );
-  
-  
 }
