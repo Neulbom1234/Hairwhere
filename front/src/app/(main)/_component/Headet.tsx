@@ -4,12 +4,16 @@ import style from './header.module.css';
 import Link from 'next/link';
 import { useSelectedLayoutSegment, useRouter } from "next/navigation"
 import { signOut, useSession } from 'next-auth/react';
+import { Session } from '@auth/core/types';
+
+type Props = {
+  me: Session | null;
+}
 
 
-export default function Header() {
+export default function Header({me}: Props) {
   const segment = useSelectedLayoutSegment();
   const router = useRouter();
-  const { data: me } = useSession();
 
   const onLogout = () => {
     signOut({redirect: false})

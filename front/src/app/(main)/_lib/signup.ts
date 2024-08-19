@@ -30,7 +30,7 @@ export default async (prevState: any, formData: FormData) => {
   }
   let shouldRedirect = false;
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/register`, {
+    const response = await fetch(`${process.env.BACKEND_API_SERVER}/register`, {
       method: 'post',
       body: formData,
       credentials: 'include',
