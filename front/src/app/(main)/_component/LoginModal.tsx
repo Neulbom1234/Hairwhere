@@ -66,10 +66,10 @@ export default function LoginModal() {
           <div className={style.modalBody}>
             <div className={style.loginLogo}>LOGO</div>
             <div className={style.inputDiv}>
-              <input id="id" className={style.topInput} value={id} onChange={onChangeId} type="text" placeholder="아이디"/>
+              <input id="loginId" className={style.topInput} value={id} onChange={onChangeId} type="text" placeholder="아이디"/>
             </div>
             <div className={style.inputDiv}>
-              <input id="password" className={style.bottomInput} value={password} onChange={onChangePassword} type="password" placeholder="비밀번호"/>
+              <input id="pw" className={style.bottomInput} value={password} onChange={onChangePassword} type="password" placeholder="비밀번호"/>
             </div>
             {idError && <span className="errorMessage" style={{color: 'red', fontSize: '10px', maxWidth: '340px', display:'block', margin:'4px auto'}}>{idError}</span>}
           </div>

@@ -20,8 +20,8 @@ export default function SignupModal() {
           <form action={formAction}>
             <div className={style.modalBody}>
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="id">아이디</label>
-                <input id="id" name="id" className={style.input} type="text" placeholder=""
+                <label className={style.inputLabel} htmlFor="loginId">아이디</label>
+                <input id="loginId" name="loginId" className={style.input} type="text" placeholder=""
                        required
                 />
                 {state?.message === 'Only letters and numbers allowed' &&
@@ -31,15 +31,15 @@ export default function SignupModal() {
 
               {/* 비밀번호 */}
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="password">비밀번호</label>
-                <input id="password" name="password" className={style.input} type="password" placeholder=""
+                <label className={style.inputLabel} htmlFor="pw">비밀번호</label>
+                <input id="pw" name="pw" className={style.input} type="password" placeholder=""
                        required
                 />
               </div>
               {/* 비밀번호(재입력) => 입력창만 만들었음 !*/}
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="secondPassword">비밀번호 재입력</label>
-                <input id="secondPassword" name="secondPassword" className={style.input} type="password" placeholder=""
+                <label className={style.inputLabel} htmlFor="secondPw">비밀번호 재입력</label>
+                <input id="secondPw" name="secondPw" className={style.input} type="password" placeholder=""
                        required
                 />
                 {state?.message === 'Password do not match' &&
@@ -56,8 +56,8 @@ export default function SignupModal() {
                 }
               </div>
               <div className={style.inputDiv}>
-                <label className={style.inputLabel} htmlFor="nickname">닉네임</label>
-                <input id="nickname" name="nickname" className={style.input} type="text" placeholder=""
+                <label className={style.inputLabel} htmlFor="name">닉네임</label>
+                <input id="name" name="name" className={style.input} type="text" placeholder=""
                        required
                 />
               </div>
