@@ -24,8 +24,6 @@ export default function Post({ post }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
   // const liked = false;
 
-  
-
   // const onClickHeart = () => {}
   const onClickHeart = async () => {
     const apiUrl = `/api/posts/${target.id}/like`;

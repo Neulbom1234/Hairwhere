@@ -1,6 +1,6 @@
 "use client"
 
-import { InfiniteData, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { InfiniteData, useSuspenseInfiniteQuery} from "@tanstack/react-query";
 import { getPostRecommends } from "../_lib/getPostRecommends";
 import Post from "./Post";
 import type { Post as IPost } from "@/model/Post";
@@ -17,6 +17,7 @@ export default function PostRecommends() {
   } = useSuspenseInfiniteQuery<PageInfo, Object, InfiniteData<PageInfo>, [_1: string, _2: string], number>({ 
     queryKey: ['posts', 'recommends'], 
     queryFn: getPostRecommends,
+    
     initialPageParam:0,
     getNextPageParam: (lastPage) => {
       if (Array.isArray(lastPage)) {
