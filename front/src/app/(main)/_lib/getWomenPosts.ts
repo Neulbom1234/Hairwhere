@@ -2,6 +2,7 @@ type Props = {pageParam?: number};
 
 export async function getWomenPosts({pageParam}: Props) {
   // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/photo/findByGender/female?page=${pageParam}&size=15`,{
+  console.log(process.env.BACKEND_API_SERVER)
   const res = await fetch(`${process.env.BACKEND_API_SERVER}/photo/findByGender/female?page=${pageParam}&size=15`,{    
 
     next: {

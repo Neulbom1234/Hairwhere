@@ -17,6 +17,7 @@ export default function PostRecommends() {
   } = useSuspenseInfiniteQuery<PageInfo, Object, InfiniteData<PageInfo>, [_1: string, _2: string], number>({ 
     queryKey: ['posts', 'recommends'], 
     queryFn: getPostRecommends,
+    
     initialPageParam:0,
     getNextPageParam: (lastPage) => {
       if (Array.isArray(lastPage)) {
