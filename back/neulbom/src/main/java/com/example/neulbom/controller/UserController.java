@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,11 +50,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(HttpSession session, @RequestParam String loginId, @RequestParam String pw
+    public ResponseEntity<String> register(HttpSession session, @RequestParam String loginId, @RequestParam String pw
     , @RequestParam String name,@RequestPart MultipartFile profile) {
         if (isValidUser(loginId, pw)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
+        else if(profile == null || profile.isEmpty()){
+            String dummyContent = "This is dummy profile data";
+
+            profile = new MockMultipartFile("dummy-profile.txt", "dummy-profile.txt", "text/plain", dummyContent.getBytes());
+
+            userService.addUser(loginId, pw, name, profile);
+
+            session.setAttribute("name",name);
+
+            return ResponseEntity.ok("User registered successfully with MockMultipartFile");
+        }
+
         else{
             userService.addUser(loginId,pw,name,profile);
 
