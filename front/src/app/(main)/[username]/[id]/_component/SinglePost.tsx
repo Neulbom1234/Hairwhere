@@ -81,6 +81,8 @@ export default function SinglePost({id}: Props) {
         <Tag>{post.hairLength}</Tag>
         <Tag>{post.hairColor}</Tag>
       </div>
+
+      {post.User && (
       <div className={style.userBadge}>
         <Link href={`/${post.User.id}`}>
           {post.User.profile === '' ?
@@ -90,6 +92,7 @@ export default function SinglePost({id}: Props) {
           <div className={style.userName}>{post.User.nickname}</div>
         </Link>
       </div>
+      )}
       <Divider/>
       <div className={style.content}>
         {post.text}
