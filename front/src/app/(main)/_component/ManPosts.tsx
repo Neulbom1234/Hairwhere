@@ -7,6 +7,7 @@ import type { Post as IPost } from "@/model/Post";
 import type { PageInfo } from "@/model/PageInfo";
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { PageInfo } from "@/model/PageInfo";
 
 export default function ManPosts() {
   const { 
