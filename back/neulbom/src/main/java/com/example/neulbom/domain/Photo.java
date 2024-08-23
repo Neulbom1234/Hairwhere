@@ -23,9 +23,6 @@ public class Photo {
     @Column(name = "photo_id")
     private Long id;
 
-    @Column(name = "photo_title")
-    private String photoTitle;
-
     @Column(name = "user_name")
     private String userName;
 

@@ -30,7 +30,7 @@ public class PhotoService {
     private final int MIN_RANDOM_NUM = 1;
 
     @Transactional
-    public String upload(String title, String name, MultipartFile[] image,
+    public String upload(String name, MultipartFile[] image,
                          int likeCount, String hairName, String text, String gender, LocalDateTime created,
                          String hairSalon, String hairSalonAddress, String hairLength, String hairColor) {
         List<String> imagePaths = new ArrayList<>();
@@ -41,7 +41,6 @@ public class PhotoService {
         }
 
         Photo photo = Photo.builder()
-                .photoTitle(title)
                 .userName(name)
                 .photoImagePath(imagePaths)
                 .likeCount(likeCount)
@@ -64,6 +63,11 @@ public class PhotoService {
     @Transactional
     public Page<Photo> findByHairSalon(String hairSalon,Pageable pageable){
         return photorepository.findByHairSalon(hairSalon,pageable);
+    }
+
+    @Transactional
+    public Page<Photo> findByHairSalonAddress(String hairSalonAddress,Pageable pageable){
+        return photorepository.findByHairSalonAddress(hairSalonAddress,pageable);
     }
 
     @Transactional

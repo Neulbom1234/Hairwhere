@@ -23,6 +23,8 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
     Page<Photo> findByUserName(String userName,Pageable pageable);
 
+    Page<Photo> findByHairSalonAddress(String hairSalonAddress, Pageable pageable);
+
     @Query("SELECT p FROM Photo p WHERE " +
             "(:hairName IS NULL OR :hairName = '' OR p.hairName = :hairName) AND " +
             "(:hairLength IS NULL OR :hairLength = '' OR p.hairLength = :hairLength) AND " +

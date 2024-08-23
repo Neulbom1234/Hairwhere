@@ -32,7 +32,7 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping("/upload")
-    public String upload(/*HttpSession session,*/ @RequestParam("title") String title, @RequestParam("text") String text,
+    public String upload(/*HttpSession session,*/ @RequestParam("text") String text,
                                                   @RequestParam("hairName") String hairName, @RequestPart("image") MultipartFile[] image,
                                                   @RequestParam("gender") String gender, @RequestParam("created") String createdStr,
                                                   @RequestParam("hairSalon") String hairSalon,@RequestParam("hairSalonAddress") String hairSalonAddress,
@@ -47,7 +47,7 @@ public class PhotoController {
         if(image.length > 3){
             return "이미지는 최대 3개까지만 업로드 가능합니다."; 
         }
-        photoService.upload(title, name, image,likeCount,hairName,text,gender,created,hairSalon,hairSalonAddress,hairLength,hairColor);
+        photoService.upload(name, image,likeCount,hairName,text,gender,created,hairSalon,hairSalonAddress,hairLength,hairColor);
         return "업로드 완료";
     }
 
@@ -101,6 +101,20 @@ public class PhotoController {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         return photoService.findByGender(gender,pageable);
+    }
+
+    @GetMapping("/find/address/{hairSalonAddress}")
+    public Page<Photo> findByAddress(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "15") int size,
+                                     @RequestParam(defaultValue = "created") String sortBy,
+                                     @RequestParam(defaultValue = "desc") String sortOrder,
+                                     @PathVariable("hairSalonAddress") String hairSalonAddress){
+
+        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return photoService.findByHairSalonAddress(hairSalonAddress,pageable);
     }
 
     @GetMapping("/search")
