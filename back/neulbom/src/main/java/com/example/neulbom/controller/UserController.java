@@ -49,7 +49,7 @@ public class UserController {
         return ResponseEntity.ok("Logged out successfully");
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register")//회원가입
     public ResponseEntity<String> register(HttpSession session, @RequestParam String loginId, @RequestParam String pw
     , @RequestParam String name,@RequestParam String email,@RequestPart MultipartFile profile) {
         if (isValidUser(loginId, pw)) {
