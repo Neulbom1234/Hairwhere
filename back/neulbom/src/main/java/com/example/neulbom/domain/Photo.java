@@ -32,9 +32,11 @@ public class Photo {
     @ElementCollection
     @CollectionTable(name = "photo_image_paths", joinColumns = @JoinColumn(name = "photo_id"))
     @Column(name = "photo_imagePath")
+    @Builder.Default
     private List<String> photoImagePath = new ArrayList<>();
 
     @Column(name = "like_count")
+    @Builder.Default
     private int likeCount = DEFAULT_LIKE_NUM;
 
     @Column(name = "hair_name")
@@ -63,6 +65,7 @@ public class Photo {
 
     @OneToMany(mappedBy = "photo")
     @JsonIgnore
+    @Builder.Default
     private List<Like> likes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

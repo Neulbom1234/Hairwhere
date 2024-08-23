@@ -33,10 +33,10 @@ public class UserService {
         return user.getLoginId().equals(loginId) && user.getPw().equals(pw);
     }
 
-    public ResponseEntity<Object> addUser(String loginId, String pw, String name,MultipartFile profile) {
+    public ResponseEntity<Object> addUser(String loginId, String pw, String name,String email,MultipartFile profile) {
         String profilePath = s3Service.upload(profile);
 
-        User user = new User(loginId,pw,name,profilePath);
+        User user = new User(loginId,pw,name,email,profilePath);
 
         userRepository.save(user);
 
