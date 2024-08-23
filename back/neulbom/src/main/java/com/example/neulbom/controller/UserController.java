@@ -49,9 +49,9 @@ public class UserController {
         return ResponseEntity.ok("Logged out successfully");
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register")//회원가입
     public ResponseEntity<String> register(HttpSession session, @RequestParam String loginId, @RequestParam String pw
-    , @RequestParam String name,@RequestPart MultipartFile profile) {
+    , @RequestParam String name,@RequestParam String email,@RequestPart MultipartFile profile) {
         if (isValidUser(loginId, pw)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
@@ -60,7 +60,7 @@ public class UserController {
 
             profile = new MockMultipartFile("dummy-profile.txt", "dummy-profile.txt", "text/plain", dummyContent.getBytes());
 
-            userService.addUser(loginId, pw, name, profile);
+            userService.addUser(loginId, pw, name, email,profile);
 
             session.setAttribute("name",name);
 
@@ -68,7 +68,7 @@ public class UserController {
         }
 
         else{
-            userService.addUser(loginId,pw,name,profile);
+            userService.addUser(loginId,pw,name,email,profile);
 
             session.setAttribute("name", name);
 

@@ -39,11 +39,13 @@ public class User {
     @JsonIgnore
     public List<Photo> photo;
 
-    public User(String loginId, String pw, String name, String profilePath) {
+    public User(String loginId, String pw, String name, String email,String profilePath) {
         this.loginId = loginId;
         this.pw = pw;
         this.name = name;
+        this.email = email;
         this.profilePath = profilePath;
     }
+
 }
 
