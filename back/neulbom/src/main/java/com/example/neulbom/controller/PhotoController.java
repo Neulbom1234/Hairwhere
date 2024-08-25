@@ -1,11 +1,15 @@
 package com.example.neulbom.controller;
 
 import com.example.neulbom.domain.Photo;
+import com.example.neulbom.domain.User;
+import com.example.neulbom.repository.PhotoRepository;
+import com.example.neulbom.service.LikeService;
 import com.example.neulbom.service.PhotoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,15 +34,18 @@ import lombok.RequiredArgsConstructor;
 public class PhotoController {
 
     private final PhotoService photoService;
+    private final LikeService likeService;
+    private final PhotoRepository photoRepository;
 
     @PostMapping("/upload")
     public String upload(/*HttpSession session,*/ @RequestParam("text") String text,
                                                   @RequestParam("hairName") String hairName, @RequestPart("image") MultipartFile[] image,
                                                   @RequestParam("gender") String gender, @RequestParam("created") String createdStr,
                                                   @RequestParam("hairSalon") String hairSalon,@RequestParam("hairSalonAddress") String hairSalonAddress,
-                                                  @RequestParam("hairLength") String hairLength, @RequestParam("hairColor") String hairColor) throws Exception{
-        //String name = (String) session.getAttribute("name");
-        String name = "Dummy Name";
+                                                  @RequestParam("hairLength") String hairLength, @RequestParam("hairColor") String hairColor,
+                                                  HttpSession session) throws Exception{
+        String name = (String) session.getAttribute("name");
+        //String name = "Dummy Name";
         int likeCount = 0;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -80,6 +87,16 @@ public class PhotoController {
     @GetMapping("/find/{id}")
     public Photo search(@PathVariable("id") Long id){
         return photoService.findById(id);
+    }
+
+    @GetMapping("/find/{id}/likes")
+    public ResponseEntity<List<User>> getUserWhoPhotoLiked(@PathVariable("id") Long id){
+        Photo photo = photoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("사진을 찾을 수 없습니다."));
+
+        List<User> users = likeService.getUserWhoPhotoLiked(photo);
+
+        return ResponseEntity.ok(users);
     }
 
     @DeleteMapping("/delete/{id}")

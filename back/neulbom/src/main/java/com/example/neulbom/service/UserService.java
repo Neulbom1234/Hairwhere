@@ -30,7 +30,12 @@ public class UserService {
 
         User user=  userRepository.findByLoginIdAndPw(loginId,pw);
 
-        return user.getLoginId().equals(loginId) && user.getPw().equals(pw);
+        if(user!=null){
+            return user.getLoginId().equals(loginId) && user.getPw().equals(pw);
+        }
+        else{
+            return false;
+        }
     }
 
     public ResponseEntity<Object> addUser(String loginId, String pw, String name,String email,MultipartFile profile) {
