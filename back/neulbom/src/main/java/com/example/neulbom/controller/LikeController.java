@@ -39,9 +39,10 @@ public class LikeController {
     */
 
     @PostMapping("{id}")
-    public ResponseEntity<String> isLiked(@PathVariable Long id /*HttpSession session*/) {
-        //Long userId = (Long) session.getAttribute("userId");
-        Long userId = 1L;
+    public ResponseEntity<String> isLiked(@PathVariable Long id ,HttpSession session) {
+
+        Long userId = (Long) session.getAttribute("userId");
+        //Long userId = 1L;
         boolean isLiked = likeService.isLiked(id,userId);
 
         if(isLiked){

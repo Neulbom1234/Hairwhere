@@ -50,23 +50,24 @@ public class UserController {
     }
 
     @PostMapping("/register")//회원가입
-    public ResponseEntity<String> register(HttpSession session, @RequestParam String loginId, @RequestParam String pw
+    public ResponseEntity<String> register(HttpSession session,@RequestParam String loginId, @RequestParam String pw
     , @RequestParam String name,@RequestParam String email,@RequestPart MultipartFile profile) {
         if (isValidUser(loginId, pw)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
+        /*
         else if(profile == null || profile.isEmpty()){
-            String dummyContent = "This is dummy profile data";
+            //String dummyContent = "This is dummy profile data";
 
-            profile = new MockMultipartFile("dummy-profile.txt", "dummy-profile.txt", "text/plain", dummyContent.getBytes());
+            //profile = new MockMultipartFile("dummy-profile.txt", "dummy-profile.txt", "text/plain", dummyContent.getBytes());
 
             userService.addUser(loginId, pw, name, email,profile);
 
-            session.setAttribute("name",name);
+            //session.setAttribute("name",name);
 
             return ResponseEntity.ok("User registered successfully with MockMultipartFile");
         }
-
+        */
         else{
             userService.addUser(loginId,pw,name,email,profile);
 
@@ -97,15 +98,15 @@ public class UserController {
     public Page<Photo> getMyLikePage(@RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "15") int size,
                                      @RequestParam(defaultValue = "created") String sortBy,
-                                     @RequestParam(defaultValue = "desc") String sortOrder
-                                     /*HttpSession session*/) {
+                                     @RequestParam(defaultValue = "desc") String sortOrder,
+                                     HttpSession session) {
 
         Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        //Long id = (Long)session.getAttribute("id");
-        Long id = 1L;
+        Long id = (Long)session.getAttribute("id");
+        //Long id = 1L;
 
         User user = userService.findById(id);
 

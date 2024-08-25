@@ -17,4 +17,6 @@ public interface LikeRepository extends CrudRepository<Like, Long> {
     Optional<Like> findByUserAndPhoto(User user, Photo photo);
 
     List<Like> findByUser(User user);
+
+    List<Like> findByPhoto(Photo photo);
 }

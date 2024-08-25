@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +47,16 @@ public class LikeService {
     @Transactional
     public List<Like> findByUser(User user){
         return likeRepository.findByUser(user);
+    }
+
+    public List<User> getUserWhoPhotoLiked(Photo photo){
+        List<Like> likes = likeRepository.findByPhoto(photo);
+
+        // Like 엔티티에서 User 엔티티를 추출하여 리스트로 변환 후 반환합니다.
+        return likes.stream()
+                .map(Like::getUser)  // Like 엔티티에서 User 엔티티 추출
+                .collect(Collectors.toList());
+
     }
 
 }

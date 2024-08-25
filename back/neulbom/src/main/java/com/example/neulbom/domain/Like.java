@@ -20,7 +20,7 @@ public class Like {
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -33,4 +33,7 @@ public class Like {
         return this.photo;
     }
 
+    public User getUser() {
+        return this.user;
+    }
 }
