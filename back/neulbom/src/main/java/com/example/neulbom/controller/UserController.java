@@ -1,6 +1,7 @@
 package com.example.neulbom.controller;
 
 import com.amazonaws.Response;
+import com.example.neulbom.LoginRequestDto.LoginRequestDto;
 import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
@@ -30,7 +31,11 @@ public class UserController {
     private final LikeService likeService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String loginId, @RequestParam String pw, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest, HttpSession session) {
+
+        String loginId = loginRequest.getLoginId();
+        String pw = loginRequest.getPw();
+
         // 인증 로직
         if (isValidUser(loginId, pw)) {
             User user = userService.findByLoginId(loginId);
@@ -38,7 +43,8 @@ public class UserController {
             session.setAttribute("name", name);
             session.setAttribute("loginId", loginId);
             return ResponseEntity.ok("Login successful");
-        } else {
+        }
+        else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
