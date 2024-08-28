@@ -12,6 +12,7 @@ type Props = {
 
 
 export default function Header({me}: Props) {
+  const { data: session, status } = useSession();
   const segment = useSelectedLayoutSegment();
   const router = useRouter();
 
@@ -28,7 +29,7 @@ export default function Header({me}: Props) {
         <div className={style.logo}>
           <span style={{fontWeight: "bold"}}>Logo</span>
         </div>
-        {me ?
+        {status === 'authenticated' ?
           // 아래 notice 코드는 추후 추가 예정
 
           // <Link href="/notice">

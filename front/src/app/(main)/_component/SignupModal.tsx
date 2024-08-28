@@ -60,6 +60,17 @@ export default function SignupModal() {
                 <input id="name" name="name" className={style.input} type="text" placeholder=""
                        required
                 />
+                {state?.message === 'no_name' &&
+                  <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>닉네임을 입력해야 합니다.</span>
+                }
+              </div>
+              <div className={style.inputDiv}>
+                <label className={style.inputLabel} htmlFor="profile">프로필</label>
+                <input id="profile" name="profile" required className={style.input} type="file" accept="image/*"
+                />
+                {state?.message === 'no_profile' &&
+                  <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>프로필 사진을 업로드 해야 합니다.</span>
+                }
               </div>
             </div>
             <div className={style.modalFooter}>
