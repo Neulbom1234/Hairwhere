@@ -2,40 +2,48 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const {
-  handlers: { GET, POST }, //route.ts
+  handlers: { GET, POST }, // route.ts
   auth,
   signIn,
 } = NextAuth({
-  pages: { //로그인 페이지 등록
+  pages: { // 로그인 페이지 등록
     signIn: '/login',
     newUser: '/signup',
   },
-  providers: [  //로그인 하는 코드
+  providers: [  // 로그인 하는 코드
     CredentialsProvider({
-      async authorize(credentials) { //credentials는 로그인 창에 입력된 정보들(id, password)
-        const authResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
+      async authorize(credentials) { // credentials는 로그인 창에 입력된 정보들 (id, password)
+        const authResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ //credential 안에 username과 password라는 이름으로 고정되어 있다
-            id: credentials.username,
-            password: credentials.password,
+          body: JSON.stringify({
+            loginId: credentials.username,
+            pw: credentials.password,
           }),
-        })
+          credentials: 'include',  // 세션 쿠키 포함
+        });
 
-        if (!authResponse.ok) { //로그인 실패
-          return null
+        console.log('authResponse status:', authResponse.status);
+        for (const [key, value] of authResponse.headers.entries()) {
+          console.log(`${key}: ${value}`);
         }
 
-        const user = await authResponse.json() //로그인 성공(user 정보 전달)
+        if (!authResponse.ok) { 
+          console.error('Login failed:', authResponse.statusText);
+          return null;
+        }
+
+        const user = await authResponse.json(); // 로그인 성공 (user 정보 전달)
         console.log('user', user);
-        return { //auth에서는 email, name, image만 지원하기에 불러온 user정보들의 이름을 바꿔준다.
-          email: user.id,
-          name: user.nickname,
-          image: user.image,
+
+        return { // auth에서는 email, name, image만 지원하므로 user 정보들의 이름을 바꿔서 반환
+          email: user.loginId,
+          name: user.name,
+          image: user.profilePath,
           ...user,
-        }
+        };
       },
     }),
   ]

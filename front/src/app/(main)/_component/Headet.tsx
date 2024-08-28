@@ -4,12 +4,17 @@ import style from './header.module.css';
 import Link from 'next/link';
 import { useSelectedLayoutSegment, useRouter } from "next/navigation"
 import { signOut, useSession } from 'next-auth/react';
+import { Session } from '@auth/core/types';
+
+type Props = {
+  me: Session | null;
+}
 
 
-export default function Header() {
+export default function Header({me}: Props) {
+  const { data: session, status } = useSession();
   const segment = useSelectedLayoutSegment();
   const router = useRouter();
-  const { data: me } = useSession();
 
   const onLogout = () => {
     signOut({redirect: false})
@@ -24,7 +29,7 @@ export default function Header() {
         <div className={style.logo}>
           <span style={{fontWeight: "bold"}}>Logo</span>
         </div>
-        {me ?
+        {status === 'authenticated' ?
           // 아래 notice 코드는 추후 추가 예정
 
           // <Link href="/notice">
