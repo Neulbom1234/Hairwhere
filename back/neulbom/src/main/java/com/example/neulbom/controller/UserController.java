@@ -42,7 +42,7 @@ public class UserController {
             String name = user.getName();
             session.setAttribute("name", name);
             session.setAttribute("loginId", loginId);
-            return ResponseEntity.ok("Login successful");
+            return ResponseEntity.ok(user);
         }
         else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
