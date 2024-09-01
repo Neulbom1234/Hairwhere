@@ -1,5 +1,6 @@
 package com.example.neulbom.controller;
 
+import com.example.neulbom.LoginRequestDto.uploadDto;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
@@ -10,14 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -38,13 +32,20 @@ public class PhotoController {
     private final PhotoRepository photoRepository;
 
     @PostMapping("/upload")
-    public String upload(/*HttpSession session,*/ @RequestParam("text") String text,
-                                                  @RequestParam("hairName") String hairName, @RequestPart("image") MultipartFile[] image,
-                                                  @RequestParam("gender") String gender, @RequestParam("created") String createdStr,
-                                                  @RequestParam("hairSalon") String hairSalon,@RequestParam("hairSalonAddress") String hairSalonAddress,
-                                                  @RequestParam("hairLength") String hairLength, @RequestParam("hairColor") String hairColor,
-                                                  HttpSession session) throws Exception{
+    public String upload(@ModelAttribute uploadDto uploadRequest , HttpSession session) throws Exception{
         String name = (String) session.getAttribute("name");
+
+        //String title = uploadRequest.getTitle();
+        String text = uploadRequest.getText();
+        String hairName = uploadRequest.getHairName();
+        MultipartFile[] image = uploadRequest.getPhotoImagePath();
+        String gender = uploadRequest.getGender();
+        String createdStr = uploadRequest.getCreated();
+        String hairSalon = uploadRequest.getHairSalon();
+        String hairSalonAddress = uploadRequest.getHairSalonAddress();
+        String hairLength = uploadRequest.getHairLength();
+        String hairColor = uploadRequest.getHairColor();
+
         //String name = "Dummy Name";
         int likeCount = 0;
 
