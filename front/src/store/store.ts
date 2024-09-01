@@ -1,5 +1,5 @@
 // src/store/store.ts
-import create from 'zustand';
+import {create} from 'zustand';
 
 type PreviewType = { 
   dataUrl: string; 
@@ -15,8 +15,8 @@ type StoreState = {
   setHairName: (hairName: string) => void;
   text: string;
   setText: (text: string) => void;
-  preview: PreviewType[]; // 수정된 부분: PreviewType[]로 타입 정의
-  setPreview: (preview: PreviewType[]) => void; // 수정된 부분: PreviewType[]로 타입 정의
+  preview: Array<{ dataUrl: string, file: File } | null>; // 수정된 부분: PreviewType[]로 타입 정의
+  setPreview: (preview: Array<{ dataUrl: string, file: File } | null>) => void; // 수정된 부분: PreviewType[]로 타입 정의
   imgMax: string;
   setImgMax: (imgMax: string) => void;
   gender: string;
