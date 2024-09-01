@@ -83,6 +83,10 @@ export default function PostBody({params}: Props) {
           return shallow;
         })
       }
+    },
+    onError(error) {
+      console.error(error);
+      alert("업로드 중 에러가 발생했습니다.");
     }
   })
 
@@ -158,9 +162,20 @@ export default function PostBody({params}: Props) {
     setHairColor("0");
   };
 
+  const isButtonEnabled =
+    shop !== "" &&
+    shopAddress !== "" &&
+    hairName !== "" &&
+    text !== "" &&
+    imgMax === "" &&
+    gender !== "0" &&
+    hairLength !== "0" &&
+    hairColor !== "0" &&
+    preview.length > 0;
+
   return (
     <>
-    <form>
+    <form onSubmit={mutation.mutate}>
       {/* 사진등록 */}
       <div className={style.imgContainer}>
         {preview.map((p, index) => (
@@ -278,7 +293,7 @@ export default function PostBody({params}: Props) {
       </div>
 
       {/* 게시글 등록 버튼 */}
-      <Link href="/login" className={style.postButton}>게시글 등록</Link>
+      <button className={style.postButton} style={isButtonEnabled ? {cursor: "pointer"} : {}} disabled={!isButtonEnabled}>게시글 등록</button>
     </form>
     </>
   )
