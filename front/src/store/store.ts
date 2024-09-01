@@ -15,8 +15,8 @@ type StoreState = {
   setHairName: (hairName: string) => void;
   text: string;
   setText: (text: string) => void;
-  preview: Array<{ dataUrl: string, file: File } | null>; // 수정된 부분: PreviewType[]로 타입 정의
-  setPreview: (preview: Array<{ dataUrl: string, file: File } | null>) => void; // 수정된 부분: PreviewType[]로 타입 정의
+  preview: PreviewType[];
+  setPreview: (value: PreviewType[] | ((prevState: PreviewType[]) => PreviewType[])) => void;
   imgMax: string;
   setImgMax: (imgMax: string) => void;
   gender: string;
@@ -37,7 +37,10 @@ export const useStore = create<StoreState>((set) => ({
   text: '',
   setText: (text) => set({ text }),
   preview: [],
-  setPreview: (preview) => set({ preview }),
+  setPreview: (value) =>
+    set((state) => ({
+      preview: typeof value === 'function' ? value(state.preview) : value,
+    })),
   imgMax: '',
   setImgMax: (imgMax) => set({ imgMax }),
   gender: "0",

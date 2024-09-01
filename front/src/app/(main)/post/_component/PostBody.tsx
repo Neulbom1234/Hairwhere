@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChangeEventHandler, FormEvent, useEffect, useState, useRef} from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import type { PageInfo } from "@/model/PageInfo";
+import { useStore } from "@/store/store";
 
 type Props = {
   params?: { sn: string, sa: string };
@@ -16,16 +17,17 @@ type PreviewType = {
 };
 
 export default function PostBody({params}: Props) {
-  const [shop, setShop] = useState<string>('');
-  const [shopAddress, setShopAddress] = useState<string>('');
-  const [hairName, setHairName] = useState<string>('');
-  const [text, setText] = useState<string>('');
-  const [preview, setPreview] = useState<Array<PreviewType | null>>([]);
-  const [imgMax, setImgMax] = useState<string>('');
-  const [gender, setGender] = useState("0");
-  const [hairLength, setHairLength] = useState("0");
-  const [hairColor, setHairColor] = useState("0");
-  const [upload, setUpload] = useState<boolean>(false);
+  const {
+    shop, setShop,
+    shopAddress, setShopAddress,
+    hairName, setHairName,
+    text, setText,
+    preview, setPreview,
+    imgMax, setImgMax,
+    gender, setGender,
+    hairLength, setHairLength,
+    hairColor, setHairColor
+  } = useStore();
   const imageRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
@@ -35,7 +37,7 @@ export default function PostBody({params}: Props) {
       setShopAddress(params.sa);
       console.log(`shop: ${shop}, shopAdress: ${shopAddress}`);
     }
-  })
+  }, [params])
 
   const mutation = useMutation({
     mutationFn: async (e: FormEvent) => {
