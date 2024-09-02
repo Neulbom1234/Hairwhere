@@ -32,13 +32,12 @@ public class PhotoController {
     private final PhotoRepository photoRepository;
 
     @PostMapping("/upload")
-    public String upload(@ModelAttribute uploadDto uploadRequest , HttpSession session) throws Exception{
+    public String upload(@RequestPart uploadDto uploadRequest ,@RequestPart("photoImagePath") MultipartFile[] image, HttpSession session) throws Exception{
         String name = (String) session.getAttribute("name");
 
         //String title = uploadRequest.getTitle();
         String text = uploadRequest.getText();
         String hairName = uploadRequest.getHairName();
-        MultipartFile[] image = uploadRequest.getPhotoImagePath();
         String gender = uploadRequest.getGender();
         String createdStr = uploadRequest.getCreated();
         String hairSalon = uploadRequest.getHairSalon();

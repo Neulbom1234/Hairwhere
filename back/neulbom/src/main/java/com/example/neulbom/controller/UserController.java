@@ -2,6 +2,7 @@ package com.example.neulbom.controller;
 
 import com.amazonaws.Response;
 import com.example.neulbom.LoginRequestDto.LoginRequestDto;
+import com.example.neulbom.LoginRequestDto.registerDto;
 import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
@@ -56,8 +57,12 @@ public class UserController {
     }
 
     @PostMapping("/register")//회원가입
-    public ResponseEntity<String> register(HttpSession session,@RequestParam String loginId, @RequestParam String pw
-    , @RequestParam String name,@RequestParam String email,@RequestPart MultipartFile profile) {
+    public ResponseEntity<String> register(HttpSession session, @RequestPart registerDto registerDto,@RequestPart MultipartFile profile) {
+        String loginId = registerDto.getLoginId();
+        String pw = registerDto.getPw();
+        String name = registerDto.getName();
+        String email = registerDto.getEmail();
+
         if (isValidUser(loginId, pw)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
