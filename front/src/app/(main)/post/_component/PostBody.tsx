@@ -47,6 +47,14 @@ export default function PostBody({params}: Props) {
       const formData = new FormData();
       preview.forEach((p) => {
         p && formData.append('photoImagePath[]', p.file);
+
+        // 디버깅 코드
+      console.log("photoImagePath 파일 이름:", p.file.name);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        console.log(`photoImagePath[] ${p.file.name} 내용:`, event.target?.result);
+      };
+      reader.readAsDataURL(p.file);  // 또는 readAsText(p.file)로 텍스트로 읽을 수 있음
       });
   
       // JSON으로 보낼 데이터를 객체로 생성
@@ -62,13 +70,23 @@ export default function PostBody({params}: Props) {
       };
   
       // JSON 데이터를 문자열로 변환하여 FormData에 추가
-      formData.append('data', JSON.stringify(jsonData));
+      formData.append('uploadDto', new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
+
+      // 디버깅 코드
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        console.log("uploadDto 내용:", event.target?.result);
+      };
+      reader.readAsText(new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
 
       for (const [key, value] of formData.entries()) {
         console.log(`${key}:, ${value}`);
       }
       return fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/photo/upload`, {
         method: 'post',
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
         credentials: 'include',
         body: formData,
       });
