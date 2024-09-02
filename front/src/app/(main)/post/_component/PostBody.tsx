@@ -52,8 +52,11 @@ export default function PostBody({params}: Props) {
       formData.append('hairSalonAddress', shopAddress);
       formData.append('created', new Date().toISOString().slice(0, 19));
       preview.forEach((p) => {
-        p && formData.append('image', p.file);
+        p && formData.append('photoImagePath[]', p.file);
       });
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
       return fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/photo/upload`, {
         method: 'post',
         credentials: 'include',
@@ -168,9 +171,9 @@ export default function PostBody({params}: Props) {
     hairName !== "" &&
     text !== "" &&
     imgMax === "" &&
-    gender !== "0" &&
-    hairLength !== "0" &&
-    hairColor !== "0" &&
+    gender !== "" &&
+    hairLength !== "" &&
+    hairColor !== "" &&
     preview.length > 0;
 
   return (
@@ -211,67 +214,67 @@ export default function PostBody({params}: Props) {
 
         {/* 성별 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.gender} value={gender} onChange={(e) => setGender(e.target.value)}>
-            <option value="0" disabled>성별</option>
-            <option value="1">전체</option>
-            <option value="2">남자</option>
-            <option value="3">여자</option>
+          <select className={style.gender} value={gender} onChange={(e) => setGender(e.target.selectedOptions[0].text)}>
+            <option value="" disabled>성별</option>
+            <option value="전체">전체</option>
+            <option value="남성">남성</option>
+            <option value="여성">여성</option>
           </select>
         </div>
 
         {/* 헤어 길이 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.hairLength} value={hairLength} onChange={(e) => setHairLength(e.target.value)}>
-            <option value="0" disabled>길이</option>
-            <option value="1">전체</option>
-            <option value="2">롱</option>
-            <option value="3">미디움</option>
-            <option value="4">쇼트</option>
+          <select className={style.hairLength} value={hairLength} onChange={(e) => setHairLength(e.target.selectedOptions[0].text)}>
+          <option value="" disabled>길이</option>
+          <option value="전체">전체</option>
+          <option value="롱">롱</option>
+          <option value="미디움">미디움</option>
+          <option value="쇼트">쇼트</option>
           </select>
         </div>
 
         {/* 헤어 색상 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.hairColor} value={hairColor} onChange={(e) => setHairColor(e.target.value)}>
-            <option value="0" disabled>색상</option>
-            <option value="1">전체</option>
-            <option value="2">골드브라운</option>
-            <option value="3">그레이</option>
-            <option value="4">다크브라운</option>
-            <option value="5">레드바이올렛</option>
-            <option value="6">레드브라운</option>
-            <option value="7">레드오렌지</option>
-            <option value="8">레드와인</option>
-            <option value="9">매트브라운</option>
-            <option value="10">머쉬룸블론드</option>
-            <option value="11">밀크브라운</option>
-            <option value="12">발레아쥬</option>
-            <option value="13">보라색</option>
-            <option value="14">브라운</option>
-            <option value="15">브릿지</option>
-            <option value="16">블랙</option>
-            <option value="17">블론드</option>
-            <option value="18">블루블랙</option>
-            <option value="19">새치염색</option>
-            <option value="20">솜브레</option>
-            <option value="21">애쉬그레이</option>
-            <option value="22">애쉬바이올렛</option>
-            <option value="23">애쉬베이지</option>
-            <option value="24">애쉬브라운</option>
-            <option value="25">애쉬블론드</option>
-            <option value="26">애쉬블루</option>
-            <option value="27">애쉬카키</option>
-            <option value="28">애쉬카키브라운</option>
-            <option value="29">애쉬퍼플</option>
-            <option value="30">애쉬핑크</option>
-            <option value="31">오렌지브라운</option>
-            <option value="32">옴브레</option>
-            <option value="33">초코브라운</option>
-            <option value="34">카키</option>
-            <option value="35">카키브라운</option>
-            <option value="36">탈색</option>
-            <option value="37">투톤</option>
-            <option value="38">핑크브라운</option>
+          <select className={style.hairColor} value={hairColor} onChange={(e) => setHairColor(e.target.selectedOptions[0].text)}>
+          <option value="" disabled>색상</option>
+          <option value="전체">전체</option>
+          <option value="골드브라운">골드브라운</option>
+          <option value="그레이">그레이</option>
+          <option value="다크브라운">다크브라운</option>
+          <option value="레드바이올렛">레드바이올렛</option>
+          <option value="레드브라운">레드브라운</option>
+          <option value="레드오렌지">레드오렌지</option>
+          <option value="레드와인">레드와인</option>
+          <option value="매트브라운">매트브라운</option>
+          <option value="머쉬룸블론드">머쉬룸블론드</option>
+          <option value="밀크브라운">밀크브라운</option>
+          <option value="발레아쥬">발레아쥬</option>
+          <option value="보라색">보라색</option>
+          <option value="브라운">브라운</option>
+          <option value="브릿지">브릿지</option>
+          <option value="블랙">블랙</option>
+          <option value="블론드">블론드</option>
+          <option value="블루블랙">블루블랙</option>
+          <option value="새치염색">새치염색</option>
+          <option value="솜브레">솜브레</option>
+          <option value="애쉬그레이">애쉬그레이</option>
+          <option value="애쉬바이올렛">애쉬바이올렛</option>
+          <option value="애쉬베이지">애쉬베이지</option>
+          <option value="애쉬브라운">애쉬브라운</option>
+          <option value="애쉬블론드">애쉬블론드</option>
+          <option value="애쉬블루">애쉬블루</option>
+          <option value="애쉬카키">애쉬카키</option>
+          <option value="애쉬카키브라운">애쉬카키브라운</option>
+          <option value="애쉬퍼플">애쉬퍼플</option>
+          <option value="애쉬핑크">애쉬핑크</option>
+          <option value="오렌지브라운">오렌지브라운</option>
+          <option value="옴브레">옴브레</option>
+          <option value="초코브라운">초코브라운</option>
+          <option value="카키">카키</option>
+          <option value="카키브라운">카키브라운</option>
+          <option value="탈색">탈색</option>
+          <option value="투톤">투톤</option>
+          <option value="핑크브라운">핑크브라운</option>
           </select>
         </div>
       </div>
