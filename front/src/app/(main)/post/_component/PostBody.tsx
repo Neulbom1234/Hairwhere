@@ -42,20 +42,30 @@ export default function PostBody({params}: Props) {
   const mutation = useMutation({
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
+  
+      // FormData 객체 생성 및 preview 파일 추가
       const formData = new FormData();
-      formData.append('text', text);
-      formData.append('hairName', hairName);
-      formData.append('hairLength', hairLength);
-      formData.append('hairColor', hairColor);
-      formData.append('gender', gender);
-      formData.append('hairSalon', shop);
-      formData.append('hairSalonAddress', shopAddress);
-      formData.append('created', new Date().toISOString().slice(0, 19));
       preview.forEach((p) => {
         p && formData.append('photoImagePath[]', p.file);
       });
+  
+      // JSON으로 보낼 데이터를 객체로 생성
+      const jsonData = {
+        text,
+        hairName,
+        hairLength,
+        hairColor,
+        gender,
+        hairSalon: shop,
+        hairSalonAddress: shopAddress,
+        created: new Date().toISOString().slice(0, 19),
+      };
+  
+      // JSON 데이터를 문자열로 변환하여 FormData에 추가
+      formData.append('data', JSON.stringify(jsonData));
+
       for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
+        console.log(`${key}:, ${value}`);
       }
       return fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/photo/upload`, {
         method: 'post',
@@ -91,7 +101,8 @@ export default function PostBody({params}: Props) {
       console.error(error);
       alert("업로드 중 에러가 발생했습니다.");
     }
-  })
+  });
+  
 
   
   const onChangeShop: ChangeEventHandler<HTMLInputElement> = (e) => {

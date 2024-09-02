@@ -2,7 +2,7 @@
 
 import style from './header.module.css';
 import Link from 'next/link';
-import { useSelectedLayoutSegment, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { signOut, useSession } from 'next-auth/react';
 import { Session } from '@auth/core/types';
 
@@ -13,13 +13,12 @@ type Props = {
 
 export default function Header({me}: Props) {
   const { data: session, status } = useSession();
-  const segment = useSelectedLayoutSegment();
   const router = useRouter();
 
   const onLogout = () => {
     signOut({redirect: false})
       .then(() => {
-        router.replace('/');
+        router.push("/");
       })
   }
 
@@ -29,7 +28,7 @@ export default function Header({me}: Props) {
         <div className={style.logo}>
           <span style={{fontWeight: "bold"}}>Logo</span>
         </div>
-        {status === 'authenticated' ?
+        {status === 'authenticated' || me ?
           // 아래 notice 코드는 추후 추가 예정
 
           // <Link href="/notice">

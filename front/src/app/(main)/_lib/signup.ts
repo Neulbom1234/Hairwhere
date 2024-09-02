@@ -48,31 +48,31 @@ export default async (prevState: any, formData: FormData) => {
       credentials: 'include',
     });
 
-    console.log('Response Status:', response.status);
-    try {
-      const responseData = await response.json();
-      console.log('Response Data:', responseData);
-  } catch (error) {
-      console.error('Failed to parse JSON:', error);
-  }
+    // console.log('Response Status:', response.status);
+    // try {
+    //   const responseData = await response.json();
+    //   console.log('Response Data:', responseData);
+    // } catch (error) {
+    //     console.error('Failed to parse JSON:', error);
+    // }
 
-    if (response.status === 403) {
-      return { message: 'user_exists' };
-    } else if (response.status === 401) {
-      return { message: 'unauthorized' };
-    } else if (response.status >= 400 && response.status < 500) {
-      return { message: 'client_error' };
-    } else if (response.status >= 500) {
-      return { message: 'server_error' };
-    }
+    // if (response.status === 403) {
+    //   return { message: 'user_exists' };
+    // } else if (response.status === 401) {
+    //   return { message: 'unauthorized' };
+    // } else if (response.status >= 400 && response.status < 500) {
+    //   return { message: 'client_error' };
+    // } else if (response.status >= 500) {
+    //   return { message: 'server_error' };
+    // }
 
-    let responseData;
-    try {
-      responseData = await response.json();
-    } catch (err) {
-      console.error('Failed to parse JSON:', err);
-      return { message: 'unexpected_error' };
-    }
+    // let responseData;
+    // try {
+    //   responseData = await response.json();
+    // } catch (err) {
+    //   console.error('Failed to parse JSON:', err);
+    //   return { message: 'unexpected_error' };
+    // }
 
     shouldRedirect = true;
 
