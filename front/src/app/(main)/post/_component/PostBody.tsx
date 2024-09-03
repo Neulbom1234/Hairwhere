@@ -70,12 +70,12 @@ export default function PostBody({params}: Props) {
       };
   
       // JSON 데이터를 문자열로 변환하여 FormData에 추가
-      formData.append('uploadDto', new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
+      formData.append('uploadRequest', new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
 
       // 디버깅 코드
       const reader = new FileReader();
       reader.onload = (event) => {
-        console.log("uploadDto 내용:", event.target?.result);
+        console.log("uploadRequest 내용:", event.target?.result);
       };
       reader.readAsText(new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
 
