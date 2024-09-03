@@ -42,7 +42,7 @@ export default function PostBody({params}: Props) {
   const mutation = useMutation({
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
-  
+      console.log(document.cookie);
       // FormData 객체 생성 및 preview 파일 추가
       const formData = new FormData();
       preview.forEach((p) => {
@@ -84,9 +84,6 @@ export default function PostBody({params}: Props) {
       }
       return fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/photo/upload`, {
         method: 'post',
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         credentials: 'include',
         body: formData,
       });
