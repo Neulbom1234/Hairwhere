@@ -32,11 +32,11 @@ export const {
           console.log(`로그인 후 받는 값: ${key}: ${value}`);
         }
 
-        let setCookie = authResponse.headers.get('Set-Cookie');
+        let setCookie = authResponse.headers.get('set-cookie');
         console.log('set-cookie', setCookie);
         if (setCookie) {
           const parsed = cookie.parse(setCookie);
-          cookies().set('connect.sid', parsed['connect.sid'], parsed); // 브라우저에 쿠키를 심어주는 것
+          cookies().set('JSESSIONID', parsed['JSESSIONID'], parsed); // 브라우저에 쿠키를 심어주는 것
         }
 
         if (!authResponse.ok) { 

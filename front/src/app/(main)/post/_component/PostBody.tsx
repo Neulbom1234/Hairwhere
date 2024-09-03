@@ -229,7 +229,7 @@ export default function PostBody({params}: Props) {
       {preview.length < 3 && (
         <label className={style.imgBtn} htmlFor="img">
           <div>파일 선택</div>
-          <input id="img" type="file" name="photoImagePath" multiple hidden ref={imageRef} onChange={handleImageChange} style={{ display: 'none' }} />
+          <input id="img" type="file" name="photoImagePath[]" multiple hidden ref={imageRef} onChange={handleImageChange} style={{ display: 'none' }} />
         </label>
       )}
 
