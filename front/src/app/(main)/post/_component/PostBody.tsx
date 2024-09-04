@@ -47,37 +47,15 @@ export default function PostBody({params}: Props) {
       const formData = new FormData();
       preview.forEach((p) => {
         p && formData.append('photoImagePath', p.file);
-
-        // 디버깅 코드
-      console.log("photoImagePath 파일 이름:", p.file.name);
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        console.log(`photoImagePath[] ${p.file.name} 내용:`, event.target?.result);
-      };
-      reader.readAsDataURL(p.file);  // 또는 readAsText(p.file)로 텍스트로 읽을 수 있음
       });
-  
-      // JSON으로 보낼 데이터를 객체로 생성
-      const jsonData = {
-        text,
-        hairName,
-        hairLength,
-        hairColor,
-        gender,
-        hairSalon: shop,
-        hairSalonAddress: shopAddress,
-        created: new Date().toISOString().split('.')[0],
-      };
-  
-      // JSON 데이터를 문자열로 변환하여 FormData에 추가
-      formData.append('uploadRequest', new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
-
-      // 디버깅 코드
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        console.log("uploadRequest 내용:", event.target?.result);
-      };
-      reader.readAsText(new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
+      formData.append('text', text);
+      formData.append('hairName', hairName);
+      formData.append('hairLength', hairLength);
+      formData.append('hairColor', hairColor);
+      formData.append('gender', gender);
+      formData.append('hairSalon', shop);
+      formData.append('hairSalonAddress', shopAddress);
+      formData.append('created', new Date().toISOString().split('.')[0]);
 
       for (const [key, value] of formData.entries()) {
         console.log(`${key}:, ${value}`);
