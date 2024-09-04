@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
@@ -32,30 +34,43 @@ public class PhotoController {
     private final PhotoRepository photoRepository;
 
     @PostMapping("/upload")
-    public String upload(@RequestPart uploadDto uploadRequest ,@RequestPart("photoImagePath") MultipartFile[] image, HttpSession session) throws Exception{
-        String name = (String) session.getAttribute("name");
+    public ResponseEntity<?> upload(@RequestPart String text,
+                                    @RequestPart String hairName,
+                                    @RequestPart String gender,
+                                    @RequestPart("photoImagePath") MultipartFile[] image,
+                                    @RequestPart("created") String createdStr,
+                                    @RequestPart String hairSalon,
+                                    @RequestPart String hairSalonAddress,
+                                    @RequestPart String hairLength,
+                                    @RequestPart String hairColor,
+                                    HttpSession session) {
+        try {
+            String name = (String) session.getAttribute("name");
+            if (name == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("세션에서 사용자 이름을 찾을 수 없습니다. 다시 로그인해주세요.");
+            }
 
-        //String title = uploadRequest.getTitle();
-        String text = uploadRequest.getText();
-        String hairName = uploadRequest.getHairName();
-        String gender = uploadRequest.getGender();
-        String createdStr = uploadRequest.getCreated();
-        String hairSalon = uploadRequest.getHairSalon();
-        String hairSalonAddress = uploadRequest.getHairSalonAddress();
-        String hairLength = uploadRequest.getHairLength();
-        String hairColor = uploadRequest.getHairColor();
+            if (image.length > 3) {
+                return ResponseEntity.badRequest()
+                        .body("이미지는 최대 3개까지만 업로드 가능합니다.");
+            }
 
-        //String name = "Dummy Name";
-        int likeCount = 0;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            LocalDateTime created = LocalDateTime.parse(createdStr, formatter);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime created = LocalDateTime.parse(createdStr, formatter);
+            int likeCount = 0;
 
-        if(image.length > 3){
-            return "이미지는 최대 3개까지만 업로드 가능합니다."; 
+            photoService.upload(name, image, likeCount, hairName, text, gender, created,
+                    hairSalon, hairSalonAddress, hairLength, hairColor);
+
+            return ResponseEntity.ok("업로드 완료");
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().body("날짜 형식이 올바르지 않습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("서버 오류가 발생했습니다: " + e.getMessage());
         }
-        photoService.upload(name, image,likeCount,hairName,text,gender,created,hairSalon,hairSalonAddress,hairLength,hairColor);
-        return "업로드 완료";
     }
 
     @GetMapping("/find/all")

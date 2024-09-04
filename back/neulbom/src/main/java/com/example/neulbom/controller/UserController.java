@@ -41,6 +41,7 @@ public class UserController {
         if (isValidUser(loginId, pw)) {
             User user = userService.findByLoginId(loginId);
             String name = user.getName();
+
             session.setAttribute("name", name);
             session.setAttribute("loginId", loginId);
             return ResponseEntity.ok(user);
