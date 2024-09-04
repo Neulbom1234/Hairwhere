@@ -9,7 +9,6 @@ public class uploadDto
     //private String title;
     private String text;
     private String hairName;
-    private MultipartFile[] photoImagePath;
     private String gender;
     private String created;
     private String hairSalon;
