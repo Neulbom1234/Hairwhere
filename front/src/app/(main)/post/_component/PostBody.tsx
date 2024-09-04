@@ -46,7 +46,7 @@ export default function PostBody({params}: Props) {
       // FormData 객체 생성 및 preview 파일 추가
       const formData = new FormData();
       preview.forEach((p) => {
-        p && formData.append('photoImagePath[]', p.file);
+        p && formData.append('photoImagePath', p.file);
 
         // 디버깅 코드
       console.log("photoImagePath 파일 이름:", p.file.name);
@@ -66,7 +66,7 @@ export default function PostBody({params}: Props) {
         gender,
         hairSalon: shop,
         hairSalonAddress: shopAddress,
-        created: new Date().toISOString().slice(0, 19),
+        created: new Date().toISOString().split('.')[0],
       };
   
       // JSON 데이터를 문자열로 변환하여 FormData에 추가
