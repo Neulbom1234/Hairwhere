@@ -6,6 +6,8 @@ import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
 import com.example.neulbom.service.LikeService;
 import com.example.neulbom.service.PhotoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +35,8 @@ public class PhotoController {
     private final LikeService likeService;
     private final PhotoRepository photoRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestPart String text,
                                     @RequestPart String hairName,
@@ -46,9 +50,24 @@ public class PhotoController {
                                     HttpSession session) {
         try {
             String name = (String) session.getAttribute("name");
+
+            logger.info("User '{}' stored in session", name);
+            logger.info("User '{}' stored in session", session.getAttribute("name"));
+
+
             if (name == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body("세션에서 사용자 이름을 찾을 수 없습니다. 다시 로그인해주세요.");
+            }
+
+            for (MultipartFile file : image) {
+                String contentType = file.getContentType();
+
+                logger.info("File: {}, Content-Type: {}", file.getOriginalFilename(), contentType);
+
+                if (!contentType.startsWith("image/")) {
+                    return ResponseEntity.badRequest().body("Invalid file type");
+                }
             }
 
             if (image.length > 3) {

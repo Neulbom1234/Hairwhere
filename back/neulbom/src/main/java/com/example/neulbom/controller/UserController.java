@@ -1,5 +1,7 @@
 package com.example.neulbom.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.amazonaws.Response;
 import com.example.neulbom.LoginRequestDto.LoginRequestDto;
 import com.example.neulbom.LoginRequestDto.registerDto;
@@ -11,6 +13,7 @@ import com.example.neulbom.service.PhotoService;
 import com.example.neulbom.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +34,8 @@ public class UserController {
     private final PhotoService photoService;
     private final LikeService likeService;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest, HttpSession session) {
 
@@ -42,14 +47,30 @@ public class UserController {
             User user = userService.findByLoginId(loginId);
             String name = user.getName();
 
+            if(name == null){
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("name값이 null입니다.");
+            }
+
             session.setAttribute("name", name);
             session.setAttribute("loginId", loginId);
+
+            logger.info("Session ID: {}", session.getId());
+            logger.info("User '{}' stored in session", session.getAttribute("name"));
+
             return ResponseEntity.ok(user);
         }
         else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+
+    /*
+    @GetMapping("/upload2")
+    public ResponseEntity<?> login() {
+
+
+    }
+    */
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session) {
