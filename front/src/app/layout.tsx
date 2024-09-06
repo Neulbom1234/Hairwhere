@@ -21,7 +21,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script 
+          {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script
           type="text/javascript" 
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_API_KEY}&libraries=services`}/>
       </head>
