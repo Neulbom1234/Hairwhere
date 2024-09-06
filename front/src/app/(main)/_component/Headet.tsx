@@ -11,13 +11,19 @@ type Props = {
 }
 
 
+
 export default function Header({me}: Props) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  const deleteCookie = (name: string) => {
+    document.cookie = `${name}=; Max-Age=-99999999;`;
+  };
+
   const onLogout = () => {
     signOut({redirect: false})
       .then(() => {
+        deleteCookie('JSESSIONID');
         router.push("/");
       })
   }
@@ -28,7 +34,7 @@ export default function Header({me}: Props) {
         <div className={style.logo}>
           <span style={{fontWeight: "bold"}}>Logo</span>
         </div>
-        {status === 'authenticated' || me ?
+        {status === 'authenticated' && me ?
           // 아래 notice 코드는 추후 추가 예정
 
           // <Link href="/notice">
