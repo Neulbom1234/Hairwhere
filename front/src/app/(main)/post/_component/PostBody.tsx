@@ -67,7 +67,7 @@ export default function PostBody({params}: Props) {
       });
     },
     async onSuccess(response, variable) {
-      const newPost = await response.json();
+      // const newPost = await response.json();
       setText('');
       setPreview([]);
       setHairName('');
@@ -84,7 +84,8 @@ export default function PostBody({params}: Props) {
           };
           shallow.pages[0] = {
             ...shallow.pages[0],
-            content: [newPost, ...shallow.pages[0].content],
+          // @ts-ignore
+            content: [response, ...shallow.pages[0].content],
           };
           return shallow;
         })
