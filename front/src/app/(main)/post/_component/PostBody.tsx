@@ -6,6 +6,7 @@ import { ChangeEventHandler, FormEvent, useEffect, useState, useRef} from "react
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import type { PageInfo } from "@/model/PageInfo";
 import { useStore } from "@/store/store";
+import { useRouter } from "next/navigation";
 
 type Props = {
   params?: { sn: string, sa: string };
@@ -30,6 +31,7 @@ export default function PostBody({params}: Props) {
   } = useStore();
   const imageRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   useEffect(() => {
     if(params) {
@@ -60,13 +62,21 @@ export default function PostBody({params}: Props) {
       for (const [key, value] of formData.entries()) {
         console.log(`${key}:, ${value}`);
       }
-      return fetch(`/photo/upload`, {
+      const response = await fetch(`/photo/upload`, {
         method: 'POST',
         credentials: 'include',
         body: formData,
       });
+
+      if (!response.ok) {
+        // response.ok가 false면 onError로 넘어갑니다.
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+  
+      return response;
+
     },
-    async onSuccess(response, variable) {
+    async onSuccess(response) {
       // const newPost = await response.json();
       setText('');
       setPreview([]);
@@ -90,6 +100,7 @@ export default function PostBody({params}: Props) {
       //     return shallow;
       //   })
       // }
+      router.push('/');
     },
     onError(error) {
       console.error(error);
