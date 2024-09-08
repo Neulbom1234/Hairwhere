@@ -60,8 +60,8 @@ export default function PostBody({params}: Props) {
       for (const [key, value] of formData.entries()) {
         console.log(`${key}:, ${value}`);
       }
-      return fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/photo/upload`, {
-        method: 'post',
+      return fetch(`/photo/upload`, {
+        method: 'POST',
         credentials: 'include',
         body: formData,
       });
@@ -76,20 +76,20 @@ export default function PostBody({params}: Props) {
       setGender("0");
       setShop('');
       setShopAddress('');
-      if(queryClient.getQueryData(['posts', 'recommends'])) {
-        queryClient.setQueryData(['posts', 'recommends'], (prevData: {pages: PageInfo[]}) => {
-          const shallow = {
-            ...prevData,
-            pages: [...prevData.pages],
-          };
-          shallow.pages[0] = {
-            ...shallow.pages[0],
-          // @ts-ignore
-            content: [response, ...shallow.pages[0].content],
-          };
-          return shallow;
-        })
-      }
+      // if(queryClient.getQueryData(['posts', 'recommends'])) {
+      //   queryClient.setQueryData(['posts', 'recommends'], (prevData: {pages: PageInfo[]}) => {
+      //     const shallow = {
+      //       ...prevData,
+      //       pages: [...prevData.pages],
+      //     };
+      //     shallow.pages[0] = {
+      //       ...shallow.pages[0],
+      //     // @ts-ignore
+      //       content: [response, ...shallow.pages[0].content],
+      //     };
+      //     return shallow;
+      //   })
+      // }
     },
     onError(error) {
       console.error(error);
