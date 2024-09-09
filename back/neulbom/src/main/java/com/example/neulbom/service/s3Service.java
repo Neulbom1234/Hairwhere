@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
@@ -97,7 +98,10 @@ public class s3Service {
     }
 
     private boolean isValidImageContentType(String contentType) {
-        return contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/gif");
+        //return contentType.equals("image/jpeg") || contentType.equals("image/png") || contentType.equals("image/gif");
+
+        return Arrays.asList("image/jpeg", "image/jpg", "image/png", "image/gif", "image/bmp", "image/webp")
+                .contains(contentType.toLowerCase());
     }
 
 

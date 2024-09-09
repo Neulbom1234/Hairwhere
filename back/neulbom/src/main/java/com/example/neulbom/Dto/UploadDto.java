@@ -1,10 +1,9 @@
-package com.example.neulbom.LoginRequestDto;
+package com.example.neulbom.Dto;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class uploadDto
+public class UploadDto
 {
     //private String title;
     private String text;

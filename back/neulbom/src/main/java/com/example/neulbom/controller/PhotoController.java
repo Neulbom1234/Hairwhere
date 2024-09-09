@@ -1,11 +1,11 @@
 package com.example.neulbom.controller;
 
-import com.example.neulbom.LoginRequestDto.uploadDto;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
 import com.example.neulbom.service.LikeService;
 import com.example.neulbom.service.PhotoService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -47,8 +46,32 @@ public class PhotoController {
                                     @RequestPart String hairSalonAddress,
                                     @RequestPart String hairLength,
                                     @RequestPart String hairColor,
-                                    HttpSession session) {
+                                    HttpServletRequest request) {
         try {
+            HttpSession session = request.getSession(false);
+            /*
+            Cookie[] cookies = request.getCookies();
+            String JSESSIONID;
+
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("JSESSIONID")) {
+                        JSESSIONID = "JSESSIONID" + cookie.getValue();
+
+                        logger.info("JSESSIONID '{}'", JSESSIONID);
+                    }
+                }
+            }
+            else if(cookies==null){
+                JSESSIONID = "JSESSIONID가 null";
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(JSESSIONID + "null입니다");
+            }
+            */
+            if(session == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("session이 없습니다.");
+            }
+
             String name = (String) session.getAttribute("name");
 
             logger.info("User '{}' stored in session", name);
@@ -83,10 +106,13 @@ public class PhotoController {
             photoService.upload(name, image, likeCount, hairName, text, gender, created,
                     hairSalon, hairSalonAddress, hairLength, hairColor);
 
+            logger.info("photoService.upload() completed successfully");
+
             return ResponseEntity.ok("업로드 완료");
         } catch (DateTimeParseException e) {
             return ResponseEntity.badRequest().body("날짜 형식이 올바르지 않습니다.");
         } catch (Exception e) {
+            logger.error("Error occurred during upload", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("서버 오류가 발생했습니다: " + e.getMessage());
         }

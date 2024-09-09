@@ -1,9 +1,9 @@
-package com.example.neulbom.LoginRequestDto;
+package com.example.neulbom.Dto;
 
 import lombok.Data;
 
 @Data
-public class registerDto {
+public class RegisterDto {
 
     private String loginId;
     private String pw;

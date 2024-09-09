@@ -1,9 +1,12 @@
 package com.example.neulbom.service;
 
+import com.example.neulbom.controller.UserController;
 import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +31,7 @@ public class PhotoService {
     private final s3Service s3Service;
 
     private final int MIN_RANDOM_NUM = 1;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Transactional
     public String upload(String name, MultipartFile[] image,
@@ -36,8 +40,14 @@ public class PhotoService {
         List<String> imagePaths = new ArrayList<>();
 
         for( MultipartFile file : image ) {
-            String imagePath = s3Service.upload(file);
-            imagePaths.add(imagePath);
+            try{ // image생성안함 이 부분만 차이남
+                String imagePath = s3Service.upload(file);
+                imagePaths.add(imagePath);
+            }
+            catch (Exception e) {
+                logger.error("Error uploading file to S3", e);
+                throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
+            }
         }
 
         Photo photo = Photo.builder()

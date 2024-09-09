@@ -1,10 +1,10 @@
 package com.example.neulbom.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.amazonaws.Response;
-import com.example.neulbom.LoginRequestDto.LoginRequestDto;
-import com.example.neulbom.LoginRequestDto.registerDto;
+import com.example.neulbom.Dto.LoginRequestDto;
+import com.example.neulbom.Dto.RegisterDto;
 import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
@@ -13,14 +13,13 @@ import com.example.neulbom.service.PhotoService;
 import com.example.neulbom.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,10 +36,12 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest, HttpServletRequest request) {
 
         String loginId = loginRequest.getLoginId();
         String pw = loginRequest.getPw();
+
+        HttpSession session =  request.getSession();
 
         // 인증 로직
         if (isValidUser(loginId, pw)) {
@@ -57,7 +58,9 @@ public class UserController {
             logger.info("Session ID: {}", session.getId());
             logger.info("User '{}' stored in session", session.getAttribute("name"));
 
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, session.toString())
+                    .body(user);
         }
         else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
@@ -79,7 +82,7 @@ public class UserController {
     }
 
     @PostMapping("/register")//회원가입
-    public ResponseEntity<String> register(HttpSession session, @RequestPart registerDto registerDto,@RequestPart MultipartFile profile) {
+    public ResponseEntity<String> register(HttpSession session, @RequestPart RegisterDto registerDto, @RequestPart MultipartFile profile) {
         String loginId = registerDto.getLoginId();
         String pw = registerDto.getPw();
         String name = registerDto.getName();
