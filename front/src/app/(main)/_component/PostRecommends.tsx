@@ -17,13 +17,13 @@ export default function PostRecommends() {
   } = useSuspenseInfiniteQuery<PageInfo, Object, InfiniteData<PageInfo>, [_1: string, _2: string], number>({ 
     queryKey: ['posts', 'recommends'], 
     queryFn: getPostRecommends,
-    
     initialPageParam:0,
     getNextPageParam: (lastPage) => {
-      if (Array.isArray(lastPage)) {
-        return lastPage.at(-1)?.content[-1].id;
+      console.log("Last page:", lastPage); // lastPage 값을 로그로 확인
+      if (lastPage.last) {
+        return undefined;
       }
-      return undefined; // 배열이 아닐 경우 안전하게 undefined 반환
+      return lastPage.number + 1; // 배열이 아닐 경우 안전하게 undefined 반환
     },
     staleTime: 60 * 1000, //fresh -> stale로 바뀌는 시간, gcTime보다 작아야함
     gcTime: 300 * 1000, //캐싱한 데이터가 없어지는 시간
@@ -51,7 +51,7 @@ export default function PostRecommends() {
             <Post key={post.id} post={post} />
           ))}
         </Fragment>))}
-        <div ref={ref} style={{height: 50}}/>
+        <div ref={ref} style={{display: "inline-block", width: 1, height: 1}}/>
     </>
   );
 }

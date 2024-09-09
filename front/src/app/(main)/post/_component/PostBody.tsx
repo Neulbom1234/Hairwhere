@@ -2,23 +2,36 @@
 
 import style from "@/app/(main)/post/post.module.css";
 import Link from "next/link";
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { ChangeEventHandler, FormEvent, useEffect, useState, useRef} from "react";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import type { PageInfo } from "@/model/PageInfo";
+import { useStore } from "@/store/store";
+import { useRouter } from "next/navigation";
 
 type Props = {
   params?: { sn: string, sa: string };
 }
 
-export default function PostBody({params}: Props) {
-  const [shop, setShop] = useState<string>('');
-  const [shopAddress, setShopAddress] = useState<string>('');
-  const [hair, setHair] = useState<string>('');
-  const [content, setContent] = useState<string>('');
-  const [previews, setPreviews] = useState<string[]>([]);
-  const [imgMax, setImgMax] = useState<string>('');
+type PreviewType = { 
+  dataUrl: string; 
+  file: File 
+};
 
-  const [selectedGender, setSelectedGender] = useState("0");
-  const [selectedHairLength, setSelectedHairLength] = useState("0");
-  const [selectedHairColor, setSelectedHairColor] = useState("0");
+export default function PostBody({params}: Props) {
+  const {
+    shop, setShop,
+    shopAddress, setShopAddress,
+    hairName, setHairName,
+    text, setText,
+    preview, setPreview,
+    imgMax, setImgMax,
+    gender, setGender,
+    hairLength, setHairLength,
+    hairColor, setHairColor
+  } = useStore();
+  const imageRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   useEffect(() => {
     if(params) {
@@ -26,47 +39,132 @@ export default function PostBody({params}: Props) {
       setShopAddress(params.sa);
       console.log(`shop: ${shop}, shopAdress: ${shopAddress}`);
     }
-  })
+  }, [params])
 
+  const mutation = useMutation({
+    mutationFn: async (e: FormEvent) => {
+      e.preventDefault();
+      console.log(document.cookie);
+      // FormData 객체 생성 및 preview 파일 추가
+      const formData = new FormData();
+      preview.forEach((p) => {
+        p && formData.append('photoImagePath', p.file);
+      });
+      formData.append('text', text);
+      formData.append('hairName', hairName);
+      formData.append('hairLength', hairLength);
+      formData.append('hairColor', hairColor);
+      formData.append('gender', gender);
+      formData.append('hairSalon', shop);
+      formData.append('hairSalonAddress', shopAddress);
+      formData.append('created', new Date().toISOString().split('.')[0]);
+
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:, ${value}`);
+      }
+      const response = await fetch(`/photo/upload`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        // response.ok가 false면 onError로 넘어갑니다.
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+  
+      return response;
+
+    },
+    async onSuccess(response) {
+      // const newPost = await response.json();
+      setText('');
+      setPreview([]);
+      setHairName('');
+      setHairColor("0");
+      setHairLength("0");
+      setGender("0");
+      setShop('');
+      setShopAddress('');
+      // if(queryClient.getQueryData(['posts', 'recommends'])) {
+      //   queryClient.setQueryData(['posts', 'recommends'], (prevData: {pages: PageInfo[]}) => {
+      //     const shallow = {
+      //       ...prevData,
+      //       pages: [...prevData.pages],
+      //     };
+      //     shallow.pages[0] = {
+      //       ...shallow.pages[0],
+      //     // @ts-ignore
+      //       content: [response, ...shallow.pages[0].content],
+      //     };
+      //     return shallow;
+      //   })
+      // }
+      router.push('/');
+    },
+    onError(error) {
+      console.error(error);
+      alert("업로드 중 에러가 발생했습니다.");
+    }
+  });
+  
+
+  
   const onChangeShop: ChangeEventHandler<HTMLInputElement> = (e) => {
     setShop(e.target.value);
   };
 
-  const onChangeHair: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setHair(e.target.value);
+  const onChangeHairName: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setHairName(e.target.value);
   };
 
-  const onChangeContent: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setContent(e.target.value);
+  const onChangeText: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    setText(e.target.value);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
     if (files) {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+      // 이미 3장의 사진이 등록된 상태라면 더 이상 처리하지 않음
+      if (files.length > 3) {
+        setImgMax('사진은 최대 3장 등록 가능합니다!');
+        return;
+      }
+
+      const fileArray = Array.from(files).slice(0, 3);  // 파일 목록에서 처음 3개만 가져옴
+      const previewsToAdd: PreviewType[] = [];
+
+      fileArray.forEach((file) => {
         const reader = new FileReader();
         reader.onload = (event) => {
-          if (event.target && event.target.result) {
-            const result = event.target.result as string;
-            setPreviews((prevPreviews) => [...prevPreviews, result]);
+          if (event.target && typeof event.target.result === 'string') {
+            const dataUrl = event.target.result;
+            const newPreview: PreviewType = { dataUrl, file };
+            previewsToAdd.push(newPreview);
 
-            if (previews.length + 1 === 3) {
-              setImgMax('사진은 최대 3장 등록 가능합니다!');
-            } else {
-              setImgMax(''); 
+            // 모든 파일이 읽힌 후에 상태를 업데이트
+            if (previewsToAdd.length === fileArray.length) {
+              setPreview((prevPreview) => {
+                const totalPreviews = prevPreview.length + previewsToAdd.length;
+                if (totalPreviews > 3) {
+                  setImgMax('사진은 최대 3장 등록 가능합니다!');
+                  return [...prevPreview, ...previewsToAdd.slice(0, 3 - prevPreview.length)];
+                }
+                return [...prevPreview, ...previewsToAdd];
+              });
             }
           }
         };
-        reader.readAsDataURL(file); 
-      }
+        reader.readAsDataURL(file);
+      });
     }
   };
 
+
   const handleDeletePreview = (index: number) => {
-    setPreviews((prevPreviews) => {
-      const newPreviews = [...prevPreviews];
+    setPreview((prevPreview) => {
+      const newPreviews = [...prevPreview];
       newPreviews.splice(index, 1);
 
       if (newPreviews.length < 3) {
@@ -78,17 +176,30 @@ export default function PostBody({params}: Props) {
   };
 
   const reLoad = () => {
-    setSelectedGender("0");
-    setSelectedHairLength("0");
-    setSelectedHairColor("0");
+    setGender("");
+    setHairLength("");
+    setHairColor("");
   };
+
+  const isButtonEnabled =
+    shop !== "" &&
+    shopAddress !== "" &&
+    hairName !== "" &&
+    text !== "" &&
+    imgMax === "" &&
+    gender !== "" &&
+    hairLength !== "" &&
+    hairColor !== "" &&
+    preview.length > 0;
+
   return (
     <>
+    <form onSubmit={mutation.mutate}>
       {/* 사진등록 */}
       <div className={style.imgContainer}>
-        {previews.map((preview, index) => (
+        {preview.map((p, index) => (
           <div key={index} className={style.imgBox}>
-            <img src={preview} className={style.previewImage} alt={`Preview ${index}`} />            
+            <img src={p?.dataUrl} className={style.previewImage} alt={`Preview ${index}`} />            
             <button className={style.closeButton} onClick={() => handleDeletePreview(index)}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
             </button>
@@ -97,15 +208,15 @@ export default function PostBody({params}: Props) {
       </div>
       
       {/* 이미지 개수 제한 안내 */}
-      {previews.length === 3 && (
+      {preview.length === 3 && (
         <span className={style.imgMax}>{imgMax}</span>
       )}
 
       {/* 파일 선택 */}
-      {previews.length < 3 && (
+      {preview.length < 3 && (
         <label className={style.imgBtn} htmlFor="img">
           <div>파일 선택</div>
-          <input id="img" type="file" onChange={handleImageChange} multiple style={{ display: 'none' }} />
+          <input id="img" type="file" name="photoImagePath[]" multiple hidden ref={imageRef} onChange={handleImageChange} style={{ display: 'none' }} />
         </label>
       )}
 
@@ -119,67 +230,74 @@ export default function PostBody({params}: Props) {
 
         {/* 성별 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.gender} value={selectedGender} onChange={(e) => setSelectedGender(e.target.value)}>
-            <option value="0" disabled>성별</option>
-            <option value="1">전체</option>
-            <option value="2">남자</option>
-            <option value="3">여자</option>
+          <select className={style.gender} 
+            value={gender} 
+            onChange={(e) => setGender(e.target.selectedOptions[0].text)}
+            style={{ border: gender !== "" ? "2px solid black" : ''}}
+            >
+            <option value="" hidden selected>성별</option>
+            <option value="남성">남성</option>
+            <option value="여성">여성</option>
           </select>
         </div>
 
         {/* 헤어 길이 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.hairLength} value={selectedHairLength} onChange={(e) => setSelectedHairLength(e.target.value)}>
-            <option value="0" disabled>길이</option>
-            <option value="1">전체</option>
-            <option value="2">롱</option>
-            <option value="3">미디움</option>
-            <option value="4">쇼트</option>
+          <select className={style.hairLength} 
+            value={hairLength} 
+            onChange={(e) => setHairLength(e.target.selectedOptions[0].text)}
+            style={{ border: hairLength !== "" ? "2px solid black" : ''}}>
+          <option value="" hidden selected>길이</option>
+          <option value="롱">롱</option>
+          <option value="미디움">미디움</option>
+          <option value="쇼트">쇼트</option>
           </select>
         </div>
 
         {/* 헤어 색상 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.hairColor} value={selectedHairColor} onChange={(e) => setSelectedHairColor(e.target.value)}>
-            <option value="0" disabled>색상</option>
-            <option value="1">전체</option>
-            <option value="2">골드브라운</option>
-            <option value="3">그레이</option>
-            <option value="4">다크브라운</option>
-            <option value="5">레드바이올렛</option>
-            <option value="6">레드브라운</option>
-            <option value="7">레드오렌지</option>
-            <option value="8">레드와인</option>
-            <option value="9">매트브라운</option>
-            <option value="10">머쉬룸블론드</option>
-            <option value="11">밀크브라운</option>
-            <option value="12">발레아쥬</option>
-            <option value="13">보라색</option>
-            <option value="14">브라운</option>
-            <option value="15">브릿지</option>
-            <option value="16">블랙</option>
-            <option value="17">블론드</option>
-            <option value="18">블루블랙</option>
-            <option value="19">새치염색</option>
-            <option value="20">솜브레</option>
-            <option value="21">애쉬그레이</option>
-            <option value="22">애쉬바이올렛</option>
-            <option value="23">애쉬베이지</option>
-            <option value="24">애쉬브라운</option>
-            <option value="25">애쉬블론드</option>
-            <option value="26">애쉬블루</option>
-            <option value="27">애쉬카키</option>
-            <option value="28">애쉬카키브라운</option>
-            <option value="29">애쉬퍼플</option>
-            <option value="30">애쉬핑크</option>
-            <option value="31">오렌지브라운</option>
-            <option value="32">옴브레</option>
-            <option value="33">초코브라운</option>
-            <option value="34">카키</option>
-            <option value="35">카키브라운</option>
-            <option value="36">탈색</option>
-            <option value="37">투톤</option>
-            <option value="38">핑크브라운</option>
+          <select className={style.hairColor} 
+            value={hairColor} 
+            onChange={(e) => setHairColor(e.target.selectedOptions[0].text)}
+            style={{ border: hairColor !== "" ? "2px solid black" : ''}}>
+          <option value="" hidden selected>색상</option>
+          <option value="골드브라운">골드브라운</option>
+          <option value="그레이">그레이</option>
+          <option value="다크브라운">다크브라운</option>
+          <option value="레드바이올렛">레드바이올렛</option>
+          <option value="레드브라운">레드브라운</option>
+          <option value="레드오렌지">레드오렌지</option>
+          <option value="레드와인">레드와인</option>
+          <option value="매트브라운">매트브라운</option>
+          <option value="머쉬룸블론드">머쉬룸블론드</option>
+          <option value="밀크브라운">밀크브라운</option>
+          <option value="발레아쥬">발레아쥬</option>
+          <option value="보라색">보라색</option>
+          <option value="브라운">브라운</option>
+          <option value="브릿지">브릿지</option>
+          <option value="블랙">블랙</option>
+          <option value="블론드">블론드</option>
+          <option value="블루블랙">블루블랙</option>
+          <option value="새치염색">새치염색</option>
+          <option value="솜브레">솜브레</option>
+          <option value="애쉬그레이">애쉬그레이</option>
+          <option value="애쉬바이올렛">애쉬바이올렛</option>
+          <option value="애쉬베이지">애쉬베이지</option>
+          <option value="애쉬브라운">애쉬브라운</option>
+          <option value="애쉬블론드">애쉬블론드</option>
+          <option value="애쉬블루">애쉬블루</option>
+          <option value="애쉬카키">애쉬카키</option>
+          <option value="애쉬카키브라운">애쉬카키브라운</option>
+          <option value="애쉬퍼플">애쉬퍼플</option>
+          <option value="애쉬핑크">애쉬핑크</option>
+          <option value="오렌지브라운">오렌지브라운</option>
+          <option value="옴브레">옴브레</option>
+          <option value="초코브라운">초코브라운</option>
+          <option value="카키">카키</option>
+          <option value="카키브라운">카키브라운</option>
+          <option value="탈색">탈색</option>
+          <option value="투톤">투톤</option>
+          <option value="핑크브라운">핑크브라운</option>
           </select>
         </div>
       </div>
@@ -191,17 +309,18 @@ export default function PostBody({params}: Props) {
       </div>
 
       {/* 헤어이름 입력 */}
-      <div className={style.choiceHair}>
-        <input id="hair" className={style.hairInput} value={hair} onChange={onChangeHair} type="text" placeholder="헤어이름 입력..." />
+      <div className={style.hairNameDiv}>
+        <input id="hairName" className={style.hairNameInput} value={hairName} onChange={onChangeHairName} type="text" placeholder="헤어이름 입력..." />
       </div>
 
       {/* 게시글 내용 작성 */}
-      <div className={style.postContent}>
-        <textarea id="content" className={style.content} value={content} onChange={onChangeContent} placeholder="게시글 작성..." />
+      <div className={style.postText}>
+        <textarea id="text" className={style.text} value={text} onChange={onChangeText} placeholder="게시글 작성..." />
       </div>
 
       {/* 게시글 등록 버튼 */}
-      <Link href="/login" className={style.postButton}>게시글 등록</Link>
+      <button className={style.postButton} style={isButtonEnabled ? {cursor: "pointer"} : {}} disabled={!isButtonEnabled}>게시글 등록</button>
+    </form>
     </>
   )
 }
