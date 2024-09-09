@@ -176,9 +176,9 @@ export default function PostBody({params}: Props) {
   };
 
   const reLoad = () => {
-    setGender("0");
-    setHairLength("0");
-    setHairColor("0");
+    setGender("");
+    setHairLength("");
+    setHairColor("");
   };
 
   const isButtonEnabled =
@@ -230,9 +230,12 @@ export default function PostBody({params}: Props) {
 
         {/* 성별 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.gender} value={gender} onChange={(e) => setGender(e.target.selectedOptions[0].text)}>
-            <option value="" disabled>성별</option>
-            <option value="전체">전체</option>
+          <select className={style.gender} 
+            value={gender} 
+            onChange={(e) => setGender(e.target.selectedOptions[0].text)}
+            style={{ border: gender !== "" ? "2px solid black" : ''}}
+            >
+            <option value="" hidden selected>성별</option>
             <option value="남성">남성</option>
             <option value="여성">여성</option>
           </select>
@@ -240,9 +243,11 @@ export default function PostBody({params}: Props) {
 
         {/* 헤어 길이 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.hairLength} value={hairLength} onChange={(e) => setHairLength(e.target.selectedOptions[0].text)}>
-          <option value="" disabled>길이</option>
-          <option value="전체">전체</option>
+          <select className={style.hairLength} 
+            value={hairLength} 
+            onChange={(e) => setHairLength(e.target.selectedOptions[0].text)}
+            style={{ border: hairLength !== "" ? "2px solid black" : ''}}>
+          <option value="" hidden selected>길이</option>
           <option value="롱">롱</option>
           <option value="미디움">미디움</option>
           <option value="쇼트">쇼트</option>
@@ -251,9 +256,11 @@ export default function PostBody({params}: Props) {
 
         {/* 헤어 색상 선택 */}
         <div className={style.hairDiv}>
-          <select className={style.hairColor} value={hairColor} onChange={(e) => setHairColor(e.target.selectedOptions[0].text)}>
-          <option value="" disabled>색상</option>
-          <option value="전체">전체</option>
+          <select className={style.hairColor} 
+            value={hairColor} 
+            onChange={(e) => setHairColor(e.target.selectedOptions[0].text)}
+            style={{ border: hairColor !== "" ? "2px solid black" : ''}}>
+          <option value="" hidden selected>색상</option>
           <option value="골드브라운">골드브라운</option>
           <option value="그레이">그레이</option>
           <option value="다크브라운">다크브라운</option>
