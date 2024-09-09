@@ -43,10 +43,10 @@ export const useStore = create<StoreState>((set) => ({
     })),
   imgMax: '',
   setImgMax: (imgMax) => set({ imgMax }),
-  gender: "0",
+  gender: "",
   setGender: (gender) => set({ gender }),
-  hairLength: "0",
+  hairLength: "",
   setHairLength: (hairLength) => set({ hairLength }),
-  hairColor: "0",
+  hairColor: "",
   setHairColor: (hairColor) => set({ hairColor }),
 }));
