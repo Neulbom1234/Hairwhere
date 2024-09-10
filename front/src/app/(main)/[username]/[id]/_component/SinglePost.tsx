@@ -77,7 +77,7 @@ export default function SinglePost({id}: Props) {
         <div className={style.postDate}>{dayjs(post.created).fromNow(true)} 전</div>
       </div>
       <div className={style.badgeWrapper}>
-        <Tag>{post.gender}</Tag>
+        <Tag>{post.gender === "male" ? "남성" : "여성"}</Tag>
         <Tag>{post.hairLength}</Tag>
         <Tag>{post.hairColor}</Tag>
       </div>

@@ -232,12 +232,12 @@ export default function PostBody({params}: Props) {
         <div className={style.hairDiv}>
           <select className={style.gender} 
             value={gender} 
-            onChange={(e) => setGender(e.target.selectedOptions[0].text)}
+            onChange={(e) => setGender(e.target.value)}
             style={{ border: gender !== "" ? "2px solid black" : ''}}
             >
             <option value="" hidden selected>성별</option>
-            <option value="남성">남성</option>
-            <option value="여성">여성</option>
+            <option value="male">남성</option>
+            <option value="female">여성</option>
           </select>
         </div>
 
