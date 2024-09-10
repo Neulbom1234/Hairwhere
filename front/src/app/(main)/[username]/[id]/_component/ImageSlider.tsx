@@ -20,15 +20,15 @@ export default function ImageSlider({ post }: Props) {
 
     // loadImages();
 
-    const slickList = document.querySelector('.slick-list') as HTMLElement; //Slick 내부의 .slick-list를 수정하기 위한 코드
-    if (slickList) {
-      slickList.style.width = '100%';
-    }
+  const slickList = document.querySelector('.slick-list') as HTMLElement; //Slick 내부의 .slick-list를 수정하기 위한 코드
+  if (slickList) {
+    slickList.style.width = '100%';
+  }
   }, [post]);
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: post.photoImagePath.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -39,8 +39,8 @@ export default function ImageSlider({ post }: Props) {
     <>
       <Slider {...settings} className={style.slider}>
         {post.photoImagePath.map((v) => (
-          <div className={style.imageWrapper}>
-            <img src={v}/>
+          <div key={v} className={style.imageWrapper}>
+            <img src={v} alt={`image - ${v}`}/>
           </div>
         ))}
       </Slider>
