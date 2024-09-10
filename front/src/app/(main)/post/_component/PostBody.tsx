@@ -73,7 +73,7 @@ export default function PostBody({params}: Props) {
         throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
 
-      console.log(response);
+      console.log(`response입니다: ${response.json()}`);
   
       return response;
 
