@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 export default function Header() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [jsessionIdExists, setJsessionIdExists] = useState(false);
 
   const getCookie = (name: string) => {
     const value = `; ${document.cookie}`;
@@ -30,7 +31,13 @@ export default function Header() {
       })
   }
 
-  const jsessionIdExists = getCookie('JSESSIONID');
+  useEffect(() => {
+    // 클라이언트에서만 실행
+    if (typeof document !== 'undefined') {
+      const jsessionId = getCookie('JSESSIONID');
+      setJsessionIdExists(!!jsessionId);
+    }
+  }, []);
 
   return (
     <>
