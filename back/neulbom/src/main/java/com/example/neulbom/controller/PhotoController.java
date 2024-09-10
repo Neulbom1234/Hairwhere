@@ -3,6 +3,7 @@ package com.example.neulbom.controller;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
+import com.example.neulbom.repository.UserRepository;
 import com.example.neulbom.service.LikeService;
 import com.example.neulbom.service.PhotoService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,6 +36,7 @@ public class PhotoController {
     private final PhotoRepository photoRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final UserRepository userRepository;
 
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestPart String text,
@@ -74,6 +76,8 @@ public class PhotoController {
 
             String name = (String) session.getAttribute("name");
 
+            User user = userRepository.findByName(name);
+
             logger.info("User '{}' stored in session", name);
             logger.info("User '{}' stored in session", session.getAttribute("name"));
 
@@ -108,7 +112,7 @@ public class PhotoController {
 
             logger.info("photoService.upload() completed successfully");
 
-            return ResponseEntity.ok("업로드 완료");
+            return ResponseEntity.ok(user);
         } catch (DateTimeParseException e) {
             return ResponseEntity.badRequest().body("날짜 형식이 올바르지 않습니다.");
         } catch (Exception e) {
