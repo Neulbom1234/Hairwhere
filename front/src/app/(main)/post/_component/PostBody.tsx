@@ -72,6 +72,8 @@ export default function PostBody({params}: Props) {
         // response.ok가 false면 onError로 넘어갑니다.
         throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
+
+      console.log(response);
   
       return response;
 

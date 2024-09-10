@@ -5,16 +5,18 @@ import Link from 'next/link';
 import { useRouter } from "next/navigation"
 import { signOut, useSession } from 'next-auth/react';
 import { Session } from '@auth/core/types';
+import { useEffect, useState } from 'react';
 
-type Props = {
-  me: Session | null;
-}
-
-
-
-export default function Header({me}: Props) {
+export default function Header() {
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  const getCookie = (name: string) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+    return null;
+  }
 
   const deleteCookie = (name: string) => {
     document.cookie = `${name}=; Max-Age=-99999999;`;
@@ -28,13 +30,15 @@ export default function Header({me}: Props) {
       })
   }
 
+  const jsessionIdExists = getCookie('JSESSIONID');
+
   return (
     <>
       <div className={style.header}>
         <div className={style.logo}>
           <span style={{fontWeight: "bold"}}>Logo</span>
         </div>
-        {status === 'authenticated' && me ?
+        {jsessionIdExists && session?
           // 아래 notice 코드는 추후 추가 예정
 
           // <Link href="/notice">
