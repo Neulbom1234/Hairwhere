@@ -4,10 +4,11 @@ import { Post } from "@/model/Post";
 export const getSinglePost: QueryFunction<Post, [_1: string, _2: string]>
  = async ({ queryKey }) => {
   const [_1, id] = queryKey;
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/photo/find/${id}`, {
+  const res = await fetch(`/photo/find/${id}`, {
     next: {
       tags: ['posts', id],
     },
+    cache: 'no-store'
   });
 
   if(!res.ok) {
