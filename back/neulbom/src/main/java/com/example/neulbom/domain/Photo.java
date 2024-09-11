@@ -66,7 +66,7 @@ public class Photo {
     @Builder.Default
     private List<Like> likes = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     public void increaseLikeCount() {
