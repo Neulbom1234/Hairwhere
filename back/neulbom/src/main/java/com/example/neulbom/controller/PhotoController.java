@@ -1,5 +1,6 @@
 package com.example.neulbom.controller;
 
+import com.example.neulbom.Dto.UserUploadResponseDto;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
@@ -39,7 +40,7 @@ public class PhotoController {
     private final UserRepository userRepository;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestPart String text,
+    public ResponseEntity<UserUploadResponseDto> upload(@RequestPart String text,
                                     @RequestPart String hairName,
                                     @RequestPart String gender,
                                     @RequestPart("photoImagePath") MultipartFile[] image,
@@ -71,7 +72,8 @@ public class PhotoController {
             }
             */
             if(session == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("session이 없습니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(new UserUploadResponseDto("session is null"));
             }
 
             String name = (String) session.getAttribute("name");
@@ -80,11 +82,11 @@ public class PhotoController {
 
             logger.info("User '{}' stored in session", name);
             logger.info("User '{}' stored in session", session.getAttribute("name"));
-
+            logger.info("User  '{}' get User value", user);
 
             if (name == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("세션에서 사용자 이름을 찾을 수 없습니다. 다시 로그인해주세요.");
+                        .body(new UserUploadResponseDto("세션에서 사용자 이름을 찾을 수 없습니다. 다시 로그인해주세요."));
             }
 
             for (MultipartFile file : image) {
@@ -93,13 +95,14 @@ public class PhotoController {
                 logger.info("File: {}, Content-Type: {}", file.getOriginalFilename(), contentType);
 
                 if (!contentType.startsWith("image/")) {
-                    return ResponseEntity.badRequest().body("Invalid file type");
+                    return ResponseEntity.badRequest()
+                            .body(new UserUploadResponseDto("Invalid file type"));
                 }
             }
 
             if (image.length > 3) {
                 return ResponseEntity.badRequest()
-                        .body("이미지는 최대 3개까지만 업로드 가능합니다.");
+                        .body(new UserUploadResponseDto("이미지는 최대 3개까지만 업로드 가능합니다."));
             }
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
@@ -112,13 +115,16 @@ public class PhotoController {
 
             logger.info("photoService.upload() completed successfully");
 
-            return ResponseEntity.ok(user);
+            UserUploadResponseDto userUploadResponseDto = new UserUploadResponseDto(user,id);
+
+            return ResponseEntity.ok(userUploadResponseDto);
         } catch (DateTimeParseException e) {
-            return ResponseEntity.badRequest().body("날짜 형식이 올바르지 않습니다.");
+            return ResponseEntity.badRequest()
+                    .body(new UserUploadResponseDto("날짜 형식이 올바르지 않습니다."));
         } catch (Exception e) {
             logger.error("Error occurred during upload", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("서버 오류가 발생했습니다: " + e.getMessage());
+                    .body(new UserUploadResponseDto("서버 오류가 발생했습니다: " + e.getMessage()));
         }
     }
 
