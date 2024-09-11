@@ -54,7 +54,7 @@ export default function Header({ post }: Props) {
           <span>{post.likeCount}</span>
         </div>
         <div className={style.seemore}>
-          <SeeMore/>  
+          <SeeMore writeUser={post.user}/>  
         </div> 
       </div>
     </>
