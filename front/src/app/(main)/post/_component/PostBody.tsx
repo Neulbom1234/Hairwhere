@@ -72,8 +72,6 @@ export default function PostBody({params}: Props) {
         // response.ok가 false면 onError로 넘어갑니다.
         throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
-
-      console.log(`response입니다: ${response.json()}`);
   
       return response;
 
@@ -321,7 +319,7 @@ export default function PostBody({params}: Props) {
       </div>
 
       {/* 게시글 등록 버튼 */}
-      <button className={style.postButton} style={isButtonEnabled ? {cursor: "pointer"} : {}} disabled={!isButtonEnabled}>게시글 등록</button>
+      <button className={style.postButton} style={isButtonEnabled ? {cursor: "pointer"} : {backgroundColor: "rgb(207, 217, 222)"}} disabled={!isButtonEnabled}>게시글 등록</button>
     </form>
     </>
   )
