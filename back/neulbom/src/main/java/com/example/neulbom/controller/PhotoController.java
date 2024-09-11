@@ -107,8 +107,8 @@ public class PhotoController {
 
             int likeCount = 0;
 
-            photoService.upload(name, image, likeCount, hairName, text, gender, created,
-                    hairSalon, hairSalonAddress, hairLength, hairColor);
+            Long id = photoService.upload(name, image, likeCount, hairName, text, gender, created,
+                    hairSalon, hairSalonAddress, hairLength, hairColor,user);
 
             logger.info("photoService.upload() completed successfully");
 

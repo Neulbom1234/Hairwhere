@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,9 +35,9 @@ public class PhotoService {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Transactional
-    public String upload(String name, MultipartFile[] image,
-                         int likeCount, String hairName, String text, String gender, LocalDateTime created,
-                         String hairSalon, String hairSalonAddress, String hairLength, String hairColor) {
+    public Long upload(String name, MultipartFile[] image,
+                                 int likeCount, String hairName, String text, String gender, LocalDateTime created,
+                                 String hairSalon, String hairSalonAddress, String hairLength, String hairColor, User user) {
         List<String> imagePaths = new ArrayList<>();
 
         for( MultipartFile file : image ) {
@@ -62,12 +63,14 @@ public class PhotoService {
                 .hairSalonAddress(hairSalonAddress)
                 .hairLength(hairLength)
                 .hairColor(hairColor)
-                //.contentType(image.getContentType())
+                .user(user)
                 .build();
 
         photorepository.save(photo);
 
-        return "저장완료";
+        Long id = photo.getId();
+
+        return id;
     }
 
     @Transactional
