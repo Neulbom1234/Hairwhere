@@ -77,7 +77,7 @@ export default function PostBody({params}: Props) {
 
     },
     async onSuccess(response) {
-      // const newPost = await response.json();
+      const responseData = await response.json();
       setText('');
       setPreview([]);
       setHairName('');
@@ -86,21 +86,13 @@ export default function PostBody({params}: Props) {
       setGender("0");
       setShop('');
       setShopAddress('');
-      // if(queryClient.getQueryData(['posts', 'recommends'])) {
-      //   queryClient.setQueryData(['posts', 'recommends'], (prevData: {pages: PageInfo[]}) => {
-      //     const shallow = {
-      //       ...prevData,
-      //       pages: [...prevData.pages],
-      //     };
-      //     shallow.pages[0] = {
-      //       ...shallow.pages[0],
-      //     // @ts-ignore
-      //       content: [response, ...shallow.pages[0].content],
-      //     };
-      //     return shallow;
-      //   })
-      // }
+      // '/' 경로로 먼저 이동
       router.push('/');
+
+      // 짧은 시간 후에 `/${target.userName}/${target.id}`로 이동
+      setTimeout(() => {
+        router.push(`/${responseData.user.name}/${responseData.id}`);
+      }, 100);
     },
     onError(error) {
       console.error(error);
