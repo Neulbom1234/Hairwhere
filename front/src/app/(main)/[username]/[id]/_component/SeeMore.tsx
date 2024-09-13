@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogAction, AlertDialogCancel } from '@radix-ui/react-alert-dialog';
 import { MoreOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
@@ -31,6 +31,7 @@ export default function SeeMore({ writeUser }: Props) {
     {
       label: (
         <span
+          style={{color: '#dc2626'}}
           onClick={() => setIsOpen(true)} // Open dialog on click
         >
           삭제하기
@@ -39,6 +40,10 @@ export default function SeeMore({ writeUser }: Props) {
       key: '1',
     },
   ];
+
+  useEffect(() => {
+    console.log(`값이다: ${isOpen}`)
+  }, [isOpen])
 
   return (
     <>
@@ -55,14 +60,14 @@ export default function SeeMore({ writeUser }: Props) {
         <AlertDialogContent className={style['alert-dialog-content']}>
           <div>
             <h2>삭제하시겠습니까?</h2>
-            <p>이 작업은 되돌릴 수 없습니다. 게시글이 영구적으로 삭제됩니다.</p>
+            <p>이 작업은 되돌릴 수 없습니다.<br/>게시글이 영구적으로 삭제됩니다.</p>
           </div>
-          <div>
+          <div className={style['alert-dialog-footer']}>
             <AlertDialogCancel asChild>
-              <button className="btn-cancel" onClick={() => setIsOpen(false)}>취소</button>
+              <button className={style['btn-cancel']} onClick={() => setIsOpen(false)}>취소</button>
             </AlertDialogCancel>
             <AlertDialogAction asChild>
-              <button className="btn-delete" onClick={() => {
+              <button className={style['btn-delete']} onClick={() => {
                 // 삭제 로직 처리
                 setIsOpen(false);
               }}>삭제</button>
