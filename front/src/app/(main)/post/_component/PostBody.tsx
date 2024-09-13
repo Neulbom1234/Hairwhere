@@ -77,7 +77,7 @@ export default function PostBody({params}: Props) {
 
     },
     async onSuccess(response) {
-      // const newPost = await response.json();
+      const responseData = await response.json();
       setText('');
       setPreview([]);
       setHairName('');
@@ -86,21 +86,13 @@ export default function PostBody({params}: Props) {
       setGender("0");
       setShop('');
       setShopAddress('');
-      // if(queryClient.getQueryData(['posts', 'recommends'])) {
-      //   queryClient.setQueryData(['posts', 'recommends'], (prevData: {pages: PageInfo[]}) => {
-      //     const shallow = {
-      //       ...prevData,
-      //       pages: [...prevData.pages],
-      //     };
-      //     shallow.pages[0] = {
-      //       ...shallow.pages[0],
-      //     // @ts-ignore
-      //       content: [response, ...shallow.pages[0].content],
-      //     };
-      //     return shallow;
-      //   })
-      // }
+      // '/' 경로로 먼저 이동
       router.push('/');
+
+      // 짧은 시간 후에 `/${target.userName}/${target.id}`로 이동
+      setTimeout(() => {
+        router.push(`/${responseData.user.name}/${responseData.id}`);
+      }, 100);
     },
     onError(error) {
       console.error(error);
@@ -232,12 +224,12 @@ export default function PostBody({params}: Props) {
         <div className={style.hairDiv}>
           <select className={style.gender} 
             value={gender} 
-            onChange={(e) => setGender(e.target.selectedOptions[0].text)}
+            onChange={(e) => setGender(e.target.value)}
             style={{ border: gender !== "" ? "2px solid black" : ''}}
             >
             <option value="" hidden selected>성별</option>
-            <option value="남성">남성</option>
-            <option value="여성">여성</option>
+            <option value="male">남성</option>
+            <option value="female">여성</option>
           </select>
         </div>
 
@@ -319,7 +311,7 @@ export default function PostBody({params}: Props) {
       </div>
 
       {/* 게시글 등록 버튼 */}
-      <button className={style.postButton} style={isButtonEnabled ? {cursor: "pointer"} : {}} disabled={!isButtonEnabled}>게시글 등록</button>
+      <button className={style.postButton} style={isButtonEnabled ? {cursor: "pointer"} : {backgroundColor: "rgb(207, 217, 222)"}} disabled={!isButtonEnabled}>게시글 등록</button>
     </form>
     </>
   )

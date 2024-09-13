@@ -4,7 +4,7 @@ import { PostImage } from "./PostImage";
 import { User } from "./User";
 
 export interface Post {
-  User: User;
+  user: User;
   id: number;
   userName: string;
   photoImagePath: string[];

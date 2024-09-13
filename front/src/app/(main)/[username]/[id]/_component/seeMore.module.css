@@ -1,3 +1,38 @@
-.icon {
-  font-size: 24px;
+/* seeMore.module.css */
+.alert-dialog-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 500px; /* 최대 너비 설정 */
+  width: 100%; /* 너비를 100%로 설정 */
+}
+
+.alert-dialog-header {
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.alert-dialog-body {
+  margin-bottom: 24px;
+  font-size: 1rem;
+}
+
+.alert-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.alert-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
 }

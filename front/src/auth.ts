@@ -48,12 +48,16 @@ export const {
         console.log('user', user);
 
         return { // auth에서는 email, name, image만 지원하므로 user 정보들의 이름을 바꿔서 반환
-          email: user.loginId,
+          id: user.loginId,
+          email: user.email,
           name: user.name,
           image: user.profilePath,
           ...user,
         };
       },
     }),
-  ]
+  ],
+  session: {
+    maxAge: 60 * 60, // 세션 유효 시간: 1시간
+  }
 });

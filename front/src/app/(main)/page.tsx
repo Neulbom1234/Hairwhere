@@ -8,12 +8,11 @@ import CategoryDeciderSuspense from "./_component/CategoryDeciderSuspense";
 import { auth } from "@/auth";
 
 export default async function Home() {
-  const session = await auth();
 
   return (
     <div className={style.main}>
       <CategoryProvider>
-        <Header me={session}/>
+        <Header/>
         <Suspense fallback={<Loading/>}>
           <CategoryDeciderSuspense/>
         </Suspense>

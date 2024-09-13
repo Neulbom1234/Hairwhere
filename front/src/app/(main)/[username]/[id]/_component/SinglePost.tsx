@@ -77,19 +77,19 @@ export default function SinglePost({id}: Props) {
         <div className={style.postDate}>{dayjs(post.created).fromNow(true)} 전</div>
       </div>
       <div className={style.badgeWrapper}>
-        <Tag>{post.gender}</Tag>
+        <Tag>{post.gender === "male" ? "남성" : "여성"}</Tag>
         <Tag>{post.hairLength}</Tag>
         <Tag>{post.hairColor}</Tag>
       </div>
 
-      {post.User && (
+      {post.user && (
       <div className={style.userBadge}>
-        <Link href={`/${post.User.id}`}>
-          {post.User.profile === '' ?
+        <Link href={`/${post.user.loginId}`}>
+          {post.user.profilePath === '' ?
             <Avatar size={44} icon={<UserOutlined/>} /> :
-            <Avatar size={44} src={post.User.profile} />
+            <Avatar size={44} src={post.user.profilePath} />
           }
-          <div className={style.userName}>{post.User.nickname}</div>
+          <div className={style.userName}>{post.user.name}</div>
         </Link>
       </div>
       )}

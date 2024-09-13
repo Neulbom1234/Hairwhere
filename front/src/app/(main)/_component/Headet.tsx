@@ -5,14 +5,9 @@ import Link from 'next/link';
 import { useRouter } from "next/navigation"
 import { signOut, useSession } from 'next-auth/react';
 import { Session } from '@auth/core/types';
+import { useEffect, useState } from 'react';
 
-type Props = {
-  me: Session | null;
-}
-
-
-
-export default function Header({me}: Props) {
+export default function Header() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -34,7 +29,7 @@ export default function Header({me}: Props) {
         <div className={style.logo}>
           <span style={{fontWeight: "bold"}}>Logo</span>
         </div>
-        {status === 'authenticated' && me ?
+        {session?
           // 아래 notice 코드는 추후 추가 예정
 
           // <Link href="/notice">
