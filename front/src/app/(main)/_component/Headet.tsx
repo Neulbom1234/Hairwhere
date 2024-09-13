@@ -10,14 +10,6 @@ import { useEffect, useState } from 'react';
 export default function Header() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [jsessionIdExists, setJsessionIdExists] = useState(false);
-
-  const getCookie = (name: string) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift();
-    return null;
-  }
 
   const deleteCookie = (name: string) => {
     document.cookie = `${name}=; Max-Age=-99999999;`;
@@ -31,21 +23,13 @@ export default function Header() {
       })
   }
 
-  useEffect(() => {
-    // 클라이언트에서만 실행
-    if (typeof document !== 'undefined') {
-      const jsessionId = getCookie('JSESSIONID');
-      setJsessionIdExists(!!jsessionId);
-    }
-  }, []);
-
   return (
     <>
       <div className={style.header}>
         <div className={style.logo}>
           <span style={{fontWeight: "bold"}}>Logo</span>
         </div>
-        {jsessionIdExists && session?
+        {session?
           // 아래 notice 코드는 추후 추가 예정
 
           // <Link href="/notice">
