@@ -54,6 +54,7 @@ public class UserController {
 
             session.setAttribute("name", name);
             session.setAttribute("loginId", loginId);
+            session.setAttribute("userId", user.getId());
 
             logger.info("Session ID: {}", session.getId());
             logger.info("User '{}' stored in session", session.getAttribute("name"));
@@ -141,10 +142,13 @@ public class UserController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Long id = (Long)session.getAttribute("id");
+        String loginId = (String) session.getAttribute("loginId");
         //Long id = 1L;
 
-        User user = userService.findById(id);
+        logger.info(loginId + " loginId 정보");
+        User user = userService.findByLoginId(loginId);
+
+        logger.info(user + " user 정보");
 
         List<Like> likes = likeService.findByUser(user);//user를 기준으로 좋아요한 게시글들 찾기
 

@@ -102,14 +102,20 @@ public class PhotoService {
     @Transactional
     public String deletePhoto(Long photoId, String name) {
         Photo photo = findPhotoById(photoId);
-        validateUserName(name, photo.getUserName());
 
-        for(String imagePath : photo.getPhotoImagePath()) {
-            s3Service.deleteImageFromS3(imagePath);
+        if(validateUserName(name, photo.getUserName())){
+
+            for(String imagePath : photo.getPhotoImagePath()) {
+                s3Service.deleteImageFromS3(imagePath);
+            }
+
+            photorepository.delete(photo);
+
+            return "삭제 완료";
         }
-
-        photorepository.delete(photo);
-        return "삭제 완료";
+        else{
+            return "삭제 실패";
+        }
     }
 
     @Transactional
@@ -139,6 +145,21 @@ public class PhotoService {
 
     public Page<Photo> findLikedPhotosByUser(List<Like> likes, Pageable pageable) {
 
+        if (likes.isEmpty()) {
+            logger.error("예외처리에 의한 빈 likes" );
+            return Page.empty();
+        }
+
+        if(pageable.getPageNumber() < 0){
+            logger.error("page getPageNumber값이 < 0");
+            return Page.empty();
+        }
+
+        if(pageable.getPageSize() <= 0){
+            logger.error("page getPageSize() <= 0");
+            return Page.empty();
+        }
+
         List<Photo> photos = likes.stream()
                 .map(Like::getPhoto)
                 .collect(Collectors.toList());
@@ -155,9 +176,12 @@ public class PhotoService {
         return photorepository.search(hairName,hairLength,hairColor,gender,pageable);
     }
 
-    private void validateUserName(String photoName, String userName) {
+    private boolean validateUserName(String userName, String photoName) {
         if (!photoName.equals(userName)) {
-            throw new IllegalArgumentException("사진을 삭제할 권한이 없습니다.");
+            return false;
+        }
+        else{
+            return true;
         }
     }
 }

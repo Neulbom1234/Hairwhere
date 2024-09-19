@@ -159,7 +159,7 @@ public class PhotoController {
         return photoService.findById(id);
     }
 
-    @GetMapping("/find/{id}/likes")
+    @GetMapping("/find/{id}/likes")// 게시글에 좋아요를 한 사용자들의 목록
     public ResponseEntity<List<User>> getUserWhoPhotoLiked(@PathVariable("id") Long id){
         Photo photo = photoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("사진을 찾을 수 없습니다."));
@@ -172,7 +172,7 @@ public class PhotoController {
     @DeleteMapping("/delete/{id}")
     public String delete(HttpSession session,@PathVariable("id") Long id){
         String name = (String) session.getAttribute("name");
-        photoService.deletePhoto(id,name);
+        photoService.deletePhoto(id,name);//게시글 id와 session에 저장된 name
         return "삭제 완료";
     }
 

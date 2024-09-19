@@ -27,20 +27,20 @@ public class LikeService {
 
         Optional<Like> isLiked = likeRepository.findByUserAndPhoto(user,photo);
 
-        if(isLiked.isPresent()){
+        if(isLiked.isPresent()){// 좋아요가 되어있으니 좋아요 -1해야함
             likeRepository.delete(isLiked.get());
             photo.decreaseLikeCount();
             photoService.save(photo);
 
-            return false;
+            return true;
         }
-        else{
+        else{// 좋아요가 안되어있으니 좋아요+1 해야함
             Like like = new Like(photo,user);
             likeRepository.save(like);
             photo.increaseLikeCount();
             photoService.save(photo);
 
-            return true;
+            return false;
         }
     }
 
@@ -56,7 +56,23 @@ public class LikeService {
         return likes.stream()
                 .map(Like::getUser)  // Like 엔티티에서 User 엔티티 추출
                 .collect(Collectors.toList());
-
     }
+
+    /*
+    public void saveUser(Long userId,Long id){
+        User user = userService.findById(userId);
+        Photo photo = photoService.findById(id);
+
+        Like like = new Like(photo,user);
+    }
+
+    @Transactional
+    public void deleteUser(Long userId,Long id){
+        User user = userService.findById(userId);
+        Photo photo = photoService.findById(id);
+
+        likeRepository.deleteByUserAndPhoto(user,photo);
+    }
+    */
 
 }

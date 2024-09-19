@@ -5,10 +5,12 @@ import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.User;
 import com.example.neulbom.service.LikeService;
 import com.example.neulbom.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,35 +19,56 @@ import org.springframework.web.bind.annotation.*;
 public class LikeController {
 
     private final LikeService likeService;
-    private final UserService userService;
 
-    /*
     @PostMapping("/{id}")
-    public ResponseEntity<Integer> addLike(@PathVariable("id") Long id, HttpSession session) {
-        int likes = likeService.addLike(id);
-        String name = session.getAttribute("username").toString();
+    @Transactional
+    public ResponseEntity<String> addLike(@PathVariable("id") Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
 
-        User user = userService.findByName(name); // User id 얻으려고 작성함
+        Long userId = (Long) session.getAttribute("userId");
 
-        return new ResponseEntity<>(likes, HttpStatus.OK);
+        boolean isLiked = likeService.isLiked(id,userId);
+
+        if(isLiked){
+            return ResponseEntity.status(HttpStatus.OK).body("좋아요 삭제");
+        }
+        else{
+            //likeService.saveUser(userId,id);
+            return ResponseEntity.status(HttpStatus.OK).body("좋아요 추가");
+        }
+
     }
-
+/*
     @DeleteMapping("/{id}")
-    public ResponseEntity<Integer> deleteLike(@PathVariable("id") Long id) {
-        int likes = likeService.deleteLike(id);
+    @Transactional
+    public ResponseEntity<Void> deleteLike(@PathVariable("id") Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
 
-        return new  ResponseEntity<>(likes,HttpStatus.OK);
+        Long userId = (Long) session.getAttribute("userId");
+
+        boolean isLiked = likeService.isLiked(id,userId);
+
+        if(isLiked){ //200 이면 안내려감
+            //likeService.deleteUser(userId,id);// 사용자와 게시글 사이에 좋아요 관계 삭제
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     */
 
-    @PostMapping("{id}")
-    public ResponseEntity<String> isLiked(@PathVariable Long id ,HttpSession session) {
+    /*
+    @GetMapping("{id}")
+    public ResponseEntity<String> isLiked(@PathVariable Long id , HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
 
         Long userId = (Long) session.getAttribute("userId");
         //Long userId = 1L;
         boolean isLiked = likeService.isLiked(id,userId);
 
-        if(isLiked){
+        if(isLiked){//
             return new ResponseEntity<>("like added",HttpStatus.OK);
         }
         else{
@@ -53,5 +76,5 @@ public class LikeController {
         }
 
     }
-
+    */
 }

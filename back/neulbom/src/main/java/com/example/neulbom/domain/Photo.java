@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 public class Photo {
 
     private static final int DEFAULT_LIKE_NUM = 0;

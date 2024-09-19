@@ -63,8 +63,10 @@ public class UserService {
         return "수정 완료";
     }
 
+
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+
 
 }
