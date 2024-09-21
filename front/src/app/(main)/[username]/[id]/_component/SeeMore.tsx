@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+"use client";
+
+import React, { MouseEventHandler, useEffect, useState } from 'react';
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogAction, AlertDialogCancel } from '@radix-ui/react-alert-dialog';
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import { MoreOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
-import { User } from '@/model/User';
 import style from './seeMore.module.css';
+import { Post } from '@/model/Post';
+import { useRouter } from "next/navigation";
 
 type Props = {
-  writeUser: User
+  post: Post
 }
 
 const items = [
@@ -20,8 +24,9 @@ const items = [
   },
 ];
 
-export default function SeeMore({ writeUser }: Props) {
+export default function SeeMore({ post }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const loginItems = [
     {
@@ -45,9 +50,38 @@ export default function SeeMore({ writeUser }: Props) {
     console.log(`값이다: ${isOpen}`)
   }, [isOpen])
 
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/photo/delete/${post.id}`, {
+        method: 'delete',
+        credentials: 'include',
+      });
+
+      if(!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+
+      return response;
+    },
+    async onSuccess() {
+      router.push('/');
+      setTimeout(() => { // "/" 경로로 이동 후 새로고침 하기 위해 1초 타이머
+        window.location.reload(); // "/" 경로로 이동 후 새로운 게시물 목록을 받기 위해 새로고침
+      }, 100);
+    },
+    onError(error) {
+      console.error(error);
+      alert("삭제 중 에러가 발생했습니다.");
+    }
+  })
+
+  const onDeletePost = () => {
+    mutation.mutate();
+  }
+
   return (
     <>
-      <Dropdown menu={{ items: writeUser.name ? loginItems : items }} trigger={['click']}>
+      <Dropdown menu={{ items: post.user.name ? loginItems : items }} trigger={['click']}>
         <a onClick={(e) => e.preventDefault()}>
           <Space>
             <MoreOutlined />
@@ -69,6 +103,7 @@ export default function SeeMore({ writeUser }: Props) {
             <AlertDialogAction asChild>
               <button className={style['btn-delete']} onClick={() => {
                 // 삭제 로직 처리
+                onDeletePost();
                 setIsOpen(false);
               }}>삭제</button>
             </AlertDialogAction>
