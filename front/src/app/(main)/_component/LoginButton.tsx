@@ -27,7 +27,7 @@ export default function LoginButton() {
 
   return (
     <>
-      {session?
+      {document.cookie?
         // 아래 notice 코드는 추후 추가 예정
 
         // <Link href="/notice">
