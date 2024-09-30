@@ -2,7 +2,7 @@
 
 import style from './searchHeader.module.css';
 import { useState, ChangeEventHandler, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import HairCategoryMenu from './HairCategoryMenu';
 
 type Props = {
@@ -28,6 +28,15 @@ export default function SearchHeader({
 }: Props) {
   const [hairName, setHairName] = useState<string>('');
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const searchedHairName = searchParams.get('hairName');
+    if(searchedHairName) {
+      setHairName(searchedHairName);
+    }
+  }, [searchParams]);
+
 
   const onChangeHairName: ChangeEventHandler<HTMLInputElement> = (e) => { setHairName(e.target.value) };
 
