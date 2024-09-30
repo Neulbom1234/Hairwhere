@@ -5,28 +5,13 @@ import { useState, ChangeEventHandler, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import HairCategoryMenu from './HairCategoryMenu';
 
-type Props = {
-  categoryVisible: boolean;
-  setCategoryVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  gender: string;
-  setGender: React.Dispatch<React.SetStateAction<string>>;
-  hairLength: string;
-  setHairLength: React.Dispatch<React.SetStateAction<string>>;
-  hairColor: string;
-  setHairColor: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export default function SearchHeader({
-  categoryVisible,
-  setCategoryVisible,
-  gender,
-  setGender,
-  hairLength,
-  setHairLength,
-  hairColor,
-  setHairColor,
-}: Props) {
+export default function SearchHeader() {
   const [hairName, setHairName] = useState<string>('');
+
+  const [categoryVisible, setCategoryVisible] = useState(false);
+  const [gender, setGender] = useState<string>('');
+  const [hairLength, setHairLength] = useState<string>('');
+  const [hairColor, setHairColor] = useState<string>('');
   const router = useRouter();
   const searchParams = useSearchParams();
 
