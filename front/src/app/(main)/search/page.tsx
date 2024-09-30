@@ -7,6 +7,10 @@ import SearchHeader from '../_component/SearchHeader';
 
 export default function Search() {
   const [searchKeywords, setSearchKeywords] = useState<string[]>([]);
+  const [categoryVisible, setCategoryVisible] = useState(false);
+  const [gender, setGender] = useState<string>('');
+  const [hairLength, setHairLength] = useState<string>('');
+  const [hairColor, setHairColor] = useState<string>('');
   const router = useRouter();
 
   useEffect(() => {
@@ -24,12 +28,21 @@ export default function Search() {
   }
 
   const redirectToPage = (searchedKeyword: string) => {
-    router.push(`/searchResult?q=${searchedKeyword}`);
+    router.push(`/searchResult?hairName=${searchedKeyword}&gender=''&hairLength=''&hairColor=''`);
   };
 
     return (
       <>
-        <SearchHeader/>
+        <SearchHeader
+          categoryVisible={categoryVisible}
+          setCategoryVisible={setCategoryVisible}
+          gender={gender}
+          setGender={setGender}
+          hairLength={hairLength}
+          setHairLength={setHairLength}
+          hairColor={hairColor}
+          setHairColor={setHairColor}
+        />
         <div className={style.header}>
           <h2 className={style.recentSearch}>최근 검색어</h2>
           <span className={style.allClear} onClick={onAllDelete}>전체 삭제</span>
