@@ -6,7 +6,7 @@ import SearchHeader from '../_component/SearchHeader';
 import SearchResult from "./_component/SearchResult";
 
 type Props = {
-  searchParams: { q: string, f?: string, pf?: string };
+  searchParams: { hairName: string, gender: string, hairLength: string, hairColor: string };
 }
 
 export default function Page({searchParams}: Props) {
@@ -14,7 +14,7 @@ export default function Page({searchParams}: Props) {
 
     return (
       <>
-        <SearchHeader q={searchParams.q}/>
+        <SearchHeader/>
         <div className={style.postsWrapper}>
           <SearchResult searchParams={searchParams}/>
         </div>
