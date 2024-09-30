@@ -24,7 +24,7 @@ export default function Search() {
   }
 
   const redirectToPage = (searchedKeyword: string) => {
-    router.push(`/searchResult?q=${searchedKeyword}`);
+    router.push(`/searchResult?hairName=${searchedKeyword}&gender=''&hairLength=''&hairColor=''`);
   };
 
     return (

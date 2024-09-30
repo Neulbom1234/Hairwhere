@@ -2,26 +2,28 @@
 
 import style from './searchHeader.module.css';
 import { useState, ChangeEventHandler, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import HairCategoryMenu from './HairCategoryMenu';
 
-type Props = { q?: string };
+export default function SearchHeader() {
+  const [hairName, setHairName] = useState<string>('');
 
-export default function SearchHeader({q}: Props) {
-  const [searchQuery, setSearchQuery] = useState<string>('');
   const [categoryVisible, setCategoryVisible] = useState(false);
   const [gender, setGender] = useState<string>('');
   const [hairLength, setHairLength] = useState<string>('');
   const [hairColor, setHairColor] = useState<string>('');
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    if(!searchQuery && q) {
-      setSearchQuery(q);
+    const searchedHairName = searchParams.get('hairName');
+    if(searchedHairName) {
+      setHairName(searchedHairName);
     }
-  }, [q])
+  }, [searchParams]);
 
-  const onChangeSearchQuery: ChangeEventHandler<HTMLInputElement> = (e) => { setSearchQuery(e.target.value) };
+
+  const onChangeHairName: ChangeEventHandler<HTMLInputElement> = (e) => { setHairName(e.target.value) };
 
   const toggleVisible = () => {
     setCategoryVisible(!categoryVisible);
@@ -29,8 +31,8 @@ export default function SearchHeader({q}: Props) {
 
   const redirectToPage = (e: React.FormEvent) => {
     e.preventDefault(); // 기본 동작 방지
-    if (searchQuery.trim() !== '') {
-      router.push(`/searchResult?q=${searchQuery}`);
+    if (hairName.trim() !== '') {
+      router.push(`/searchResult?hairName=${hairName}&gender=${gender}&hairLength=${hairLength}&hairColor=${hairColor}`);
     }
   };
 
@@ -67,8 +69,8 @@ export default function SearchHeader({q}: Props) {
         <form>
           <div className={style.inputDiv}>
             <input className={style.input} name="search" type="search" placeholder="헤어명을 입력하세요"
-              value={searchQuery}
-              onChange={onChangeSearchQuery}
+              value={hairName}
+              onChange={onChangeHairName}
             />
             <button className={style.searchButton} onClick={redirectToPage}>
               <svg width={26} viewBox="0 0 24 24" aria-hidden="true"
