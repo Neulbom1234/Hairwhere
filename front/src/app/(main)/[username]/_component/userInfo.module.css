@@ -52,7 +52,7 @@
   /* background-color: aquamarine; */
   display: flex;
   justify-content: center;
-  align-items:end;
+  align-items:flex-end;
   margin-bottom: 2px;
   /* 배경색 머 하지 ~~? */
   /* background-color: rgb(170, 170, 170); */
