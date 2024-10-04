@@ -97,7 +97,7 @@ export default function NavMenu() {
         </Link>
       </li>
       <li> {/*  프로필페이지 */}
-        <Link href={`/${me?.user?.email}`}>
+        <Link href={"/myPage"}>
           <div className={style.navPill}>
             {segment === me?.user?.email?
             <svg viewBox="0 0 24 24" aria-hidden="true" className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-18jsvk2 r-lwhw9o r-cnnz9e" width={26} height={26}>

@@ -1,0 +1,8 @@
+/* 헤더 영역 */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow-y: hidden;
+  position: relative;
+}
