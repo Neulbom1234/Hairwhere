@@ -1,12 +1,11 @@
 import { QueryFunction } from "@tanstack/react-query";
-import { Post } from "@/model/Post";
-
+import { PageInfo } from "@/model/PageInfo";
 type Props = { pageParam?: number };
 
-export const getUserPosts: QueryFunction<Post[], [_1: string, _2: string, _3: string], number>
+export const getUserPosts: QueryFunction<PageInfo, [_1: string, _2: string, _3: string], number>
   = async ({queryKey, pageParam}) => {
     const [_1, _2, username] = queryKey;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/:userId/posts?page=${pageParam}&size=15`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/find/${username}/photos?page=${pageParam}&size=15`, {
       next: {
         tags: ['posts', 'users', username],
       },

@@ -8,7 +8,6 @@ type Props = {
   params: { username: string },
 }
 
-
 export default async function Profile({params}: Props) {
   const {username} = params;
   const queryClient = new QueryClient();

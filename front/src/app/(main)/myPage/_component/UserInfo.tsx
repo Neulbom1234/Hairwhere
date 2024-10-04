@@ -24,7 +24,6 @@ export default function UserInfo({username}: Props) {
           <div className={style.container}>
             <div className={style.profileDiv}>
               <div className={style.profile}></div>
-              <div className={style.nickname}>{username}</div>
             </div>
           </div>
           <div style={{

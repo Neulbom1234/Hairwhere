@@ -66,10 +66,8 @@
   height: auto;
 }
 .profile{
-  width: 60px;
-  height: 60px;
-  border-radius: 40px;
-  background-color: aqua;
+  width: 100px;
+  height: 100px;
   margin-top: 90px;
 }
 .nickname{
