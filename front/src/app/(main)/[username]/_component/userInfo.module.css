@@ -1,4 +1,3 @@
-/* 헤더 영역 */
 .main {
   display: flex;
   flex-direction: column;
@@ -7,7 +6,6 @@
   position: relative;
   height: 100vh;
 }
-
 .header{
   align-items: center;
   background-color: white;
@@ -31,8 +29,6 @@
   position: absolute;
   right: 3%;
 }
-
-/* 프로필 영역 */
 .body{
   height: 100dvh;
   margin-bottom: 60px;
@@ -41,21 +37,16 @@
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer and Edge */
 }
-
 .body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
-
 .container{
   width: 100%;
   height: auto;
-  /* background-color: aquamarine; */
   display: flex;
   justify-content: center;
   align-items:flex-end;
   margin-bottom: 2px;
-  /* 배경색 머 하지 ~~? */
-  /* background-color: rgb(170, 170, 170); */
 }
 .profileDiv{
   display: flex;
@@ -68,7 +59,7 @@
 .profile{
   width: 100px;
   height: 100px;
-  margin-top: 90px;
+  margin-top: 30px;
 }
 .nickname{
   font-weight: 900;
@@ -83,14 +74,11 @@
   background-color: #fff;
   cursor: pointer;
 }
-
-/* 게시글 영역 */
 .contents{
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
 }
-
 .content{
   position: relative;
   width: calc((100% - 6px) / 3);
@@ -106,7 +94,6 @@
   top: 0;
   left: 0;
 }
-
 .postsWrapper {
 display: flex;
 flex-wrap: wrap;
