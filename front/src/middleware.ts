@@ -10,5 +10,5 @@ export async function middleware() {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/post', '/likes', '/notice', '/username'], //로그인 하기 전 접근 못하는 페이지들
+  matcher: ['/post', '/likes', '/notice', '/myPage'], //로그인 하기 전 접근 못하는 페이지들
 }

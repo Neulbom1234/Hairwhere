@@ -1,5 +1,4 @@
 import { QueryFunction } from "@tanstack/react-query";
-import { Post } from "@/model/Post";
 import { PageInfo } from "@/model/PageInfo";
 
 type Props = { 

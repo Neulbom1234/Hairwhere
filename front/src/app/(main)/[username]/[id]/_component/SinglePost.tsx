@@ -84,7 +84,7 @@ export default function SinglePost({id}: Props) {
 
       {post.user && (
       <div className={style.userBadge}>
-        <Link href={`/${post.user.loginId}`}>
+        <Link href={`/${post.user.name}`}>
           {post.user.profilePath === '' ?
             <Avatar size={44} icon={<UserOutlined/>} /> :
             <Avatar size={44} src={post.user.profilePath} />

@@ -1,5 +1,6 @@
 import { QueryFunction } from "@tanstack/react-query";
 import { PageInfo } from "@/model/PageInfo";
+
 type Props = { pageParam?: number };
 
 export const getUserPosts: QueryFunction<PageInfo, [_1: string, _2: string, _3: string], number>
