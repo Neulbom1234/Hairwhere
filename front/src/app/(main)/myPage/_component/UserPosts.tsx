@@ -3,7 +3,7 @@
 import { InfiniteData, useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
 import {getUserPosts} from "../_lib/getUserPosts";
 import Post from "../../_component/Post";
-import {Post as IPost} from "@/model/Post";
+import { PageInfo } from "@/model/PageInfo";
 import { useInView } from "react-intersection-observer";
 import { Fragment, useEffect } from "react";
 
@@ -17,11 +17,16 @@ export default function UserPosts({username}: Props) {
     fetchNextPage,
     hasNextPage, 
     isFetching,
-  } = useInfiniteQuery<IPost[], Object, InfiniteData<IPost[]>, [_1: string, _2: string, _3: string], number>({
+  } = useInfiniteQuery<PageInfo, Object, InfiniteData<PageInfo>, [_1: string, _2: string, _3: string], number>({
     queryKey: ['posts', 'users', username],
     queryFn: getUserPosts,
     initialPageParam:0,
-    getNextPageParam: (lastPage)=>lastPage.at(-1)?.id,
+    getNextPageParam: (lastPage) => {
+      if (Array.isArray(lastPage)) {
+        return lastPage.at(-1)?.content[-1].id;
+      }
+      return undefined; // 배열이 아닐 경우 안전하게 undefined 반환
+    },
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
   })
@@ -45,7 +50,7 @@ export default function UserPosts({username}: Props) {
     <>
       {data?.pages?.map((page, idx) => (
         <Fragment key={idx}>
-          {page.map((post) => (
+          {page?.content?.map((post) => (
             <Post key={post.id} post={post} />
           ))}
         </Fragment>))}
