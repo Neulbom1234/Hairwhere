@@ -1,32 +1,26 @@
 "use client";
 
-import Post from "../../_component/Post";
-import { Post as IPost } from "@/model/Post";
-import { getSearchResult } from "@/app/(main)/searchResult/_lib/getSearchResult";
 import { InfiniteData, useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { Fragment, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
 import { PageInfo } from "@/model/PageInfo";
+import Post from "@/app/(main)/_component/Post";
+import { getSalonPosts } from "../_lib/getSalonPosts";
+import { useInView } from "react-intersection-observer";
+import { Fragment, useEffect } from "react";
 
 type Props = {
-  searchParams: { 
-    hairName: string;
-    gender: string;
-    hairLength: string;
-    hairColor: string;
-  };
+  salonName: string;
+  salonAddress: string;
 }
 
-export default function SearchResult({ searchParams }: Props) {
+export default function SalonPosts({salonName, salonAddress}: Props) {
   const {
     data,
     fetchNextPage,
-    hasNextPage, 
-    isFetching, 
-  } = useSuspenseInfiniteQuery<PageInfo, Object, InfiniteData<PageInfo>, [_1: string, _2: string, { hairName: string, gender: string, hairLength: string, hairColor: string }], number>({
-    //getSearchResult가 IPost[]을 반환, Object(searchParams)를 받음, 캐시 데이터의 타입, queryKey의 타입
-    queryKey: ["posts", "search", searchParams],
-    queryFn: getSearchResult,
+    hasNextPage,
+    isFetching
+  } = useSuspenseInfiniteQuery<PageInfo, Object, InfiniteData<PageInfo>, [_1: string, _2: string, _3: string], number>({
+    queryKey: ['salon', salonName, salonAddress],
+    queryFn: getSalonPosts,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (Array.isArray(lastPage)) {
@@ -48,8 +42,6 @@ export default function SearchResult({ searchParams }: Props) {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
-
-  console.log(data);
 
   return (
     <>
