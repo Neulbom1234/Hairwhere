@@ -69,7 +69,7 @@ export default function SinglePost({id}: Props) {
       <div className={style.hairInfoWrapper}>
         <div className={style.hairName}>{post.hairName}</div>
         <div className={style.hairSalon}>
-          <Link href={`/salon/${post.hairSalon}`}>
+          <Link href={`/salon/${post.hairSalon}/${post.hairSalonAddress}`}>
             {post.hairSalon}
           </Link>
           </div>
