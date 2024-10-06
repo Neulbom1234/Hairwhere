@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import {faker} from '@faker-js/faker';
 import type {Post}  from '../../../model/Post';
+import type { PageInfos } from '@/model/PageInfos';
 import {useState} from "react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -32,7 +33,24 @@ export default function Post({ post }: Props) {
     onMutate() {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
-      console.log(queryKeys);
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "posts") {
+          const value: PageInfos | Post | undefined = queryClient.getQueryData(queryKey);
+          if (value && 'pages' in value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
+            let index = -1;
+            value.pages.map((page) => {
+              index = page.content.findIndex((v) => {
+                v.id === post.id
+              });
+            });
+            if (index > -1) {
+
+            }
+          } else if (value) {
+
+          }
+        }
+      })
     },
     onError() {
 
