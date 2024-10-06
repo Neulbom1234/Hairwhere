@@ -62,6 +62,6 @@ export const {
     }),
   ],
   session: {
-    maxAge: 60 * 60, // 세션 유효 시간: 1시간
+    maxAge: 1800, // 세션 유효 시간: 30분
   }
 });

@@ -8,10 +8,9 @@ import 'dayjs/locale/ko';
 import {faker} from '@faker-js/faker';
 import type {Post}  from '../../../model/Post';
 import type { PageInfos } from '@/model/PageInfos';
-import {useState} from "react";
+import {MouseEventHandler, useState} from "react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-
+import { useSession } from 'next-auth/react';
 
 type Props = {
   post: Post,
@@ -21,8 +20,9 @@ dayjs.locale('ko');
 dayjs.extend(relativeTime)
 
 export default function Post({ post }: Props) {
-  const liked = false;
   const queryClient = useQueryClient();
+  const {data: session} = useSession();
+  const liked = !!post.likedUserNames.find((v) => v === session?.user?.name);
   const heart = useMutation({
     mutationFn: () => {
       return fetch(`/like/${post.id}`, {
@@ -38,16 +38,32 @@ export default function Post({ post }: Props) {
           const value: PageInfos | Post | undefined = queryClient.getQueryData(queryKey);
           if (value && 'pages' in value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
             let index = -1;
+            let pageNumber = -1;
             value.pages.map((page) => {
+              pageNumber += 1;
               index = page.content.findIndex((v) => {
-                v.id === post.id
+                return v.id === post.id;
               });
             });
             if (index > -1) {
-
+              const shallow = [...value.pages[pageNumber].content];
+              shallow[index] = {
+                ...shallow[index],
+                likedUserNames: [...shallow[index].likedUserNames, session?.user?.name as string],
+                likeCount: shallow[index].likeCount + 1,
+              }
+              queryClient.setQueryData(queryKey, shallow);
             }
           } else if (value) {
-
+            //싱글 포스트인 경우
+            if(value.id === post.id) {
+              const shallow = {
+                ...value,
+                likedUserNames: [...value.likedUserNames, session?.user?.name],
+                likeCount: value.likeCount + 1,
+              }
+              queryClient.setQueryData(queryKey, shallow);
+            }
           }
         }
       })
@@ -60,10 +76,66 @@ export default function Post({ post }: Props) {
     }
   })
 
-  // const onClickHeart = () => {}
-  const onClickHeart = async () => {
-    console.log("heart");
-    heart.mutate();
+  const unHeart = useMutation({
+    mutationFn: () => {
+      return fetch(`/like/${post.id}`, {
+        method: 'delete',
+        credentials: 'include',
+      })
+    },
+    onMutate() {
+      const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
+      const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "posts") {
+          const value: PageInfos | Post | undefined = queryClient.getQueryData(queryKey);
+          if (value && 'pages' in value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
+            let index = -1;
+            let pageNumber = -1;
+            value.pages.map((page) => {
+              pageNumber += 1;
+              index = page.content.findIndex((v) => {
+                return v.id === post.id;
+              });
+            });
+            if (index > -1) {
+              const shallow = [...value.pages[pageNumber].content];
+              shallow[index] = {
+                ...shallow[index],
+                likedUserNames: shallow[index].likedUserNames.filter((v) => v !== session?.user?.name),
+                likeCount: shallow[index].likeCount - 1,
+              }
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          } else if (value) {
+            //싱글 포스트인 경우
+            if(value.id === post.id) {
+              const shallow = {
+                ...value,
+                likedUserNames: value.likedUserNames.filter((v) => v !== session?.user?.name),
+                likeCount: value.likeCount - 1,
+              }
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      })
+    },
+    onError() {
+
+    },
+    onSettled() {
+
+    }
+  })
+
+  const onClickHeart: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    if (liked) {
+      unHeart.mutate();
+    } else {
+      heart.mutate();
+    }
   };
 
 
