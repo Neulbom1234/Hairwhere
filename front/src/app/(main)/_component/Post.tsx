@@ -8,7 +8,7 @@ import 'dayjs/locale/ko';
 import {faker} from '@faker-js/faker';
 import type {Post}  from '../../../model/Post';
 import type { PageInfos } from '@/model/PageInfos';
-import {MouseEventHandler, useState} from "react";
+import {MouseEventHandler, use, useEffect, useState} from "react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
@@ -20,9 +20,16 @@ dayjs.locale('ko');
 dayjs.extend(relativeTime)
 
 export default function Post({ post }: Props) {
+  const [liked, setLiked] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const {data: session} = useSession();
-  const liked = !!post.likedUserNames.find((v) => v === session?.user?.name);
+
+  // const liked = !!post.likedUserNames.find((v) => v === session?.user?.name);
+
+  useEffect(() => {
+    console.log('liked입니당 ', liked);
+  }, [liked])
+
   const heart = useMutation({
     mutationFn: () => {
       return fetch(`/like/${post.id}`, {
@@ -33,9 +40,9 @@ export default function Post({ post }: Props) {
     onMutate() {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
-      queryKeys.forEach((queryKey) => {
-        if(queryKey[0] === "posts") {
-          const value: PageInfos | Post | undefined = queryClient.getQueryData(queryKey);
+      const firstQueryKey = queryKeys[0] as (string | unknown)[];
+        if(firstQueryKey[0] === "posts") {
+          const value: PageInfos | Post | undefined = queryClient.getQueryData(firstQueryKey);
           if (value && 'pages' in value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
             let index = -1;
             let pageNumber = -1;
@@ -46,13 +53,16 @@ export default function Post({ post }: Props) {
               });
             });
             if (index > -1) {
-              const shallow = [...value.pages[pageNumber].content];
-              shallow[index] = {
-                ...shallow[index],
-                likedUserNames: [...shallow[index].likedUserNames, session?.user?.name as string],
-                likeCount: shallow[index].likeCount + 1,
+              console.log('밸류입니다 ', value);
+              const shallow = {...value};
+              shallow.pages[pageNumber].content[index] = {
+                ...shallow.pages[pageNumber].content[index],
+                likedUserNames: [...shallow.pages[pageNumber].content[index].likedUserNames, session?.user?.name as string],
+                likeCount: shallow.pages[pageNumber].content[index].likeCount + 1,
               }
-              queryClient.setQueryData(queryKey, shallow);
+              console.log('클릭한 페이지입니다.', shallow);
+              queryClient.setQueryData(firstQueryKey, shallow);
+              setLiked(true);
             }
           } else if (value) {
             //싱글 포스트인 경우
@@ -62,11 +72,10 @@ export default function Post({ post }: Props) {
                 likedUserNames: [...value.likedUserNames, session?.user?.name],
                 likeCount: value.likeCount + 1,
               }
-              queryClient.setQueryData(queryKey, shallow);
+              queryClient.setQueryData(firstQueryKey, shallow);
             }
           }
         }
-      })
     },
     onError() {
 
