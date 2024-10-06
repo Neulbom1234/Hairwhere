@@ -79,7 +79,7 @@ export default function Post({ post }: Props) {
   const unHeart = useMutation({
     mutationFn: () => {
       return fetch(`/like/${post.id}`, {
-        method: 'delete',
+        method: 'post',
         credentials: 'include',
       })
     },
