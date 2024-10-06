@@ -1,5 +1,6 @@
 package com.example.neulbom.service;
 
+import com.example.neulbom.Dto.PhotoResponse;
 import com.example.neulbom.controller.UserController;
 import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
@@ -74,34 +75,45 @@ public class PhotoService {
     }
 
     @Transactional
-    public Page<Photo> findByHairSalon(String hairSalon,Pageable pageable){
-        return photorepository.findByHairSalon(hairSalon,pageable);
+    public Page<PhotoResponse> findByHairSalon(String hairSalon,Pageable pageable){
+        Page<Photo> photo = photorepository.findByHairSalon(hairSalon,pageable);
+
+        return photo.map(PhotoResponse::fromEntity);
     }
 
     @Transactional
-    public Page<Photo> findByHairSalonAddress(String hairSalonAddress,Pageable pageable){
-        return photorepository.findByHairSalonAddress(hairSalonAddress,pageable);
+    public Page<PhotoResponse> findByHairSalonAddress(String hairSalonAddress,Pageable pageable){
+        Page<Photo> photo = photorepository.findByHairSalonAddress(hairSalonAddress,pageable);
+        return photo.map(PhotoResponse::fromEntity);
     }
 
     @Transactional
-    public Photo findById(Long id) {
+    public PhotoResponse findById(Long id) {
         return findPhotoById(id);
     }
 
     @Transactional
-    public Page<Photo> findByGender(String gender,Pageable pageable) {
-
-        return photorepository.findByGender(gender,pageable);
+    public Photo findById2(Long id) {
+        return findPhotoById2(id);
     }
 
     @Transactional
-    public Page<Photo> findAll(Pageable pageable) {
-        return photorepository.findAll(pageable);
+    public Page<PhotoResponse> findByGender(String gender,Pageable pageable) {
+        Page<Photo> photo = photorepository.findByGender(gender,pageable);
+
+        return photo.map(PhotoResponse::fromEntity);
+    }
+
+    @Transactional
+    public Page<PhotoResponse> findAll(Pageable pageable) {
+        Page<Photo> photo = photorepository.findAll(pageable);
+
+        return photo.map(PhotoResponse::fromEntity);
     }
 
     @Transactional
     public String deletePhoto(Long photoId, String name) {
-        Photo photo = findPhotoById(photoId);
+        Photo photo = findPhotoById2(photoId);
 
         if(validateUserName(name, photo.getUserName())){
 
@@ -125,7 +137,7 @@ public class PhotoService {
 
     @Transactional
     public void addLikeCount(Long photoId) {
-        Photo photo = findById(photoId);
+        Photo photo = findById2(photoId);
         photo.increaseLikeCount();
     }
 
@@ -135,7 +147,13 @@ public class PhotoService {
         photo.decreaseLikeCount();
     }
 
-    private Photo findPhotoById(Long photoId) {
+    private PhotoResponse findPhotoById(Long photoId) {
+        Photo photo = photorepository.findById(photoId).orElseThrow(() -> new IllegalArgumentException("해당 사진이 없습니다."));
+
+        return PhotoResponse.fromEntity(photo);
+    }
+
+    private Photo findPhotoById2(Long photoId) {
         return photorepository.findById(photoId).orElseThrow(() -> new IllegalArgumentException("해당 사진이 없습니다."));
     }
 
@@ -170,10 +188,11 @@ public class PhotoService {
         return new PageImpl<>(photos.subList(start, end), pageable, photos.size());
     }
 
-    public Page<Photo> search(String hairName, String hairLength,String hairColor,
+    public Page<PhotoResponse> search(String hairName, String hairLength,String hairColor,
                               String gender, Pageable pageable){
+        Page<Photo> photo = photorepository.search(hairName,hairLength,hairColor,gender,pageable);
 
-        return photorepository.search(hairName,hairLength,hairColor,gender,pageable);
+        return photo.map(PhotoResponse::fromEntity);
     }
 
     private boolean validateUserName(String userName, String photoName) {

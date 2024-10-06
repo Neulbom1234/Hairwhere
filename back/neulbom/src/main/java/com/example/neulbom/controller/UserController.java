@@ -23,6 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -174,12 +176,20 @@ public class UserController {
                                       @RequestParam(defaultValue = "created") String sortBy,
                                       @RequestParam(defaultValue = "desc") String sortOrder,
                                       @PathVariable String name) {
+        try{
+            String decodeName = URLDecoder.decode(name,"UTF-8");
 
-        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+            Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
 
-        Pageable pageable = PageRequest.of(page, size, sort);
+            Pageable pageable = PageRequest.of(page, size, sort);
 
-        return photoService.findByUserName(name,pageable);
+            return photoService.findByUserName(decodeName,pageable);
+        }
+        catch (UnsupportedEncodingException e) {
+            String errorMessage = "사용자 이름 디코딩 중 오류가 발생했습니다: " + e.getMessage();
+            logger.error(errorMessage, e);
+            return Page.empty();
+        }
     }
 
     private boolean isValidUser(String loginId, String pw) {

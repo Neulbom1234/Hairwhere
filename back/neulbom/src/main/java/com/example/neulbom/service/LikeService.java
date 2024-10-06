@@ -22,7 +22,7 @@ public class LikeService {
 
     @Transactional
     public boolean isLiked(Long photoId, Long userId) {
-        Photo photo = photoService.findById(photoId);
+        Photo photo = photoService.findById2(photoId);
         User user = userService.findById(userId);
 
         Optional<Like> isLiked = likeRepository.findByUserAndPhoto(user,photo);

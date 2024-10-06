@@ -1,5 +1,6 @@
 package com.example.neulbom.controller;
 
+import com.example.neulbom.Dto.PhotoResponse;
 import com.example.neulbom.Dto.UserUploadResponseDto;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
@@ -129,7 +130,7 @@ public class PhotoController {
     }
 
     @GetMapping("/find/all")
-    public Page<Photo> findAll(@RequestParam(defaultValue = "0") int page,
+    public Page<PhotoResponse> findAll(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "15") int size,
                                @RequestParam(defaultValue = "created") String sortBy,
                                @RequestParam(defaultValue = "desc") String sortOrder){
@@ -142,7 +143,7 @@ public class PhotoController {
     }
 
     @GetMapping("/findHair/{hairSalon}")
-    public Page<Photo> findByHairSalon(@RequestParam(defaultValue = "0") int page,
+    public Page<PhotoResponse> findByHairSalon(@RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "15") int size,
                                        @RequestParam(defaultValue = "created") String sortBy,
                                        @RequestParam(defaultValue = "desc") String sortOrder,
@@ -155,7 +156,7 @@ public class PhotoController {
     }
 
     @GetMapping("/find/{id}")
-    public Photo search(@PathVariable("id") Long id){
+    public PhotoResponse search(@PathVariable("id") Long id){
         return photoService.findById(id);
     }
 
@@ -177,7 +178,7 @@ public class PhotoController {
     }
 
     @GetMapping("/findByGender/{gender}")
-    public Page<Photo> findByGender(@RequestParam(defaultValue = "0") int page,
+    public Page<PhotoResponse> findByGender(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "15") int size,
                                     @RequestParam(defaultValue = "created") String sortBy,
                                     @RequestParam(defaultValue = "desc") String sortOrder,
@@ -191,7 +192,7 @@ public class PhotoController {
     }
 
     @GetMapping("/find/address/{hairSalonAddress}")
-    public Page<Photo> findByAddress(@RequestParam(defaultValue = "0") int page,
+    public Page<PhotoResponse> findByAddress(@RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "15") int size,
                                      @RequestParam(defaultValue = "created") String sortBy,
                                      @RequestParam(defaultValue = "desc") String sortOrder,
@@ -205,7 +206,7 @@ public class PhotoController {
     }
 
     @GetMapping("/search")
-    public Page<Photo> search(@RequestParam(defaultValue = "0") int page,
+    public Page<PhotoResponse> search(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "15") int size,
                               @RequestParam(defaultValue = "created") String sortBy,
                               @RequestParam(defaultValue = "desc") String sortOrder,
