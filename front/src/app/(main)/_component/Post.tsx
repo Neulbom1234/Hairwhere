@@ -32,7 +32,7 @@ export default function Post({ post }: Props) {
     onMutate() {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
-
+      console.log(queryKeys);
     },
     onError() {
 

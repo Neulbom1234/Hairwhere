@@ -39,6 +39,7 @@ export const {
           cookies().set('JSESSIONID', parsed['JSESSIONID'], {
             ...parsed,
             maxAge: 1800, //30분
+            path: '/'
           }); // 브라우저에 쿠키를 심어주는 것
         }
 
