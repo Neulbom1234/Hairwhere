@@ -1,31 +1,102 @@
 "use client"
 
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import SeeMore from './SeeMore';
 import style from './header.module.css'
 import { useRouter } from 'next/navigation'
-import { Post } from '@/model/Post';
+import { Post as IPost } from '@/model/Post';
+import { useSession } from 'next-auth/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type Props = {
-  post: Post;
+  post: IPost;
 };
 
 export default function Header({ post }: Props) {
-  const [liked, setLiked] = useState(false);
+  const queryClient = useQueryClient();
+  const {data: session} = useSession();
   const router = useRouter();
-  console.log(post);
+  const liked = !!post.likedUserNames?.find((v) => v === session?.user?.name);
 
   const onClickBack = () => {
     router.back();
   }
 
-  const onClickHeart = () => {
-    if(!liked) {
-      post.likeCount + 1;
-    } else {
-      post.likeCount - 1;
+  const heart = useMutation({
+    mutationFn: () => {
+      return fetch(`/like/${post.id}`, {
+        method: 'post',
+        credentials: 'include',
+      })
+    },
+    onMutate() {
+      const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
+      const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "posts" && !['recommends', 'man', 'women'].includes(queryKey[1] as string) ) {
+          const value: IPost | undefined = queryClient.getQueryData(queryKey);
+          if (value) {
+            if(value.id === post.id) {
+              const shallow = {
+                ...value,
+                likedUserNames: [...value.likedUserNames, session?.user?.name],
+                likeCount: value.likeCount + 1,
+              }
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      })
+    },
+    onError() {
+
+    },
+    onSettled() {
+
     }
-    setLiked(!liked);
+  })
+
+  const unHeart = useMutation({
+    mutationFn: () => {
+      return fetch(`/like/${post.id}`, {
+        method: 'post',
+        credentials: 'include',
+      })
+    },
+    onMutate() {
+      const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
+      const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "posts" && !['recommends', 'man', 'women'].includes(queryKey[1] as string) ) {
+          const value: IPost | undefined = queryClient.getQueryData(queryKey);
+          if (value) {
+            if(value.id === post.id) {
+              const shallow = {
+                ...value,
+                likedUserNames: value.likedUserNames.filter((v) => v !== session?.user?.name),
+                likeCount: value.likeCount - 1,
+              }
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      })
+    },
+    onError() {
+
+    },
+    onSettled() {
+
+    }
+  })
+
+  const onClickHeart:MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    if(liked) {
+      unHeart.mutate();
+    } else {
+      heart.mutate();
+    }
   }
 
   return (

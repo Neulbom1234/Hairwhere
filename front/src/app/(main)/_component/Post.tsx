@@ -40,10 +40,11 @@ export default function Post({ post }: Props) {
     onMutate() {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
-      const firstQueryKey = queryKeys[0] as (string | unknown)[];
-        if(firstQueryKey[0] === "posts") {
-          const value: InfiniteData<PageInfo> | Post | undefined = queryClient.getQueryData(firstQueryKey);
-          if (value && 'pages' in value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
+      console.log('쿼리키들입니당', queryKeys);
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "posts") {
+          const value: InfiniteData<PageInfo> | undefined = queryClient.getQueryData(queryKey);
+          if (value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
             console.log("밸루입니당: ", value)
             const obj = value.pages.flat().map((page) => {
               return page.content.find((v) => {
@@ -70,20 +71,11 @@ export default function Post({ post }: Props) {
                 likedUserNames: [ ...shallow.pages[pageIndex].content[index].likedUserNames, session?.user?.name as string ],
                 likeCount: shallow.pages[pageIndex].content[index].likeCount + 1
               }
-              queryClient.setQueryData(firstQueryKey, shallow);
+              queryClient.setQueryData(queryKey, shallow);
             }
-          } else if (value) {
-            //싱글 포스트인 경우
-            if(value.id === post.id) {
-              const shallow = {
-                ...value,
-                likedUserNames: [...value.likedUserNames, session?.user?.name],
-                likeCount: value.likeCount + 1,
-              }
-              queryClient.setQueryData(firstQueryKey, shallow);
-            }
-          }
+          } 
         }
+      })
     },
     onError() {
 
@@ -103,11 +95,10 @@ export default function Post({ post }: Props) {
     onMutate() {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
-      const firstQueryKey = queryKeys[0] as (string | unknown)[];
       queryKeys.forEach((queryKey) => {
         if(queryKey[0] === "posts") {
-          const value: InfiniteData<PageInfo> | Post | undefined = queryClient.getQueryData(firstQueryKey);
-          if (value && 'pages' in value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
+          const value: InfiniteData<PageInfo> | undefined = queryClient.getQueryData(queryKey);
+          if (value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
             console.log("밸루입니당: ", value)
             const obj = value.pages.flat().map((page) => {
               return page.content.find((v) => {
@@ -133,16 +124,6 @@ export default function Post({ post }: Props) {
                 ...shallow.pages[pageIndex].content[index],
                 likedUserNames: shallow.pages[pageIndex].content[index].likedUserNames.filter((v) => { v !== session?.user?.name }),
                 likeCount: shallow.pages[pageIndex].content[index].likeCount - 1
-              }
-              queryClient.setQueryData(firstQueryKey, shallow);
-            }
-          } else if (value) {
-            //싱글 포스트인 경우
-            if(value.id === post.id) {
-              const shallow = {
-                ...value,
-                likedUserNames: value.likedUserNames.filter((v) => v !== session?.user?.name),
-                likeCount: value.likeCount - 1,
               }
               queryClient.setQueryData(queryKey, shallow);
             }
