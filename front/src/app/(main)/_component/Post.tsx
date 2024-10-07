@@ -60,33 +60,18 @@ export default function Post({ post }: Props) {
                   return null; // 일치하지 않으면 null 반환
                 }).filter((number) => number !== null); // null 값을 필터링하여 반환
               }).flat(); // 결과를 1차원 배열로 만듭니다
-              
-              // 내부 숫자를 대입
-              const singleNumber = pi.length > 0 ? pi[0] : null; // pi의 첫 번째 요소를 대입, 배열이 비어있을 경우 null
-              
-              console.log('페이지 번호:', singleNumber); // singleNumber의 값을 확인
+              const pageIndex =pi[0]; // pi의 첫 번째 요소를 대입, 배열이 비어있을 경우 null
+              const index = value.pages[pageIndex].content.findIndex((v) => v.id === post.id);
+              const shallow = {...value};
+              value.pages = {...value.pages};
+              value.pages[pageIndex] = {...value.pages[pageIndex]};
+              shallow.pages[pageIndex].content[index] = {
+                ...shallow.pages[pageIndex].content[index],
+                likedUserNames: [ ...shallow.pages[pageIndex].content[index].likedUserNames, session?.user?.name as string ],
+                likeCount: shallow.pages[pageIndex].content[index].likeCount + 1
+              }
+              queryClient.setQueryData(firstQueryKey, shallow);
             }
-            
-            
-            // let index = -1;
-            // let pageNumber = -1;
-            // value.pages.map((page) => {
-            //   pageNumber += 1;
-            //   index = page.content.findIndex((v) => {
-            //     return v.id === post.id;
-            //   });
-            // });
-            // if (index > -1) {
-            //   console.log('밸류입니다 ', value);
-            //   const shallow = {...value};
-            //   shallow.pages[pageNumber].content[index] = {
-            //     ...shallow.pages[pageNumber].content[index],
-            //     likedUserNames: [...shallow.pages[pageNumber].content[index].likedUserNames, session?.user?.name as string],
-            //     likeCount: shallow.pages[pageNumber].content[index].likeCount + 1,
-            //   }
-            //   console.log('클릭한 페이지입니다.', shallow);
-            //   queryClient.setQueryData(firstQueryKey, shallow);
-            // }
           } else if (value) {
             //싱글 포스트인 경우
             if(value.id === post.id) {
