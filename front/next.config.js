@@ -9,7 +9,11 @@ const nextConfig = {
       {
         source: '/like/:path*',
         destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/like/:path*`
-      }
+      },
+      {
+        source: '/mypage/:path*',
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/mypage/:path*`
+      },
     ];
   },
 };
