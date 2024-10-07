@@ -8,8 +8,9 @@ import 'dayjs/locale/ko';
 import {faker} from '@faker-js/faker';
 import type {Post}  from '../../../model/Post';
 import type { PageInfos } from '@/model/PageInfos';
+import { PageInfo } from '@/model/PageInfo';
 import {MouseEventHandler, use, useEffect, useState} from "react";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
 type Props = {
@@ -20,11 +21,10 @@ dayjs.locale('ko');
 dayjs.extend(relativeTime)
 
 export default function Post({ post }: Props) {
-  const [liked, setLiked] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const {data: session} = useSession();
 
-  // const liked = !!post.likedUserNames.find((v) => v === session?.user?.name);
+  const liked = !!post.likedUserNames?.find((v) => v === session?.user?.name);
 
   useEffect(() => {
     console.log('liked입니당 ', liked);
@@ -42,28 +42,51 @@ export default function Post({ post }: Props) {
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
       const firstQueryKey = queryKeys[0] as (string | unknown)[];
         if(firstQueryKey[0] === "posts") {
-          const value: PageInfos | Post | undefined = queryClient.getQueryData(firstQueryKey);
+          const value: InfiniteData<PageInfo> | Post | undefined = queryClient.getQueryData(firstQueryKey);
           if (value && 'pages' in value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
-            let index = -1;
-            let pageNumber = -1;
-            value.pages.map((page) => {
-              pageNumber += 1;
-              index = page.content.findIndex((v) => {
+            console.log("밸루입니당: ", value)
+            const obj = value.pages.flat().map((page) => {
+              return page.content.find((v) => {
                 return v.id === post.id;
-              });
+              })
             });
-            if (index > -1) {
-              console.log('밸류입니다 ', value);
-              const shallow = {...value};
-              shallow.pages[pageNumber].content[index] = {
-                ...shallow.pages[pageNumber].content[index],
-                likedUserNames: [...shallow.pages[pageNumber].content[index].likedUserNames, session?.user?.name as string],
-                likeCount: shallow.pages[pageNumber].content[index].likeCount + 1,
-              }
-              console.log('클릭한 페이지입니다.', shallow);
-              queryClient.setQueryData(firstQueryKey, shallow);
-              setLiked(true);
+            if (obj) {
+              console.log('obj입니다', obj);
+              const pi = value.pages.map((pageInfo) => {
+                return pageInfo.content.map((p) => {
+                  if (p.id === post.id) {
+                    return pageInfo.number; // p.id와 post.id가 같으면 pageInfo.number를 반환 (숫자)
+                  }
+                  return null; // 일치하지 않으면 null 반환
+                }).filter((number) => number !== null); // null 값을 필터링하여 반환
+              }).flat(); // 결과를 1차원 배열로 만듭니다
+              
+              // 내부 숫자를 대입
+              const singleNumber = pi.length > 0 ? pi[0] : null; // pi의 첫 번째 요소를 대입, 배열이 비어있을 경우 null
+              
+              console.log('페이지 번호:', singleNumber); // singleNumber의 값을 확인
             }
+            
+            
+            // let index = -1;
+            // let pageNumber = -1;
+            // value.pages.map((page) => {
+            //   pageNumber += 1;
+            //   index = page.content.findIndex((v) => {
+            //     return v.id === post.id;
+            //   });
+            // });
+            // if (index > -1) {
+            //   console.log('밸류입니다 ', value);
+            //   const shallow = {...value};
+            //   shallow.pages[pageNumber].content[index] = {
+            //     ...shallow.pages[pageNumber].content[index],
+            //     likedUserNames: [...shallow.pages[pageNumber].content[index].likedUserNames, session?.user?.name as string],
+            //     likeCount: shallow.pages[pageNumber].content[index].likeCount + 1,
+            //   }
+            //   console.log('클릭한 페이지입니다.', shallow);
+            //   queryClient.setQueryData(firstQueryKey, shallow);
+            // }
           } else if (value) {
             //싱글 포스트인 경우
             if(value.id === post.id) {
