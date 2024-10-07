@@ -33,7 +33,7 @@ export default function Header({ post }: Props) {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
       queryKeys.forEach((queryKey) => {
-        if(queryKey[0] === "posts" && !['recommends', 'man', 'women'].includes(queryKey[1] as string) ) {
+        if(queryKey[0] === "post") {
           const value: IPost | undefined = queryClient.getQueryData(queryKey);
           if (value) {
             if(value.id === post.id) {
@@ -67,7 +67,7 @@ export default function Header({ post }: Props) {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
       queryKeys.forEach((queryKey) => {
-        if(queryKey[0] === "posts" && !['recommends', 'man', 'women'].includes(queryKey[1] as string) ) {
+        if(queryKey[0] === "post") {
           const value: IPost | undefined = queryClient.getQueryData(queryKey);
           if (value) {
             if(value.id === post.id) {

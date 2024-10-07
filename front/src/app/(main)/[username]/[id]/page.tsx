@@ -10,7 +10,7 @@ type Props = {
 export default async function Home({params}: Props) {
   const {id} = params;
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({queryKey: ['posts', id], queryFn: getSinglePost});
+  await queryClient.prefetchQuery({queryKey: ['post', id], queryFn: getSinglePost});
   const dehydratedState = dehydrate(queryClient);
 
   if (!id) {

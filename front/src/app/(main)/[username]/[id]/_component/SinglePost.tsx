@@ -38,7 +38,7 @@ export default function SinglePost({id}: Props) {
   };
 
   const {data: post, error} = useQuery<Post, Object, Post, [_1: string, _2: string]>({
-    queryKey: ['posts', id],
+    queryKey: ['post', id],
     queryFn: getSinglePost,
     staleTime: 60 * 1000,
     gcTime: 300 * 1000,
