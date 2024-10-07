@@ -103,26 +103,38 @@ export default function Post({ post }: Props) {
     onMutate() {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
+      const firstQueryKey = queryKeys[0] as (string | unknown)[];
       queryKeys.forEach((queryKey) => {
         if(queryKey[0] === "posts") {
-          const value: PageInfos | Post | undefined = queryClient.getQueryData(queryKey);
+          const value: InfiniteData<PageInfo> | Post | undefined = queryClient.getQueryData(firstQueryKey);
           if (value && 'pages' in value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
-            let index = -1;
-            let pageNumber = -1;
-            value.pages.map((page) => {
-              pageNumber += 1;
-              index = page.content.findIndex((v) => {
+            console.log("밸루입니당: ", value)
+            const obj = value.pages.flat().map((page) => {
+              return page.content.find((v) => {
                 return v.id === post.id;
-              });
+              })
             });
-            if (index > -1) {
-              const shallow = [...value.pages[pageNumber].content];
-              shallow[index] = {
-                ...shallow[index],
-                likedUserNames: shallow[index].likedUserNames.filter((v) => v !== session?.user?.name),
-                likeCount: shallow[index].likeCount - 1,
+            if (obj) {
+              console.log('obj입니다', obj);
+              const pi = value.pages.map((pageInfo) => {
+                return pageInfo.content.map((p) => {
+                  if (p.id === post.id) {
+                    return pageInfo.number; // p.id와 post.id가 같으면 pageInfo.number를 반환 (숫자)
+                  }
+                  return null; // 일치하지 않으면 null 반환
+                }).filter((number) => number !== null); // null 값을 필터링하여 반환
+              }).flat(); // 결과를 1차원 배열로 만듭니다
+              const pageIndex =pi[0]; // pi의 첫 번째 요소를 대입, 배열이 비어있을 경우 null
+              const index = value.pages[pageIndex].content.findIndex((v) => v.id === post.id);
+              const shallow = {...value};
+              value.pages = {...value.pages};
+              value.pages[pageIndex] = {...value.pages[pageIndex]};
+              shallow.pages[pageIndex].content[index] = {
+                ...shallow.pages[pageIndex].content[index],
+                likedUserNames: shallow.pages[pageIndex].content[index].likedUserNames.filter((v) => { v !== session?.user?.name }),
+                likeCount: shallow.pages[pageIndex].content[index].likeCount - 1
               }
-              queryClient.setQueryData(queryKey, shallow);
+              queryClient.setQueryData(firstQueryKey, shallow);
             }
           } else if (value) {
             //싱글 포스트인 경우
