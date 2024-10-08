@@ -1,27 +1,33 @@
-"use client"
-
 import style from './likes.module.css';
-import {useRouter} from "next/navigation";
-import { useSession } from 'next-auth/react';
 import LikePosts from './_component/LikePosts';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { getLikePosts } from './_lib/getLikePosts';
+import { auth } from '@/auth';
 
-export default function Page() {
-  const {data: me} = useSession();
-  const router = useRouter()
-  const onClickClose = () => {
-    router.back();
-    // TODO: 뒤로가기가 /home이 아니면 /home으로 보내기
+export default async function Page() {
+  const session = await auth();
+  const userName = session?.user?.name;
+  const queryClient = new QueryClient();
+  if (userName) {
+    await queryClient.prefetchInfiniteQuery({
+      queryKey: ['posts', 'likes', userName ], 
+      queryFn: getLikePosts,
+      initialPageParam: 0,
+    });
   }
+  const dehydrateState = dehydrate(queryClient);
 
   return (
     <>
       <div className={style.main}>
-        <div className={style.header}>
-          <div className={style.like}>좋아하는 게시글</div>
-        </div>
-        <div className={style.likeWrapper}>
-          <LikePosts userId={me?.user?.email}/>
-        </div>
+        <HydrationBoundary state={dehydrateState}>
+          <div className={style.header}>
+            <span>좋아하는 게시글</span>
+          </div>
+          <div className={style.postsWrapper}>
+            <LikePosts userName={userName as string}/>
+          </div>
+        </HydrationBoundary>
       </div>
     </>
   )

@@ -6,7 +6,7 @@ export const getSinglePost: QueryFunction<Post, [_1: string, _2: string]>
   const [_1, id] = queryKey;
   const res = await fetch(`/photo/find/${id}`, {
     next: {
-      tags: ['posts', id],
+      tags: ['post', id],
     },
     cache: 'no-store'
   });

@@ -63,6 +63,7 @@
 
 .heartButton svg {
   fill: white;
+  cursor: pointer;
 }
 
 .heartCount {

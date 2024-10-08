@@ -36,7 +36,11 @@ export const {
         console.log('set-cookie', setCookie);
         if (setCookie) {
           const parsed = cookie.parse(setCookie);
-          cookies().set('JSESSIONID', parsed['JSESSIONID'], parsed); // 브라우저에 쿠키를 심어주는 것
+          cookies().set('JSESSIONID', parsed['JSESSIONID'], {
+            ...parsed,
+            maxAge: 1800, //30분
+            path: '/'
+          }); // 브라우저에 쿠키를 심어주는 것
         }
 
         if (!authResponse.ok) { 
@@ -58,6 +62,6 @@ export const {
     }),
   ],
   session: {
-    maxAge: 60 * 60, // 세션 유효 시간: 1시간
+    maxAge: 1800, // 세션 유효 시간: 30분
   }
 });

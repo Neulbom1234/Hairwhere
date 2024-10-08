@@ -1,15 +1,14 @@
 import { QueryFunction } from "@tanstack/react-query";
-import { Post } from "@/model/Post";
+import { PageInfo } from "@/model/PageInfo";
 
 type Props = { pageParam?: number };
 
-export const getLikePosts: QueryFunction<Post[], [_1: string, _2: string, _3: string], number>
+export const getLikePosts: QueryFunction<PageInfo, [_1: string, _2: string, _3: string], number>
   = async ({queryKey, pageParam}) => {
-    const [_1, _2, userId] = queryKey;
-  
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/mypage/like?page=${pageParam}&size=15`, {
+    const [_1, _2, userName] = queryKey;
+    const res = await fetch(`/mypage/like/?page=${pageParam}&size=15`, {
       next: {
-        tags: ['posts', 'likes', userId],
+        tags: ['posts', 'likes', userName],
       },
       cache: 'no-store',
     });

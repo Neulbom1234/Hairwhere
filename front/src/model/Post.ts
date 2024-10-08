@@ -9,6 +9,7 @@ export interface Post {
   userName: string;
   photoImagePath: string[];
   // like: string[];
+  likedUserNames: string[];
   likeCount:number;
   hairName: string;
   text: string;

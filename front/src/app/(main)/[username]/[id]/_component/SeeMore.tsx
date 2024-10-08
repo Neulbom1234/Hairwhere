@@ -81,7 +81,7 @@ export default function SeeMore({ post }: Props) {
 
   return (
     <>
-      <Dropdown menu={{ items: post.user.name ? loginItems : items }} trigger={['click']}>
+      <Dropdown menu={{ items: post.userName ? loginItems : items }} trigger={['click']}>
         <a onClick={(e) => e.preventDefault()}>
           <Space>
             <MoreOutlined />
