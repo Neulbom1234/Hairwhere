@@ -74,14 +74,15 @@ export default async (prevState: any, formData: FormData) => {
     //   return { message: 'unexpected_error' };
     // }
 
-    shouldRedirect = true;
-
+    
     await signIn("credentials", {
       username: formData.get('loginId'),
       password: formData.get('pw'),
       redirect: false,
     });
-
+    
+    shouldRedirect = true;
+    
   } catch (err) {
     console.error(err);
     return { message: null };
