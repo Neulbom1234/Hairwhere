@@ -64,7 +64,7 @@ export default function LoginModal() {
         </div>
         <form onSubmit={onSubmit}>
           <div className={style.modalBody}>
-            <div className={style.loginLogo}>LOGO</div>
+            <img src='/logo.svg' alt='Logo'/>
             <div className={style.inputDiv}>
               <input id="loginId" className={style.topInput} value={id} onChange={onChangeId} type="text" placeholder="아이디"/>
             </div>

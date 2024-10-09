@@ -12,9 +12,19 @@ export const {
     signIn: '/login',
     newUser: '/signup',
   },
+  callbacks: {
+    jwt({ token}) {
+      console.log('auth.ts jwt', token);
+      return token;
+    },
+    session({ session, newSession, user}) {
+      console.log('auth.ts session', session, newSession, user);
+      return session;
+    }
+  },
   providers: [  // 로그인 하는 코드
     CredentialsProvider({
-      async authorize(credentials) { // credentials는 로그인 창에 입력된 정보들 (id, password)
+      async authorize(credentials) {
         const authResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/login`, {
           method: "POST",
           headers: {
@@ -24,14 +34,14 @@ export const {
             loginId: credentials.username,
             pw: credentials.password,
           }),
-          credentials: 'include',  // 세션 쿠키 포함
         });
-
+      
         console.log('authResponse status:', authResponse.status);
         for (const [key, value] of authResponse.headers.entries()) {
           console.log(`로그인 후 받는 값: ${key}: ${value}`);
         }
-
+        console.log('이게 값', authResponse);
+      
         let setCookie = authResponse.headers.get('set-cookie');
         console.log('set-cookie', setCookie);
         if (setCookie) {
@@ -40,28 +50,44 @@ export const {
             ...parsed,
             maxAge: 1800, //30분
             path: '/'
-          }); // 브라우저에 쿠키를 심어주는 것
+          });
         }
-
-        if (!authResponse.ok) { 
+      
+        if (!authResponse.ok) {
           console.error('Login failed:', authResponse.statusText);
           return null;
         }
-
-        const user = await authResponse.json(); // 로그인 성공 (user 정보 전달)
-        console.log('user', user);
-
-        return { // auth에서는 email, name, image만 지원하므로 user 정보들의 이름을 바꿔서 반환
+      
+        // 응답 텍스트 출력 및 JSON 파싱 시도
+        const responseText = await authResponse.text();
+        console.log('Response Text:', responseText);
+      
+        let user;
+        try {
+          user = JSON.parse(responseText);
+          console.log('Parsed user object:', user);
+        } catch (error) {
+          console.error('Failed to parse JSON:', error);
+          return null;
+        }
+      
+        // 필수 속성 확인
+        if (!user.loginId || !user.email || !user.name || !user.profilePath) {
+          console.error('User object is missing required properties:', user);
+          return null;
+        }
+      
+        console.log('User object looks good:', user);
+      
+        return {
           id: user.loginId,
           email: user.email,
           name: user.name,
           image: user.profilePath,
           ...user,
         };
-      },
+      }
+      
     }),
   ],
-  session: {
-    maxAge: 1800, // 세션 유효 시간: 30분
-  }
 });
