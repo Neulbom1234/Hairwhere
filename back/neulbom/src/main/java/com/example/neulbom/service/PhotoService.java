@@ -131,8 +131,10 @@ public class PhotoService {
     }
 
     @Transactional
-    public Page<Photo> findByUserName(String userName,Pageable pageable) {
-        return photorepository.findByUserName(userName,pageable);
+    public Page<PhotoResponse> findByUserName(String userName,Pageable pageable) {
+        Page<Photo> photo = photorepository.findByUserName(userName,pageable);
+
+        return photo.map(PhotoResponse::fromEntity);
     }
 
     @Transactional
@@ -161,7 +163,7 @@ public class PhotoService {
         photorepository.save(photo);
     }
 
-    public Page<Photo> findLikedPhotosByUser(List<Like> likes, Pageable pageable) {
+    public Page<PhotoResponse> findLikedPhotosByUser(List<Like> likes, Pageable pageable) {
 
         if (likes.isEmpty()) {
             logger.error("예외처리에 의한 빈 likes" );
@@ -185,7 +187,9 @@ public class PhotoService {
         int start = (int) pageable.getOffset();  // 페이지 시작 인덱스
         int end = Math.min((start + pageable.getPageSize()), photos.size());
         // 페이지 끝 인덱스
-        return new PageImpl<>(photos.subList(start, end), pageable, photos.size());
+        Page<Photo> photo = new PageImpl<>(photos.subList(start, end), pageable, photos.size());
+
+        return photo.map(PhotoResponse::fromEntity);
     }
 
     public Page<PhotoResponse> search(String hairName, String hairLength,String hairColor,
