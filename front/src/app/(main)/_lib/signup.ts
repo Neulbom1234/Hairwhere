@@ -21,68 +21,55 @@ export default async (prevState: any, formData: FormData) => {
     return { message: 'no_email' };
   }
   if (!formData.get('profile')) { //프로필 입력 안 됨
-    return { message: 'no_profile'};
+    return { message: 'no_profile' };
   }
   if (/[^a-zA-Z0-9]/.test(formData.get('loginId') as string)) {  //id에 영어, 숫자를 제외한 값이 들어감
-    return { message: 'Only letters and numbers allowed'};
+    return { message: 'Only letters and numbers allowed' };
   }
   if (formData.get('pw') !== formData.get('secondPw')) {  //비밀번호 불일치
-    return { message: 'Password do not match'};
+    return { message: 'Password do not match' };
   }
   if (/[^a-zA-Z0-9@.]/.test(formData.get('email') as string)) { //이메일 형식 안 맞음
-    return { message: 'Only letters, numbers, and @ . allowed'};
+    return { message: 'Only letters, numbers, and @ . allowed' };
   }
 
-  const newFormData = new FormData();
+  // secondPw 필드를 제거
+  formData.delete('secondPw');
+
+  // 전송할 데이터 확인
+  console.log('Sending FormData contents (after removing secondPw):');
   formData.forEach((value, key) => {
-    if (key !== 'secondPw') {
-      newFormData.append(key, value);
-    }
+    console.log(`${key}:`, value);
   });
 
   let shouldRedirect = false;
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/register`, {
       method: 'POST',
-      body: newFormData,
+      body: formData,
       credentials: 'include',
     });
 
-    // console.log('Response Status:', response.status);
-    // try {
-    //   const responseData = await response.json();
-    //   console.log('Response Data:', responseData);
-    // } catch (error) {
-    //     console.error('Failed to parse JSON:', error);
-    // }
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Registration failed:', errorData);
+      return { message: errorData.message || 'Registration failed' };
+    }
 
-    // if (response.status === 403) {
-    //   return { message: 'user_exists' };
-    // } else if (response.status === 401) {
-    //   return { message: 'unauthorized' };
-    // } else if (response.status >= 400 && response.status < 500) {
-    //   return { message: 'client_error' };
-    // } else if (response.status >= 500) {
-    //   return { message: 'server_error' };
-    // }
+    shouldRedirect = true;
 
-    // let responseData;
-    // try {
-    //   responseData = await response.json();
-    // } catch (err) {
-    //   console.error('Failed to parse JSON:', err);
-    //   return { message: 'unexpected_error' };
-    // }
-
-    
-    await signIn("credentials", {
+    // 로그인 시도
+    const signInResult = await signIn("credentials", {
       username: formData.get('loginId'),
       password: formData.get('pw'),
       redirect: false,
     });
-    
-    shouldRedirect = true;
-    
+
+    if (signInResult?.error) {
+      console.error('Sign in failed:', signInResult.error);
+      return { message: 'Registration successful but sign in failed' };
+    }
+
   } catch (err) {
     console.error(err);
     return { message: null };
