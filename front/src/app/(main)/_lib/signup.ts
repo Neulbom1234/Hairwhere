@@ -34,10 +34,23 @@ export default async (prevState: any, formData: FormData) => {
   }
 
   const newFormData = new FormData();
-  formData.forEach((value, key) => {
-    if (key !== 'secondPw') {
-      newFormData.append(key, value);
-    }
+
+  // 텍스트 데이터 추가
+  newFormData.append('loginId', formData.get('loginId') as string);
+  newFormData.append('pw', formData.get('pw') as string);
+  newFormData.append('name', formData.get('name') as string);
+  newFormData.append('email', formData.get('email') as string);
+
+  // 파일 데이터 추가
+  const profileFile = formData.get('profile') as File;
+  if (profileFile) {
+      newFormData.append('profile', profileFile);
+  }
+
+  // 실제로 어떤 키값들이 전송되는지 확인
+  console.log('Sending FormData contents:');
+  newFormData.forEach((value, key) => {
+      console.log(`${key}:`, value);
   });
 
   let shouldRedirect = false;
@@ -48,39 +61,25 @@ export default async (prevState: any, formData: FormData) => {
       credentials: 'include',
     });
 
-    // console.log('Response Status:', response.status);
-    // try {
-    //   const responseData = await response.json();
-    //   console.log('Response Data:', responseData);
-    // } catch (error) {
-    //     console.error('Failed to parse JSON:', error);
-    // }
-
-    // if (response.status === 403) {
-    //   return { message: 'user_exists' };
-    // } else if (response.status === 401) {
-    //   return { message: 'unauthorized' };
-    // } else if (response.status >= 400 && response.status < 500) {
-    //   return { message: 'client_error' };
-    // } else if (response.status >= 500) {
-    //   return { message: 'server_error' };
-    // }
-
-    // let responseData;
-    // try {
-    //   responseData = await response.json();
-    // } catch (err) {
-    //   console.error('Failed to parse JSON:', err);
-    //   return { message: 'unexpected_error' };
-    // }
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Registration failed:', errorData);
+      return { message: errorData.message || 'Registration failed' };
+    }
 
     shouldRedirect = true;
 
-    await signIn("credentials", {
+    // 로그인 시도
+    const signInResult = await signIn("credentials", {
       username: formData.get('loginId'),
       password: formData.get('pw'),
       redirect: false,
     });
+
+    if (signInResult?.error) {
+      console.error('Sign in failed:', signInResult.error);
+      return { message: 'Registration successful but sign in failed' };
+    }
 
   } catch (err) {
     console.error(err);
