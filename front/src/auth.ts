@@ -10,7 +10,7 @@ export const {
 } = NextAuth({
   pages: { // 로그인 페이지 등록
     signIn: '/login',
-    newUser: '/signup',
+    newUser: '/register',
   },
   callbacks: {
     jwt({ token}) {

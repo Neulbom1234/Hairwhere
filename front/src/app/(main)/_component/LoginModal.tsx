@@ -16,18 +16,21 @@ export default function LoginModal() {
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     setMessage('');
-    try {
-      await signIn("credentials", {
-        username: id,
-        password,
-        redirect: false, //클라이언트 컴포넌트면 서버 redirect는 false로 꺼준다.
-      })
-      router.back(); //여기서 페이지 이동
-    } catch (err) {
-      console.error(err);
-      setMessage('아이디와 비밀번호가 일치하지 않습니다.');
+    
+    // 로그인 시도
+    const result = await signIn("credentials", {
+      username: id,
+      password,
+      redirect: false, // 클라이언트 컴포넌트에서 서버 redirect는 false로 설정
+    });
+
+    if (result?.error) {
+      setMessage('아이디와 비밀번호가 일치하지 않습니다.'); // 오류 메시지 설정
+    } else {
+      router.back(); // 로그인 성공 시 이전 페이지로 이동
     }
   };
+
   const onClickClose = () => {
     router.back();
   };
@@ -37,7 +40,7 @@ export default function LoginModal() {
     setId(value);
     const list=/[^a-zA-Z0-9]/;
     if(list.test(value)){
-      setIdError('영어와 숫자만 입력 가능합니다.');
+      setMessage('영어와 숫자만 입력 가능합니다.');
     } else{
       setIdError('');
     } 
@@ -77,7 +80,7 @@ export default function LoginModal() {
           <div className={style.modalFooter}>
             <button className={style.actionButton} disabled={!id && !password}>로그인</button>
             <div className={style.user}>
-              <Link href="/signup">회원가입</Link>
+              <Link href="/register">회원가입</Link>
               <div className={style.stick}></div>
               <Link href="/searchID">아이디 찾기</Link>
               <div className={style.stick}></div>
