@@ -86,11 +86,10 @@ public class UserController {
     }
 
     @PostMapping(value="/register",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )//회원가입
-    public ResponseEntity<String> register(HttpSession session,@RequestPart RegisterDto registerDto,@RequestPart MultipartFile profile) {
-        String loginId = registerDto.getLoginId();
-        String pw = registerDto.getPw();
-        String name = registerDto.getName();
-        String email = registerDto.getEmail();
+    public ResponseEntity<String> register(HttpSession session,@RequestPart("loginId") String loginId,
+                                           @RequestPart("pw") String pw,@RequestPart("name") String name,
+                                           @RequestPart("email") String email,
+                                           @RequestPart("profile") MultipartFile profile) {
 
         if (isValidRegister(loginId)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("LoginId already exists");
