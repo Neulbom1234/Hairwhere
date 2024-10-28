@@ -9,7 +9,7 @@ export default function Header() {
     <>
       <div className={style.header}>
         <div className={style.logo}>
-          <span style={{fontWeight: "bold"}}>Logo</span>
+          <img src='/logo.svg' alt='logo'/>
         </div>
         <LoginButton/>
       </div>

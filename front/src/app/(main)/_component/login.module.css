@@ -39,11 +39,21 @@
 .modal form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .modalBody {
     /* flex: 1; */
     padding: 0 80px;
+}
+.modalBody img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  margin-bottom: 10px;
 }
 @media all and (min-width: 687px) {
     .modal {
