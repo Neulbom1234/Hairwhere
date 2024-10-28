@@ -16,19 +16,7 @@ export default function LoginModal() {
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     setMessage('');
-  //   try {
-  //     await signIn("credentials", {
-  //       username: id,
-  //       password,
-  //       redirect: false, //클라이언트 컴포넌트면 서버 redirect는 false로 꺼준다.
-  //     })
-  //     router.back(); //여기서 페이지 이동
-  //   } catch (err) {
-  //     console.error(err);
-  //     setMessage('아이디와 비밀번호가 일치하지 않습니다.');
-  //   }
-  // };
-
+    
     // 로그인 시도
     const result = await signIn("credentials", {
       username: id,
