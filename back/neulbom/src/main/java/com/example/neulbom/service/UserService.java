@@ -22,16 +22,22 @@ public class UserService {
         return userRepository.findByLoginId(loginId);
     }
 
+    public boolean isValidRegister(String loginId){
+        User user = userRepository.findByLoginId(loginId);
+
+        return user != null;
+    }
+
     public User findByName(String name) {
         return userRepository.findByName(name);
     }
 
-    public boolean findByLoginIdAndPw(String loginId, String pw){
+    public boolean findByLoginIdAndPw(String loginId, String pw) {
 
         User user=  userRepository.findByLoginIdAndPw(loginId,pw);
 
-        if(user!=null){
-            return user.getLoginId().equals(loginId) && user.getPw().equals(pw);
+        if(user!=null){// user가 존재한 경우
+            return user.getLoginId().equals(loginId);
         }
         else{
             return false;

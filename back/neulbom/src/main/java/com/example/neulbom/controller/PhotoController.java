@@ -53,25 +53,6 @@ public class PhotoController {
                                     HttpServletRequest request) {
         try {
             HttpSession session = request.getSession(false);
-            /*
-            Cookie[] cookies = request.getCookies();
-            String JSESSIONID;
-
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("JSESSIONID")) {
-                        JSESSIONID = "JSESSIONID" + cookie.getValue();
-
-                        logger.info("JSESSIONID '{}'", JSESSIONID);
-                    }
-                }
-            }
-            else if(cookies==null){
-                JSESSIONID = "JSESSIONID가 null";
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(JSESSIONID + "null입니다");
-            }
-            */
             if(session == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(new UserUploadResponseDto("session is null"));

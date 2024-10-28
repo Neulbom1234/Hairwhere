@@ -23,7 +23,6 @@ public class PhotoResponse {
     private String hairSalonAddress;
     private String hairLength;
     private String hairColor;
-    private List<Like> likes;
     private User user;
     private List<String> likedUserNames;
 
@@ -41,6 +40,7 @@ public class PhotoResponse {
         response.setHairSalonAddress(photo.getHairSalonAddress());
         response.setHairLength(photo.getHairLength());
         response.setHairColor(photo.getHairColor());
+        response.setUser(photo.getUser());
 
         List<String> likedUserNames = photo.getLikes().stream()
             .map(like ->
