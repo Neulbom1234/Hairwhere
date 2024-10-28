@@ -17,7 +17,7 @@ export default function SignupModal() {
             <BackButton/>
             <div className={style.signIn}>회원가입</div>
           </div>
-          <form action={formAction}>
+          <form action={formAction} method="post" encType="multipart/form-data">
             <div className={style.modalBody}>
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="loginId">아이디</label>
