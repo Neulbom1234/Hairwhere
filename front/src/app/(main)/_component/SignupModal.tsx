@@ -24,8 +24,10 @@ export default function SignupModal() {
                 <input id="loginId" name="loginId" className={style.input} type="text" placeholder=""
                        required
                 />
-                {state?.message === 'Only letters and numbers allowed' &&
-                  <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>영어와 숫자만 입력 가능합니다.</span>
+                {state?.message === 'no_id' ?
+                  <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>아이디를 입력해주세요.</span>
+                  : state?.message === 'Only letters and numbers allowed' &&
+                    <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>영어와 숫자만 입력 가능합니다.</span>
                 }
               </div>
 
@@ -35,15 +37,20 @@ export default function SignupModal() {
                 <input id="pw" name="pw" className={style.input} type="password" placeholder=""
                        required
                 />
+                {state?.message === 'no_password' &&
+                  <span className="errorMessage" style={{color: 'red', fontSize:'10px'}}>비밀번호를 입력해주세요.</span>
+                }
               </div>
-              {/* 비밀번호(재입력) => 입력창만 만들었음 !*/}
+              {/* 비밀번호(재입력) */}
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="secondPw">비밀번호 재입력</label>
                 <input id="secondPw" name="secondPw" className={style.input} type="password" placeholder=""
                        required
                 />
-                {state?.message === 'Password do not match' &&
-                  <span className="errorMessage" style={{color: 'red', fontSize:'10px'}}>비밀번호가 일치하지 않습니다</span>
+                {state?.message === 'no_secondPassword' ?
+                  <span className="errorMessage" style={{color: 'red', fontSize:'10px'}}>비밀번호를 입력해주세요.</span>
+                  : state?.message === 'Password do not match' &&
+                  <span className="errorMessage" style={{color: 'red', fontSize:'10px'}}>비밀번호가 일치하지 않습니다.</span>
                 }
               </div>
               <div className={style.inputDiv}>
@@ -51,7 +58,9 @@ export default function SignupModal() {
                 <input id="email" name="email" className={style.input} type="email" placeholder=""
                        required
                 />
-                {state?.message === 'Only letters, numbers, and @ . allowed' &&
+                {state?.message === 'no_email' ?
+                  <span className="errorMessage" style={{color: 'red', fontSize:'10px'}}>이메일을 입력해주세요.</span>
+                  : state?.message === 'Only letters, numbers, and @ . allowed' &&
                   <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>영어와 숫자 및 특수문자(@ .)만 입력 가능합니다.</span>
                 }
               </div>
@@ -61,7 +70,7 @@ export default function SignupModal() {
                        required
                 />
                 {state?.message === 'no_name' &&
-                  <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>닉네임을 입력해야 합니다.</span>
+                  <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>닉네임을 입력해주세요.</span>
                 }
               </div>
               <div className={style.inputDiv}>
