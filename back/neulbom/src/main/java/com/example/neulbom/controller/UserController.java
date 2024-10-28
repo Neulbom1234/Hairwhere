@@ -1,5 +1,6 @@
 package com.example.neulbom.controller;
 
+import com.example.neulbom.Dto.PhotoResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +20,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -64,17 +68,16 @@ public class UserController {
                     .body(user);
         }
         else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            User user = userService.findByLoginId(loginId);
+
+            if(user == null){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ID NOT FOUND");
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("PASSWORD INCORRECT");
+            }
         }
     }
-
-    /*
-    @GetMapping("/upload2")
-    public ResponseEntity<?> login() {
-
-
-    }
-    */
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session) {
@@ -82,29 +85,15 @@ public class UserController {
         return ResponseEntity.ok("Logged out successfully");
     }
 
-    @PostMapping("/register")//회원가입
-    public ResponseEntity<String> register(HttpSession session, @RequestPart RegisterDto registerDto, @RequestPart MultipartFile profile) {
-        String loginId = registerDto.getLoginId();
-        String pw = registerDto.getPw();
-        String name = registerDto.getName();
-        String email = registerDto.getEmail();
+    @PostMapping(value="/register",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )//회원가입
+    public ResponseEntity<String> register(HttpSession session,@RequestPart("loginId") String loginId,
+                                           @RequestPart("pw") String pw,@RequestPart("name") String name,
+                                           @RequestPart("email") String email,
+                                           @RequestPart("profile") MultipartFile profile) {
 
-        if (isValidUser(loginId, pw)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        if (isValidRegister(loginId)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("LoginId already exists");
         }
-        /*
-        else if(profile == null || profile.isEmpty()){
-            //String dummyContent = "This is dummy profile data";
-
-            //profile = new MockMultipartFile("dummy-profile.txt", "dummy-profile.txt", "text/plain", dummyContent.getBytes());
-
-            userService.addUser(loginId, pw, name, email,profile);
-
-            //session.setAttribute("name",name);
-
-            return ResponseEntity.ok("User registered successfully with MockMultipartFile");
-        }
-        */
         else{
             userService.addUser(loginId,pw,name,email,profile);
 
@@ -132,11 +121,11 @@ public class UserController {
     }
 
     @GetMapping("/mypage/like")
-    public Page<Photo> getMyLikePage(@RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "15") int size,
-                                     @RequestParam(defaultValue = "created") String sortBy,
-                                     @RequestParam(defaultValue = "desc") String sortOrder,
-                                     HttpSession session) {
+    public Page<PhotoResponse> getMyLikePage(@RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "15") int size,
+                                             @RequestParam(defaultValue = "created") String sortBy,
+                                             @RequestParam(defaultValue = "desc") String sortOrder,
+                                             HttpSession session) {
 
         Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
 
@@ -169,23 +158,34 @@ public class UserController {
     }
 
     @GetMapping("find/{name}/photos")
-    public Page<Photo> findUserPhotos(@RequestParam(defaultValue = "0") int page,
+    public Page<PhotoResponse> findUserPhotos(@RequestParam(defaultValue = "0") int page,
                                       @RequestParam(defaultValue = "15") int size,
                                       @RequestParam(defaultValue = "created") String sortBy,
                                       @RequestParam(defaultValue = "desc") String sortOrder,
                                       @PathVariable String name) {
+        try{
+            String decodeName = URLDecoder.decode(name,"UTF-8");
 
-        Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
+            Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
 
-        Pageable pageable = PageRequest.of(page, size, sort);
+            Pageable pageable = PageRequest.of(page, size, sort);
 
-        return photoService.findByUserName(name,pageable);
+            return photoService.findByUserName(decodeName,pageable);
+        }
+        catch (UnsupportedEncodingException e) {
+            String errorMessage = "사용자 이름 디코딩 중 오류가 발생했습니다: " + e.getMessage();
+            logger.error(errorMessage, e);
+            return Page.empty();
+        }
     }
 
-    private boolean isValidUser(String loginId, String pw) {
+    private boolean isValidRegister(String loginId) {//회원가입
+        // 간단한 사용자 검증 로직
+        return userService.isValidRegister(loginId);
+    }
+
+    private boolean isValidUser(String loginId, String pw) {//로그인
         // 간단한 사용자 검증 로직
         return userService.findByLoginIdAndPw(loginId,pw);
     }
-
-
 }
