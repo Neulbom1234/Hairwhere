@@ -18,8 +18,8 @@ export default function UserInfo({username}: Props) {
   console.log(`내 정보: ${JSON.stringify(me, null, 2)}`);
 
   const editModeToggle = () => {
+    setEditName('');
     setEditMode(!editMode);
-    console.log(`수정 모드: ${editMode}`);
   }
 
   if(!me) {
@@ -67,10 +67,12 @@ export default function UserInfo({username}: Props) {
             {me?.user?.image ?
             <Avatar src={me?.user?.image} className={style.profile}/> : 
             <Avatar icon={<UserOutlined />} className={style.profile} />}
-            <div className={style.nickname}>{me?.user?.name}</div>
-            {me?
-              editMode ?
-                <></> //input 추가할 예정
+            {editMode?
+              <input className={style.editName} placeholder={me?.user?.name || ''} maxLength={10} value={editName} onChange={(e) => setEditName(e.target.value)}/>
+              :<div className={style.nickname}>{me?.user?.name}</div>}
+            {me
+              ? editMode 
+                ? <></>
                 : <div className={style.editProfile} onClick={editModeToggle}>
                     프로필 수정
                   </div> 
