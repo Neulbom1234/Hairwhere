@@ -22,6 +22,28 @@ export default function UserInfo({username}: Props) {
     setEditMode(!editMode);
   }
 
+  const updateName = async () => {
+    try {
+      const encodedName = encodeURIComponent(editName);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/update/name?name=${encodedName}`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+  
+      if (!res.ok) {
+        // JSON 형식의 오류 메시지 처리
+        const errorData = await res.json();
+        console.error("서버 오류 메시지:", errorData.message || errorData);
+        alert("닉네임 변경에 실패했습니다.");
+      } else {
+        editModeToggle();
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("요청 오류:", error);
+    }
+  };
+
   if(!me) {
     return (
       <>
@@ -58,7 +80,7 @@ export default function UserInfo({username}: Props) {
         : <></>}
         <span>프로필</span>
         {editMode 
-        ? <div className={style.editComplete}>완료</div>
+        ? <div className={style.editComplete} onClick={updateName}>완료</div>
         : <></>}
       </div>
       <div className={style.body}>
