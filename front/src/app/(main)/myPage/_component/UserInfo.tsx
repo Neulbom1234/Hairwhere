@@ -5,7 +5,7 @@ import style from './userInfo.module.css';
 import { useSession } from "next-auth/react";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 type Props = {
   username: string,
@@ -14,18 +14,36 @@ type Props = {
 export default function UserInfo({username}: Props) {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editName, setEditName] = useState<string>('');
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const { data: me } = useSession();
   console.log(`내 정보: ${JSON.stringify(me, null, 2)}`);
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const editModeToggle = () => {
     setEditName('');
+    setSelectedImage(null);
     setEditMode(!editMode);
   }
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      // 여기에서 사진을 서버에 업로드하는 로직을 추가할 수 있습니다.
+    }
+  };
+
+  const handlePlusClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // 파일 입력 클릭
+    }
+  };
 
   const updateName = async () => {
     try {
       const encodedName = encodeURIComponent(editName);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/update/name?name=${encodedName}`, {
+      const res = await fetch(`mypage/update?name=${encodedName}`, {
         method: 'POST',
         credentials: 'include',
       });
@@ -43,6 +61,8 @@ export default function UserInfo({username}: Props) {
       console.error("요청 오류:", error);
     }
   };
+
+  const avatarSrc = selectedImage ? URL.createObjectURL(selectedImage) : me?.user?.image;
 
   if(!me) {
     return (
@@ -86,9 +106,26 @@ export default function UserInfo({username}: Props) {
       <div className={style.body}>
         <div className={style.container}>
           <div className={style.profileDiv}>
-            {me?.user?.image ?
-            <Avatar src={me?.user?.image} className={style.profile}/> : 
-            <Avatar icon={<UserOutlined />} className={style.profile} />}
+            <div className={style.avatarWrapper}>
+              <Avatar 
+                src={editMode ? (selectedImage ? avatarSrc : me?.user?.image) : me?.user?.image} 
+                className={style.profile} 
+                icon={!(me?.user?.image || selectedImage) && <UserOutlined />}
+              />
+              {editMode && (
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className={style.fileInput}
+                  ref={fileInputRef}
+                />
+              )}
+              {editMode && (
+                <div className={style.plusIcon} onClick={handlePlusClick}>+</div> // + 버튼
+              )}
+
+            </div>
             {editMode?
               <input className={style.editName} placeholder={me?.user?.name || ''} maxLength={10} value={editName} onChange={(e) => setEditName(e.target.value)}/>
               :<div className={style.nickname}>{me?.user?.name}</div>}
