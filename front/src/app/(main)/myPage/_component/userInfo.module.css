@@ -52,6 +52,25 @@
   font-size: 14px;
   cursor: pointer;
 }
+.disabledButton {
+  position: absolute;
+  right: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
+  background-color: #bfbfbf;
+  border-radius: 5px;
+  border: none;
+  color: #585858;
+  font-weight: 700;
+  font-size: 14px;
+  border-color: #bfbfbf;     
+  cursor: not-allowed;       
+}
 .body{
   height: 100dvh;
   margin-bottom: 60px;
