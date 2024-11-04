@@ -63,7 +63,7 @@ export default function UserInfo({username}: Props) {
   };
 
   const avatarSrc = selectedImage ? URL.createObjectURL(selectedImage) : me?.user?.image;
-
+  const isCompleteDisabled = !editName && !selectedImage;
   if(!me) {
     return (
       <>
@@ -100,7 +100,9 @@ export default function UserInfo({username}: Props) {
         : <></>}
         <span>프로필</span>
         {editMode 
-        ? <div className={style.editComplete} onClick={updateName}>완료</div>
+        ? <div className={isCompleteDisabled ? style.disabledButton : style.editComplete} onClick={isCompleteDisabled ? undefined : updateName}>
+            완료
+          </div>
         : <></>}
       </div>
       <div className={style.body}>
