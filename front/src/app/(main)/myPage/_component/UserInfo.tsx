@@ -24,6 +24,7 @@ export default function UserInfo({username}: Props) {
   const { data: me, update } = useSession();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editName, setEditName] = useState<string>('');
+  const [image, setImage] = useState<File | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   console.log(`내 정보: ${JSON.stringify(me, null, 2)}`);
 
@@ -59,23 +60,41 @@ export default function UserInfo({username}: Props) {
     }
   };
 
-  const updateName = async () => {
+  const updateProfile = async () => {
     try {
-      const encodedName = encodeURIComponent(editName);
-      const res = await fetch(`/update/name?name=${encodedName}`, {
-        method: 'PATCH',
-        credentials: 'include',
-      });
-  
-      if (!res.ok) {
-        // JSON 형식의 오류 메시지 처리
-        const errorData = await res.json();
-        console.error("서버 오류 메시지:", errorData.message || errorData);
-        alert("닉네임 변경에 실패했습니다.");
-      } else {
-        setName(editName);
-        editModeToggle();
+      if(editName !== "") {
+        const encodedName = encodeURIComponent(editName);
+        const res = await fetch(`/update/name?name=${encodedName}`, {
+          method: 'PATCH',
+          credentials: 'include',
+        });
+        if (!res.ok) {
+          // JSON 형식의 오류 메시지 처리
+          const errorData = await res.json();
+          console.error("서버 오류 메시지:", errorData.message || errorData);
+          alert("닉네임 변경에 실패했습니다.");
+        } else {
+          setName(editName);
+        }
       }
+      if(selectedImage !== null) {
+        const formData = new FormData();
+        formData.append('profile', selectedImage);
+        const res = await fetch(`/update/profile`, {
+          method: 'PATCH',
+          credentials: 'include',
+          body: formData
+        });
+        if (!res.ok) {
+          // JSON 형식의 오류 메시지 처리
+          const errorData = await res.json();
+          console.error("서버 오류 메시지:", errorData.message || errorData);
+          alert("사진 변경에 실패했습니다.");
+        } else {
+          setImage(selectedImage);
+        }
+      }
+      editModeToggle();
     } catch (error) {
       console.error("요청 오류:", error);
     }
@@ -119,7 +138,7 @@ export default function UserInfo({username}: Props) {
         : <></>}
         <span>프로필</span>
         {editMode 
-        ? <div className={isCompleteDisabled ? style.disabledButton : style.editComplete} onClick={isCompleteDisabled ? undefined : updateName}>
+        ? <div className={isCompleteDisabled ? style.disabledButton : style.editComplete} onClick={isCompleteDisabled ? undefined : updateProfile}>
             완료
           </div>
         : <></>}
@@ -129,7 +148,7 @@ export default function UserInfo({username}: Props) {
           <div className={style.profileDiv}>
             <div className={style.avatarWrapper}>
               <Avatar 
-                src={editMode ? (selectedImage ? avatarSrc : me?.user?.image) : me?.user?.image} 
+                src={editMode ? (selectedImage ? avatarSrc : me?.user?.image) : (me?.user?.image || image ? avatarSrc : <UserOutlined />)}
                 className={style.profile} 
                 icon={!(me?.user?.image || selectedImage) && <UserOutlined />}
               />
