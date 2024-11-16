@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
+import { getSession } from "next-auth/react"; 
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (prevState: any, formData: FormData) => {
@@ -70,12 +71,9 @@ export default async (prevState: any, formData: FormData) => {
       return { message: 'Registration successful but sign in failed' };
     }
 
+    return { message: 'success' };
   } catch (err) {
     console.error(err);
     return { message: null };
-  }
-
-  if (shouldRedirect) {
-    redirect('/');
   }
 }
