@@ -78,21 +78,23 @@ export default function UserInfo({username}: Props) {
         }
       }
       if(selectedImage !== null) {
-        const formData = new FormData();
-        formData.append('profile', selectedImage);
-        const res = await fetch(`/update/profile`, {
-          method: 'PATCH',
-          credentials: 'include',
-          body: formData
-        });
-        if (!res.ok) {
-          // JSON 형식의 오류 메시지 처리
-          const errorData = await res.json();
-          console.error("서버 오류 메시지:", errorData.message || errorData);
-          alert("사진 변경에 실패했습니다.");
-        } else {
-          setImage(selectedImage);
-        }
+        console.log("실행되었어용", image);
+        setImage(selectedImage);
+        // const formData = new FormData();
+        // formData.append('profile', selectedImage);
+        // const res = await fetch(`/update/profile`, {
+        //   method: 'PATCH',
+        //   credentials: 'include',
+        //   body: formData
+        // });
+        // if (!res.ok) {
+        //   // JSON 형식의 오류 메시지 처리
+        //   const errorData = await res.json();
+        //   console.error("서버 오류 메시지:", errorData.message || errorData);
+        //   alert("사진 변경에 실패했습니다.");
+        // } else {
+        //   setImage(selectedImage);
+        // }
       }
       editModeToggle();
     } catch (error) {
@@ -101,6 +103,7 @@ export default function UserInfo({username}: Props) {
   };
 
   const avatarSrc = selectedImage ? URL.createObjectURL(selectedImage) : me?.user?.image;
+  const changedAvatarSrc = image ? URL.createObjectURL(image) : me?.user?.image;
   const isCompleteDisabled = !editName && !selectedImage;
   if(!me) {
     return (
@@ -148,7 +151,7 @@ export default function UserInfo({username}: Props) {
           <div className={style.profileDiv}>
             <div className={style.avatarWrapper}>
               <Avatar 
-                src={editMode ? (selectedImage ? avatarSrc : me?.user?.image) : (me?.user?.image || image ? avatarSrc : <UserOutlined />)}
+                src={editMode ? (selectedImage ? avatarSrc : me?.user?.image) : (image ? changedAvatarSrc : me?.user?.image)}
                 className={style.profile} 
                 icon={!(me?.user?.image || selectedImage) && <UserOutlined />}
               />
