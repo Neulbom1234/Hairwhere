@@ -5,58 +5,45 @@ import style from './userInfo.module.css';
 import { useSession } from "next-auth/react";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useState, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { User } from "@/model/User";
-import { getUser } from "../_lib/getUser";
-import { useStore, useSyncNameFromSession } from "@/store/store";
+import { useState, useRef} from "react";
+import { useStore } from "@/store/store";
 
 type Props = {
   username: string,
 }
 
 export default function UserInfo({username}: Props) {
-  const { name, setName } = useStore((state) => ({
+  const { name, setName, image, setImage } = useStore((state) => ({
     name: state.name,
     setName: state.setName,
+    image: state.image,
+    setImage: state.setImage
   }));
-  useSyncNameFromSession();
-  const { data: me, update } = useSession();
+  const { data: me } = useSession();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editName, setEditName] = useState<string>('');
-  const [image, setImage] = useState<File | null>(null);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [editImage, setEditImage] = useState<File | null>(null);
   console.log(`내 정보: ${JSON.stringify(me, null, 2)}`);
-
-  const {
-    data,
-    isFetching,
-  } = useQuery<User, Object, User, [_1: string, _2: string]>({
-    queryKey: ['users', username],
-    queryFn: getUser,
-    staleTime: 60 * 1000,
-    gcTime: 300 * 1000,
-  })
+  console.log('이미지', image);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const editModeToggle = () => {
     setEditName('');
-    setSelectedImage(null);
+    setEditImage(null);
     setEditMode(!editMode);
   }
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedImage(file);
-      // 여기에서 사진을 서버에 업로드하는 로직을 추가할 수 있습니다.
-    }
-  };
 
   const handlePlusClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click(); // 파일 입력 클릭
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setEditImage(file);
     }
   };
 
@@ -77,24 +64,22 @@ export default function UserInfo({username}: Props) {
           setName(editName);
         }
       }
-      if(selectedImage !== null) {
-        console.log("실행되었어용", image);
-        setImage(selectedImage);
-        // const formData = new FormData();
-        // formData.append('profile', selectedImage);
-        // const res = await fetch(`/update/profile`, {
-        //   method: 'PATCH',
-        //   credentials: 'include',
-        //   body: formData
-        // });
-        // if (!res.ok) {
-        //   // JSON 형식의 오류 메시지 처리
-        //   const errorData = await res.json();
-        //   console.error("서버 오류 메시지:", errorData.message || errorData);
-        //   alert("사진 변경에 실패했습니다.");
-        // } else {
-        //   setImage(selectedImage);
-        // }
+      if(editImage !== null) {
+        const formData = new FormData();
+        formData.append('profile', editImage);
+        const res = await fetch(`/update/profile`, {
+          method: 'PATCH',
+          credentials: 'include',
+          body: formData
+        });
+        if (!res.ok) {
+          // JSON 형식의 오류 메시지 처리
+          const errorData = await res.json();
+          console.error("서버 오류 메시지:", errorData.message || errorData);
+          alert("사진 변경에 실패했습니다.");
+        } else {
+          setImage(editImage);
+        }
       }
       editModeToggle();
     } catch (error) {
@@ -102,9 +87,10 @@ export default function UserInfo({username}: Props) {
     }
   };
 
-  const avatarSrc = selectedImage ? URL.createObjectURL(selectedImage) : me?.user?.image;
-  const changedAvatarSrc = image ? URL.createObjectURL(image) : me?.user?.image;
-  const isCompleteDisabled = !editName && !selectedImage;
+  const editImageSrc = editImage ? URL.createObjectURL(editImage) : me?.user?.image; //editMode에서 보여줄 사진
+  const changedImageSrc = image ? URL.createObjectURL(image) : me?.user?.image; //프로필 변경 후 보여줄 사진
+  const isCompleteDisabled = !editName && !editImage;
+
   if(!me) {
     return (
       <>
@@ -151,9 +137,9 @@ export default function UserInfo({username}: Props) {
           <div className={style.profileDiv}>
             <div className={style.avatarWrapper}>
               <Avatar 
-                src={editMode ? (selectedImage ? avatarSrc : me?.user?.image) : (image ? changedAvatarSrc : me?.user?.image)}
+                src={editMode ? (editImage ? editImageSrc : me?.user?.image) : (image ? changedImageSrc : me?.user?.image)}
                 className={style.profile} 
-                icon={!(me?.user?.image || selectedImage) && <UserOutlined />}
+                icon={!(me?.user?.image || editImage) && <UserOutlined />}
               />
               {editMode && (
                 <input
@@ -171,7 +157,7 @@ export default function UserInfo({username}: Props) {
             </div>
             {editMode?
               <input className={style.editName} placeholder={me?.user?.name || ''} maxLength={10} value={editName} onChange={(e) => setEditName(e.target.value)}/>
-              :<div className={style.nickname}>{name}</div>}
+              :<div className={style.nickname}>{name||me?.user?.name}</div>}
             {me
               ? editMode 
                 ? <></>
