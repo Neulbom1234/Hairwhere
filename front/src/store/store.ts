@@ -1,7 +1,4 @@
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
 type PreviewType = {
   dataUrl: string;
@@ -29,10 +26,11 @@ type StoreState = {
   setHairColor: (hairColor: string) => void;
   name: string;
   setName: (name: string) => void;
+  image: File|null;
+  setImage: (image: File|null) => void;
 };
 
 export const useStore = create<StoreState>()(
-  persist(
     (set) => ({
       shop: "",
       setShop: (shop) => set({ shop }),
@@ -57,31 +55,7 @@ export const useStore = create<StoreState>()(
       setHairColor: (hairColor) => set({ hairColor }),
       name: "",
       setName: (name) => set({ name }),
-    }),
-    {
-      name: "user-store", // localStorage에 저장될 키 이름
-      storage: {
-        getItem: (name: string) => {
-          const item = localStorage.getItem(name);
-          return item ? JSON.parse(item) : null; // string에서 객체로 변환
-        },
-        setItem: (name: string, value: any) => {
-          localStorage.setItem(name, JSON.stringify(value)); // 객체를 string으로 변환하여 저장
-        },
-        removeItem: (name: string) => localStorage.removeItem(name),
-      },
-    }
-  )
-);
+      image: null,
+      setImage: (image) => set({image})
+    }));
 
-// Custom hook to sync session with Zustand store
-export function useSyncNameFromSession() {
-  const { data: session } = useSession();
-  const setName = useStore((state) => state.setName);
-
-  useEffect(() => {
-    if (session?.user?.name) {
-      setName(session.user.name); // session에서 이름을 가져와 zustand 상태 업데이트
-    }
-  }, [session, setName]); // session이 변경될 때마다 실행
-}
