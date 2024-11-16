@@ -4,10 +4,18 @@ import style from './signup.module.css';
 import onSubmit from "../_lib/signup"
 import { useFormState, useFormStatus } from 'react-dom';
 import BackButton from './BackButton';
+import { useEffect } from 'react';
 
 export default function SignupModal() {
   const [state, formAction] = useFormState(onSubmit, { message: null });
   const { pending } = useFormStatus(); //pending은 데이터를 보내고 있는 중
+
+    // 회원가입 성공 시 페이지 이동 처리
+    useEffect(() => {
+      if (state?.message === 'success') {
+        window.location.href = '/'; // 회원가입 성공 시 메인 페이지로 이동
+      }
+    }, [state?.message]);
 
   return (
     <>
