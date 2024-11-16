@@ -6,17 +6,36 @@ import { useSession } from "next-auth/react";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useState, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { User } from "@/model/User";
+import { getUser } from "../_lib/getUser";
+import { useStore, useSyncNameFromSession } from "@/store/store";
 
 type Props = {
   username: string,
 }
 
 export default function UserInfo({username}: Props) {
+  const { name, setName } = useStore((state) => ({
+    name: state.name,
+    setName: state.setName,
+  }));
+  useSyncNameFromSession();
+  const { data: me, update } = useSession();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editName, setEditName] = useState<string>('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const { data: me } = useSession();
   console.log(`내 정보: ${JSON.stringify(me, null, 2)}`);
+
+  const {
+    data,
+    isFetching,
+  } = useQuery<User, Object, User, [_1: string, _2: string]>({
+    queryKey: ['users', username],
+    queryFn: getUser,
+    staleTime: 60 * 1000,
+    gcTime: 300 * 1000,
+  })
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -43,8 +62,8 @@ export default function UserInfo({username}: Props) {
   const updateName = async () => {
     try {
       const encodedName = encodeURIComponent(editName);
-      const res = await fetch(`mypage/update?name=${encodedName}`, {
-        method: 'POST',
+      const res = await fetch(`/update/name?name=${encodedName}`, {
+        method: 'PATCH',
         credentials: 'include',
       });
   
@@ -54,8 +73,8 @@ export default function UserInfo({username}: Props) {
         console.error("서버 오류 메시지:", errorData.message || errorData);
         alert("닉네임 변경에 실패했습니다.");
       } else {
+        setName(editName);
         editModeToggle();
-        window.location.reload();
       }
     } catch (error) {
       console.error("요청 오류:", error);
@@ -130,7 +149,7 @@ export default function UserInfo({username}: Props) {
             </div>
             {editMode?
               <input className={style.editName} placeholder={me?.user?.name || ''} maxLength={10} value={editName} onChange={(e) => setEditName(e.target.value)}/>
-              :<div className={style.nickname}>{me?.user?.name}</div>}
+              :<div className={style.nickname}>{name}</div>}
             {me
               ? editMode 
                 ? <></>
