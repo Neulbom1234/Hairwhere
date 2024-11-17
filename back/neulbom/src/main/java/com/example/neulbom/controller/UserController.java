@@ -87,11 +87,12 @@ public class UserController {
 
     @PostMapping(value="/register",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )//회원가입
     public ResponseEntity<String> register(HttpSession session,@RequestPart("loginId") String loginId,
-                                           @RequestPart("pw") String pw,@RequestPart("name") String name,
+                                           @RequestPart("pw") String pw,
+                                           @RequestPart("name") String name,
                                            @RequestPart("email") String email,
                                            @RequestPart("profile") MultipartFile profile) {
 
-        if (isValidRegister(loginId)) {
+        if (isUserExists(loginId)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("LoginId already exists");
         }
         else{
@@ -113,12 +114,14 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    /*
     @PostMapping("/mypage/update")
     public String updateMyPage(HttpSession session,@RequestParam("name") String name,@RequestPart("profile") MultipartFile profile) {
         userService.update(session,name,profile);
 
         return "수정 완료";
     }
+    */
 
     @GetMapping("/mypage/like")
     public Page<PhotoResponse> getMyLikePage(@RequestParam(defaultValue = "0") int page,
@@ -179,8 +182,7 @@ public class UserController {
         }
     }
 
-    private boolean isValidRegister(String loginId) {//회원가입
-        // 간단한 사용자 검증 로직
+    private boolean isUserExists(String loginId) {//회원가입
         return userService.isValidRegister(loginId);
     }
 
@@ -188,4 +190,38 @@ public class UserController {
         // 간단한 사용자 검증 로직
         return userService.findByLoginIdAndPw(loginId,pw);
     }
+
+    @PatchMapping("/update/name")
+    public ResponseEntity<User> updateName(HttpSession session, @RequestParam("name") String name) {
+        String loginId = (String) session.getAttribute("loginId");
+        if (loginId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(null);
+        }
+
+        try {
+            User user = userService.updateName(loginId, name);
+            return ResponseEntity.ok(user);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PatchMapping("/update/profile")
+    public ResponseEntity<User> updateImage(HttpSession session, @RequestPart("profile") MultipartFile profile) {
+        String loginId = (String) session.getAttribute("loginId");
+        if (loginId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(null);
+        }
+
+        try {
+            User user = userService.updateProfile(loginId, profile);
+            return ResponseEntity.ok(user);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+
 }

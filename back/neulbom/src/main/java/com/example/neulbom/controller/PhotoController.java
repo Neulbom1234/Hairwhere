@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
@@ -37,7 +39,7 @@ public class PhotoController {
     private final LikeService likeService;
     private final PhotoRepository photoRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PhotoController.class);
     private final UserRepository userRepository;
 
     @PostMapping("/upload")
@@ -187,20 +189,38 @@ public class PhotoController {
     }
 
     @GetMapping("/search")
-    public Page<PhotoResponse> search(@RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "15") int size,
-                              @RequestParam(defaultValue = "created") String sortBy,
-                              @RequestParam(defaultValue = "desc") String sortOrder,
-                              @RequestParam("hairName") String hairName,
-                              @RequestParam(value = "hairLength", required = false) String hairLength,
-                              @RequestParam(value = "hairColor", required = false) String hairColor,
-                              @RequestParam(value = "gender", required = false) String gender){
+    public ResponseEntity<Page<PhotoResponse>> search(HttpServletRequest request, @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "15") int size,
+                                      @RequestParam(defaultValue = "created") String sortBy,
+                                      @RequestParam(defaultValue = "desc") String sortOrder,
+                                      @RequestParam("hairName") String hairName,
+                                      @RequestParam(value = "hairLength", required = false) String hairLength,
+                                      @RequestParam(value = "hairColor", required = false) String hairColor,
+                                      @RequestParam(value = "gender", required = false) String gender){
+
+        HttpSession session = request.getSession();
 
         Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortOrder)));
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        return photoService.search(hairName,hairLength,hairColor,gender,pageable);
+        List<String> searchList = (List<String>)session.getAttribute("searchList");
+
+        if(searchList == null){
+            searchList = new ArrayList<>();
+        }
+        if(searchList.size() >= 10){ // 10개 이상이면 가장 오래된 검색어 삭제
+            searchList.remove(9);
+        }
+        searchList.add(0,hairName);
+
+        session.setAttribute("searchList",searchList);
+        logger.info("searchList: {}",searchList);
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.SET_COOKIE,session.toString())
+            .body(photoService.search(hairName,hairLength,hairColor,gender,pageable));
+
     }
 
 }
