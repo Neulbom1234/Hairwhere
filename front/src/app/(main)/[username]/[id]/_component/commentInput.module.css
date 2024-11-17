@@ -1,0 +1,42 @@
+.commentInput {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-top: 1px solid #EFF3F4;
+  padding-left: 32px;
+  position: relative;
+}
+
+.textArea {
+  padding: 5px;
+  resize: none;
+  width: 90%;
+  margin-left: auto;
+  height: 70px;
+  border-left: 1px;
+  padding-right: 80px;
+}
+
+.profile {
+  margin-right: 10px;
+}
+
+.commentButton {
+  position: absolute; /* .commentInput 내부에서 절대 위치 설정 */
+  margin: auto 0;
+  right: 27px; /* .TextArea의 오른쪽에 위치 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
+  background-color: black;
+  width: 60px;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
