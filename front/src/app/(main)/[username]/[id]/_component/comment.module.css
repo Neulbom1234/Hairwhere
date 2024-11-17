@@ -1,0 +1,45 @@
+.comment {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #EFF3F4;
+  padding: 10px 32px;
+  position: relative;
+}
+
+.profile {
+  margin-right: 10px;
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-left: 10px;
+}
+
+.userName {
+  margin-left: 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.text {
+  width: 100%;
+  margin-bottom: 0px;
+  font-size: 14px;
+}
+
+.time {
+  font-size: 12px;
+  font-weight: 300;
+  color: #737373;
+  margin-right: 12px;
+}
+
+.recomment {
+  font-size: 12px;
+  font-weight: 600;
+  color: #737373;
+}

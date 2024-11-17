@@ -3,6 +3,7 @@ import SinglePost from './_component/SinglePost';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { getSinglePost } from './_lib/getSinglePost';
 import CommentInput from './_component/CommentInput';
+import Comment from './_component/Comment';
 
 type Props = {
   params: {id: string}
@@ -23,6 +24,7 @@ export default async function Home({params}: Props) {
       <HydrationBoundary state={dehydratedState}>
         <SinglePost id={id}/>
         <CommentInput id={id} />
+        <Comment/>
       </HydrationBoundary>
     </div>
   );

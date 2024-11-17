@@ -6,16 +6,23 @@
   border-top: 1px solid #EFF3F4;
   padding-left: 32px;
   position: relative;
+  padding-bottom: 10px;
 }
 
 .textArea {
   padding: 5px;
   resize: none;
   width: 90%;
-  margin-left: auto;
+  margin-left: 10px;
   height: 70px;
   border-left: 1px;
   padding-right: 80px;
+  border-bottom: 1px solid black;
+}
+
+
+.textArea:focus {
+  outline: none; /* 포커스 시 외곽선 제거 */
 }
 
 .profile {
