@@ -5,11 +5,9 @@ import Link from 'next/link'
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
-import {faker} from '@faker-js/faker';
 import type {Post}  from '../../../model/Post';
-import type { PageInfos } from '@/model/PageInfos';
 import { PageInfo } from '@/model/PageInfo';
-import {MouseEventHandler, use, useEffect, useState} from "react";
+import {MouseEventHandler, useEffect} from "react";
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import {useRouter} from "next/navigation";
@@ -27,10 +25,6 @@ export default function Post({ post }: Props) {
   const router = useRouter();
 
   const liked = !!post.likedUserNames?.find((v) => v === session?.user?.name);
-
-  useEffect(() => {
-    console.log('liked입니당 ', liked);
-  }, [liked])
 
   const heart = useMutation({
     mutationFn: () => {

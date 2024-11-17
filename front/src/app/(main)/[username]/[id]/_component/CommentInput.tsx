@@ -6,14 +6,38 @@ import { Avatar } from 'antd';
 import { useSession } from "next-auth/react";
 import { UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
+import {useRouter} from "next/navigation";
 
 type Props = {
   id: string
 }
 
-function CommentInput({id}: Props) {
+export default function CommentInput({id}: Props) {
+  const queryClient = useQueryClient();
   const { data: me } = useSession(); 
   const [text, setText] = useState<string>("");
+  const router = useRouter();
+
+  const addComment = useMutation({
+    mutationFn: () => {
+      return fetch(`/comment/${id}?content=${text}`, {
+        method: 'POST',
+        credentials: 'include'
+      })
+    }, 
+    onMutate() {
+      setText("");
+    }
+  })
+
+  const onAddComment = () => {
+    if(!me) {
+      router.push('/login');
+    } else {
+      addComment.mutate();
+    }
+  }
 
   return (
     <>
@@ -28,10 +52,8 @@ function CommentInput({id}: Props) {
             value={text}
             onChange={(e) => setText(e.target.value)}
             />
-          { text && <button className={style.commentButton}>등록</button> }
+          { text && <button className={style.commentButton} onClick={onAddComment}>등록</button> }
         </div>
     </>
   )
 }
-
-export default CommentInput
