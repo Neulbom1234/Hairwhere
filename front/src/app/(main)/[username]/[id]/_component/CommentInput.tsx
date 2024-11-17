@@ -49,6 +49,7 @@ export default function CommentInput({id}: Props) {
           <Textarea 
             className={style.textArea} 
             placeholder="댓글 작성..."
+            spellCheck={false}
             value={text}
             onChange={(e) => setText(e.target.value)}
             />
