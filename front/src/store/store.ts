@@ -1,9 +1,8 @@
-// src/store/store.ts
-import {create} from 'zustand';
+import { create } from "zustand";
 
-type PreviewType = { 
-  dataUrl: string; 
-  file: File; 
+type PreviewType = {
+  dataUrl: string;
+  file: File;
 };
 
 type StoreState = {
@@ -25,28 +24,38 @@ type StoreState = {
   setHairLength: (hairLength: string) => void;
   hairColor: string;
   setHairColor: (hairColor: string) => void;
+  name: string;
+  setName: (name: string) => void;
+  image: File|null;
+  setImage: (image: File|null) => void;
 };
 
-export const useStore = create<StoreState>((set) => ({
-  shop: '',
-  setShop: (shop) => set({ shop }),
-  shopAddress: '',
-  setShopAddress: (shopAddress) => set({ shopAddress }),
-  hairName: '',
-  setHairName: (hairName) => set({ hairName }),
-  text: '',
-  setText: (text) => set({ text }),
-  preview: [],
-  setPreview: (value) =>
-    set((state) => ({
-      preview: typeof value === 'function' ? value(state.preview) : value,
-    })),
-  imgMax: '',
-  setImgMax: (imgMax) => set({ imgMax }),
-  gender: "",
-  setGender: (gender) => set({ gender }),
-  hairLength: "",
-  setHairLength: (hairLength) => set({ hairLength }),
-  hairColor: "",
-  setHairColor: (hairColor) => set({ hairColor }),
-}));
+export const useStore = create<StoreState>()(
+    (set) => ({
+      shop: "",
+      setShop: (shop) => set({ shop }),
+      shopAddress: "",
+      setShopAddress: (shopAddress) => set({ shopAddress }),
+      hairName: "",
+      setHairName: (hairName) => set({ hairName }),
+      text: "",
+      setText: (text) => set({ text }),
+      preview: [],
+      setPreview: (value) =>
+        set((state) => ({
+          preview: typeof value === "function" ? value(state.preview) : value,
+        })),
+      imgMax: "",
+      setImgMax: (imgMax) => set({ imgMax }),
+      gender: "",
+      setGender: (gender) => set({ gender }),
+      hairLength: "",
+      setHairLength: (hairLength) => set({ hairLength }),
+      hairColor: "",
+      setHairColor: (hairColor) => set({ hairColor }),
+      name: "",
+      setName: (name) => set({ name }),
+      image: null,
+      setImage: (image) => set({image})
+    }));
+

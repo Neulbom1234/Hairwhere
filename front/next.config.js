@@ -14,6 +14,10 @@ const nextConfig = {
         source: '/mypage/:path*',
         destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/mypage/:path*`
       },
+      {
+        source: '/update/:path*',
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/update/:path*`
+      },
     ];
   },
 };
