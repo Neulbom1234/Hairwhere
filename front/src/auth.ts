@@ -90,4 +90,7 @@ export const {
       
     }),
   ],
+  session: {
+    maxAge: 1800
+  }
 });

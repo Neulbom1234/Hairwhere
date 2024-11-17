@@ -23,11 +23,53 @@
   margin: auto;
   font-weight: 900;
 }
-.gear{
-  width: 30px;
-  height: 30px;
+.editCancle {
   position: absolute;
-  right: 3%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.editComplete {
+  position: absolute;
+  right: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
+  background-color: black;
+  border-radius: 5px;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.disabledButton {
+  position: absolute;
+  right: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
+  background-color: #bfbfbf;
+  border-radius: 5px;
+  border: none;
+  color: #585858;
+  font-weight: 700;
+  font-size: 14px;
+  border-color: #bfbfbf;     
+  cursor: not-allowed;       
 }
 .body{
   height: 100dvh;
@@ -60,11 +102,43 @@
   width: 100px;
   height: 100px;
   margin-top: 30px;
+  transition: opacity 0.3s;
+}
+.avatarWrapper {
+  position: relative; /* 절대 위치 설정을 위한 relative */
+  display: inline-block; /* Avatar 크기에 맞춰서 크기 조정 */
+}
+.plusIcon {
+  margin-top: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: white; /* 아이콘 색상 */
+  background-color: rgba(0, 0, 0, 0.5); /* 배경색 */
+  border-radius: 50%;
+  width: 98px;
+  height: 98px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; /* 클릭 가능한 커서 */
+  z-index: 1; /* 다른 요소보다 위에 표시 */
+}
+
+.fileInput {
+  display: none; /* 파일 입력 숨기기 */
 }
 .nickname{
   font-weight: 900;
   font-size: 20px;
-  margin: 5px 0;
+  margin: 10px 0;
+}
+.editName {
+  margin: 10px 0;
+  width: 140px;
+  height: 30px;
 }
 .editProfile{
   padding: 4px 9px;
