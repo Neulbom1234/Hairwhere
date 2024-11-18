@@ -15,8 +15,8 @@ const nextConfig = {
         destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/mypage/:path*`
       },
       {
-        source: '/update/:path*',
-        destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/update/:path*`
+        source: '/comment/:path*',
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/comment/:path*`
       },
     ];
   },

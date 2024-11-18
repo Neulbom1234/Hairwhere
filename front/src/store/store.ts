@@ -1,4 +1,6 @@
-import { create } from "zustand";
+// src/store/store.ts
+import { Comment } from '@/model/Comment';
+import {create} from 'zustand';
 
 type PreviewType = {
   dataUrl: string;
@@ -24,38 +26,36 @@ type StoreState = {
   setHairLength: (hairLength: string) => void;
   hairColor: string;
   setHairColor: (hairColor: string) => void;
-  name: string;
-  setName: (name: string) => void;
-  image: File|null;
-  setImage: (image: File|null) => void;
+  photoId: string|undefined;
+  setPhotoId: (photoId: string) => void;
+  recomment: Comment|undefined;
+  setRecomment: (recomment: Comment) => void;
 };
 
-export const useStore = create<StoreState>()(
-    (set) => ({
-      shop: "",
-      setShop: (shop) => set({ shop }),
-      shopAddress: "",
-      setShopAddress: (shopAddress) => set({ shopAddress }),
-      hairName: "",
-      setHairName: (hairName) => set({ hairName }),
-      text: "",
-      setText: (text) => set({ text }),
-      preview: [],
-      setPreview: (value) =>
-        set((state) => ({
-          preview: typeof value === "function" ? value(state.preview) : value,
-        })),
-      imgMax: "",
-      setImgMax: (imgMax) => set({ imgMax }),
-      gender: "",
-      setGender: (gender) => set({ gender }),
-      hairLength: "",
-      setHairLength: (hairLength) => set({ hairLength }),
-      hairColor: "",
-      setHairColor: (hairColor) => set({ hairColor }),
-      name: "",
-      setName: (name) => set({ name }),
-      image: null,
-      setImage: (image) => set({image})
-    }));
-
+export const useStore = create<StoreState>((set) => ({
+  shop: '',
+  setShop: (shop) => set({ shop }),
+  shopAddress: '',
+  setShopAddress: (shopAddress) => set({ shopAddress }),
+  hairName: '',
+  setHairName: (hairName) => set({ hairName }),
+  text: '',
+  setText: (text) => set({ text }),
+  preview: [],
+  setPreview: (value) =>
+    set((state) => ({
+      preview: typeof value === 'function' ? value(state.preview) : value,
+    })),
+  imgMax: '',
+  setImgMax: (imgMax) => set({ imgMax }),
+  gender: "",
+  setGender: (gender) => set({ gender }),
+  hairLength: "",
+  setHairLength: (hairLength) => set({ hairLength }),
+  hairColor: "",
+  setHairColor: (hairColor) => set({ hairColor }),
+  photoId: undefined,
+  setPhotoId: (photoId) => set({ photoId }),
+  recomment: undefined,
+  setRecomment: (recomment) => set({ recomment })
+}));
