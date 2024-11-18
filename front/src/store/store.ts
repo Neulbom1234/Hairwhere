@@ -1,4 +1,5 @@
 // src/store/store.ts
+import { Comment } from '@/model/Comment';
 import {create} from 'zustand';
 
 type PreviewType = { 
@@ -25,6 +26,10 @@ type StoreState = {
   setHairLength: (hairLength: string) => void;
   hairColor: string;
   setHairColor: (hairColor: string) => void;
+  photoId: string|undefined;
+  setPhotoId: (photoId: string) => void;
+  recomment: Comment|undefined;
+  setRecomment: (recomment: Comment) => void;
 };
 
 export const useStore = create<StoreState>((set) => ({
@@ -49,4 +54,8 @@ export const useStore = create<StoreState>((set) => ({
   setHairLength: (hairLength) => set({ hairLength }),
   hairColor: "",
   setHairColor: (hairColor) => set({ hairColor }),
+  photoId: undefined,
+  setPhotoId: (photoId) => set({ photoId }),
+  recomment: undefined,
+  setRecomment: (recomment) => set({ recomment })
 }));

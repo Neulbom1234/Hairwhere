@@ -1,0 +1,31 @@
+.modalBackground {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .modalBackground {
+      background-color: rgba(91, 112, 131, 0.4);
+  }
+}
+
+.modal {
+  background-color: rgb(var(--background-end-rgb));
+  border-radius: 16px;
+  position: relative;
+  top: 15%;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  z-index: 99;
+}

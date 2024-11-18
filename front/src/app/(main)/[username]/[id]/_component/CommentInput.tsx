@@ -53,7 +53,6 @@ export default function CommentInput({id}: Props) {
             replies: [],
             createdAt: new Date()
           };
-
           shallow.unshift(newComment);
           queryClient.setQueryData(queryKey, shallow);
         }

@@ -21,7 +21,7 @@ export default function Comments({id}: Props) {
     <>
       {data?.map((comment, idx) => (
         <Fragment key={idx}>
-          <Comment key={comment.id} comment={comment}/>
+          <Comment key={comment.id} comment={comment} id={id}/>
         </Fragment>
       ))}
     </>
