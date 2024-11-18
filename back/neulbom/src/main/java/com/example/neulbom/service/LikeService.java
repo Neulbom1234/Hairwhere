@@ -58,21 +58,4 @@ public class LikeService {
                 .collect(Collectors.toList());
     }
 
-    /*
-    public void saveUser(Long userId,Long id){
-        User user = userService.findById(userId);
-        Photo photo = photoService.findById(id);
-
-        Like like = new Like(photo,user);
-    }
-
-    @Transactional
-    public void deleteUser(Long userId,Long id){
-        User user = userService.findById(userId);
-        Photo photo = photoService.findById(id);
-
-        likeRepository.deleteByUserAndPhoto(user,photo);
-    }
-    */
-
 }

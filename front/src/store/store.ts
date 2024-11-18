@@ -2,9 +2,9 @@
 import { Comment } from '@/model/Comment';
 import {create} from 'zustand';
 
-type PreviewType = { 
-  dataUrl: string; 
-  file: File; 
+type PreviewType = {
+  dataUrl: string;
+  file: File;
 };
 
 type StoreState = {
