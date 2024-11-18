@@ -130,3 +130,31 @@
 .text {
   font-weight: 300;
 }
+
+.closeButton {
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+  border: none;
+  cursor: pointer;
+  background-color: #fff;
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.closeButton:hover {
+  background-color: rgba(15,20,25, 0.1);
+}
+
+.recommentsWrapper {
+  flex: 1; /* 부모 요소에서 남는 공간을 채움 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  padding: 0px 16px;
+}
+
+.recommentsWrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}

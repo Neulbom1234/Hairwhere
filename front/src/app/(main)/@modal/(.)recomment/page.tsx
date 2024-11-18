@@ -1,4 +1,4 @@
-import RecommentModal from "../../../_component/RecommentModal";
+import RecommentModal from "../../_component/RecommentModal";
 
 export default async function Page() {
   return (

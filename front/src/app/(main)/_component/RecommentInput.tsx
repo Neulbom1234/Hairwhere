@@ -52,6 +52,7 @@ export default function RecommentInput({id, parentId}: Props) {
               profilePath: me?.user?.image || '',
               email: me?.user?.email || ''
             },
+            parentId: Number(parentId),
             replies: [],
             createdAt: new Date()
           };
