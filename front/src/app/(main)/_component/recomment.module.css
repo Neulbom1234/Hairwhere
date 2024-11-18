@@ -1,0 +1,160 @@
+.modalBackground {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .modalBackground {
+      background-color: rgba(91, 112, 131, 0.4);
+  }
+}
+
+.modal {
+  background-color: rgb(var(--background-end-rgb));
+  border-radius: 16px;
+  position: relative;
+  top: 15%;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  z-index: 99;
+}
+
+@media all and (min-width: 687px) {
+  .modal {
+      top: 5%;
+      min-width: 502px;
+      max-width: 502px;
+      height: 450px;
+      max-height: 80dvh;
+      padding: 0;
+      border-radius: 16px !important;
+  }
+  .modalHeader {
+      /* min-width: 80dvw; */
+      max-width: 100%;
+      padding: 16px 80px 20px;
+  }
+  .modalBody {
+      padding: 0 80px;
+  }
+
+  .modalFooter{
+      padding: 0 80px;
+      /* display: flex; */
+  }
+
+  .user{
+      font-size: 15px;
+  }
+}
+@media all and (min-width: 300px) {
+  .modal{
+      top: 0%;
+      height: 100dvh;
+      width: 100dvw;
+      border-radius: 0;
+  }
+  .modalHeader{
+      width: inherit;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      align-items: center;
+  }
+  
+  .modalBody{
+      flex: 1;
+  }
+
+  .inputDiv{
+      max-width: 340px;
+      margin: auto;
+  }
+
+  .actionButton{
+      margin: auto;
+  }
+
+  .message{
+      /* padding: 0 80px;
+      margin: 0; */
+      max-width: 340px;
+      margin: auto;
+  }
+
+  .modalFooter{
+      flex: 1;
+      /* display: flex; */
+  }
+
+  .user{
+      font-size: 12px;
+      word-break: keep-all;
+  }
+
+}
+
+.headerWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-bottom: 1px solid #EFF3F4;
+  padding: 32px;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.name {
+  margin-left: 15px;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.text {
+  font-weight: 300;
+}
+
+.closeButton {
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+  border: none;
+  cursor: pointer;
+  background-color: #fff;
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.closeButton:hover {
+  background-color: rgba(15,20,25, 0.1);
+}
+
+.recommentsWrapper {
+  flex: 1; /* 부모 요소에서 남는 공간을 채움 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  padding: 0px 16px;
+}
+
+.recommentsWrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
