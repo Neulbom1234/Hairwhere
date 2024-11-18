@@ -4,7 +4,7 @@ export interface Comment {
   id: number,
   content: string,
   user: User,
-  parent: Comment,
+  parent?: Comment,
   replies: Comment[],
   createdAt: Date
 }

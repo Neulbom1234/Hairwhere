@@ -149,13 +149,11 @@ export default function Post({ post }: Props) {
 
   return (
     <>
-
       <div className={style.card}>
         <div className={style.cover}>
           <Link href={`/${post.userName}/${post.id}`}>
             <img src={post.photoImagePath[0]} alt=""/>             
           </Link>
-
           <div className={style.heartButton}>
             <button onClick={onClickHeart}>
               {liked ?

@@ -6,8 +6,9 @@ import { Avatar } from 'antd';
 import { useSession } from "next-auth/react";
 import { UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {useRouter} from "next/navigation";
+import { Comment } from '@/model/Comment';
 
 type Props = {
   id: string
@@ -21,21 +22,58 @@ export default function CommentInput({id}: Props) {
 
   const addComment = useMutation({
     mutationFn: () => {
-      return fetch(`/comment/${id}?content=${text}`, {
+      console.log(`텍스트입니당: ${text}`);
+      return fetch(`/comment/${id}`, {
         method: 'POST',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: text
+        }),
       })
     }, 
     onMutate() {
-      setText("");
+      const queryCache = queryClient.getQueryCache();
+      const queryKeys = queryCache.getAll().map(cache => cache.queryKey);
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "comments" && queryKey[1] === id) {
+          const value: Comment[] | undefined = queryClient.getQueryData(queryKey);
+          const shallow = value ? [...value] : [];
+          const newComment:Comment = {
+            id: shallow.length === 0 ? 1: shallow[shallow.length-1].id + 1,
+            content: text,
+            user: {
+              loginId: me?.user?.id || '',
+              name: me?.user?.name || '',
+              profilePath: me?.user?.image || '',
+              email: me?.user?.email || ''
+            },
+            replies: [],
+            createdAt: new Date()
+          };
+
+          shallow.unshift(newComment);
+          queryClient.setQueryData(queryKey, shallow);
+        }
+      })
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({queryKey: ['comments', id]});
+    },
+    onError: (error) => {
+      console.error("Error adding comment:", error);
     }
   })
 
   const onAddComment = () => {
     if(!me) {
       router.push('/login');
+      return;
     } else {
       addComment.mutate();
+      return;
     }
   }
 
