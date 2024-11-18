@@ -60,6 +60,7 @@ export default function CommentInput({id}: Props) {
       })
     },
     onSuccess() {
+      setText('');
       queryClient.invalidateQueries({queryKey: ['comments', id]});
     },
     onError: (error) => {
