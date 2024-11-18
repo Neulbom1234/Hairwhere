@@ -1,2 +1,13 @@
-*.yml
-com/example/neulbom/config/
+src/main/resources/application.yml
+**/NCPConfig.java
+**/SecurityConfig.java
+build/
+
+# Exclude jar files except gradle wrapper
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# Include gradle wrapper files
+!gradle/wrapper/gradle-wrapper.properties
+!gradlew
+!gradlew.bat
