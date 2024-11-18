@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
@@ -16,16 +17,10 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final s3Service s3Service;
-
-    public User findByLoginId(String loginId) {
-        return userRepository.findByLoginId(loginId);
-    }
+    private final NCPStorageService ncpStorageService;  // s3Service를 NCPStorageService로 변경
 
     public boolean isValidRegister(String loginId){
-        User user = userRepository.findByLoginId(loginId);
-
-        return user != null;
+        return userRepository.findByLoginId(loginId).isPresent();
     }
 
     public User findByName(String name) {
@@ -33,8 +28,7 @@ public class UserService {
     }
 
     public boolean findByLoginIdAndPw(String loginId, String pw) {
-
-        User user=  userRepository.findByLoginIdAndPw(loginId,pw);
+        User user = userRepository.findByLoginIdAndPw(loginId,pw);
 
         if(user!=null){// user가 존재한 경우
             return user.getLoginId().equals(loginId);
@@ -44,22 +38,22 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> addUser(String loginId, String pw, String name,String email,MultipartFile profile) {
-        String profilePath = s3Service.upload(profile);
+    public ResponseEntity<Object> addUser(String loginId, String pw, String name, String email, MultipartFile profile) {
+        String profilePath = ncpStorageService.upload(profile);  // s3Service를 ncpStorageService로 변경
 
         User user = new User(loginId,pw,name,email,profilePath);
-
         userRepository.save(user);
 
         return ResponseEntity.ok("register success");
     }
 
     public String update(HttpSession session, String name, MultipartFile profile){
-        String profilePath = s3Service.upload(profile);
+        String profilePath = ncpStorageService.upload(profile);  // s3Service를 ncpStorageService로 변경
 
         String loginId = (String)session.getAttribute("loginId");
 
-        User user = userRepository.findByLoginId(loginId);
+        User user = userRepository.findByLoginId(loginId)
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         user.setName(name);
         user.setProfilePath(profilePath);
@@ -69,10 +63,35 @@ public class UserService {
         return "수정 완료";
     }
 
-
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
+    @Transactional(readOnly = true)
+    public User findByLoginId(String loginId) {
+        return userRepository.findByLoginId(loginId)
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    }
+
+    public User updateName(String loginId, String newName) {
+        User user = findByLoginId(loginId);
+        user.setName(newName);
+        userRepository.save(user);
+
+        return user;
+    }
+
+    public User updateProfile(String loginId, MultipartFile profile) {
+        String profilePath = ncpStorageService.upload(profile);  // s3Service를 ncpStorageService로 변경
+
+        User user = userRepository.findByLoginId(loginId)
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        user.setProfilePath(profilePath);
+
+        userRepository.save(user);
+
+        return user;
+    }
 
 }
