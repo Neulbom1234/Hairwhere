@@ -1,6 +1,6 @@
 "use client"
 
-import style from './commentInput.module.css';
+import style from './recommentInput.module.css';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar } from 'antd';
 import { useSession } from "next-auth/react";
@@ -11,10 +11,11 @@ import {useRouter} from "next/navigation";
 import { Comment } from '@/model/Comment';
 
 type Props = {
-  id: string
+  id: string,
+  parentId: string
 }
 
-export default function CommentInput({id}: Props) {
+export default function RecommentInput({id, parentId}: Props) {
   const queryClient = useQueryClient();
   const { data: me } = useSession(); 
   const [text, setText] = useState<string>("");
@@ -30,7 +31,8 @@ export default function CommentInput({id}: Props) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          content: text
+          content: text,
+          parentId: Number(parentId)
         }),
       })
     }, 
@@ -38,7 +40,7 @@ export default function CommentInput({id}: Props) {
       const queryCache = queryClient.getQueryCache();
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey);
       queryKeys.forEach((queryKey) => {
-        if(queryKey[0] === "comments" && queryKey[1] === id) {
+        if(queryKey[0] === "recomment" && queryKey[1] === id && queryKey[2] === parentId) {
           const value: Comment[] | undefined = queryClient.getQueryData(queryKey);
           const shallow = value ? [...value] : [];
           const newComment:Comment = {
