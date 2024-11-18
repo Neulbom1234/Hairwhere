@@ -19,11 +19,11 @@ export default function Comments({id}: Props) {
   })
   return (
     <>
-      {data?.map((comment, idx) => {
+      {data?.map((comment, idx) => (
         <Fragment key={idx}>
           <Comment key={comment.id} comment={comment}/>
         </Fragment>
-      })}
+      ))}
     </>
   )
 }
