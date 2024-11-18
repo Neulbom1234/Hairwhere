@@ -42,7 +42,8 @@ export default function Comment({comment, id}: Props) {
           <div className={style.commentBottom}>
             <span className={style.time}>{dayjs(comment.createdAt).fromNow(true)} 전</span>
             <span className={style.recomment} onClick={()=>redirectToRecomment(comment)}>
-              {comment.replies.length === 0 ?
+              {comment.parent || 
+               comment.replies.length === 0 ?
                 "답글 달기"
                 : `답글 ${comment.replies.length}개 보기`
               }

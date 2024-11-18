@@ -16,8 +16,9 @@
   margin-left: 10px;
   height: 70px;
   border-left: 1px;
-  padding-right: 80px;
+  padding-right: 0px;
   border-bottom: 1px solid black;
+  padding-top: 18px;
 }
 
 
