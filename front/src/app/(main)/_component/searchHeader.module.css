@@ -84,6 +84,10 @@
   font-size: 15px;
 }
 
+.input:focus {
+  outline: none;
+}
+
 .input::-ms-clear {
   display: none;
 }
