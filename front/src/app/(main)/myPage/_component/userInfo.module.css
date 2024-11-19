@@ -174,3 +174,18 @@ flex-wrap: wrap;
 flex: 1;
 overflow-y: auto;
 }
+.nonePostsWrapper {
+  margin: 100px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.nonePostsWrapper svg {
+  stroke-width: 2;
+}
+.nonePostsWrapper span {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 800;
+}

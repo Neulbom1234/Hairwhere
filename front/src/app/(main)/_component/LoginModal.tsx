@@ -79,12 +79,9 @@ export default function LoginModal() {
           <div className={style.message}>{message}</div>
           <div className={style.modalFooter}>
             <button className={style.actionButton} disabled={!id && !password}>로그인</button>
+            <hr className={style.hr}></hr>
             <div className={style.user}>
-              <Link href="/register">회원가입</Link>
-              <div className={style.stick}></div>
-              <Link href="/searchID">아이디 찾기</Link>
-              <div className={style.stick}></div>
-              <Link href="/searchPW">비밀번호 찾기</Link>
+              <Link href="/register">계정이 없으신가요?</Link>
             </div>
           </div>
         </form>
