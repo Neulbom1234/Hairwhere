@@ -4,6 +4,7 @@
     align-items: stretch;
     overflow-y: auto;
     position: relative;
+    margin-bottom: 10px;
   }
   
   .header{
@@ -87,12 +88,17 @@
     height: 150px;
   }
   .closeButton{
+    top: 5px;
     right: 0px;
     position: absolute;
     width: 30px;
     background-color: inherit;
     border: none;
     fill: #fff;
+  }
+  .closeButton svg {
+    stroke: black; 
+    stroke-width: 0.6;
   }
   .imgMax{
     margin: 0 0 3% 3%;
