@@ -30,6 +30,10 @@ type StoreState = {
   setPhotoId: (photoId: string) => void;
   recomment: Comment|undefined;
   setRecomment: (recomment: Comment) => void;
+  name: string|undefined;
+  setName: (name: string) => void;
+  image: File|null;
+  setImage: (image: File) => void;
 };
 
 export const useStore = create<StoreState>((set) => ({
@@ -57,5 +61,9 @@ export const useStore = create<StoreState>((set) => ({
   photoId: undefined,
   setPhotoId: (photoId) => set({ photoId }),
   recomment: undefined,
-  setRecomment: (recomment) => set({ recomment })
+  setRecomment: (recomment) => set({ recomment }),
+  name: undefined,
+  setName: (name) => set({ name }),
+  image: null,
+  setImage: (image) => set({ image })
 }));

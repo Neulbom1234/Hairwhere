@@ -82,14 +82,14 @@ export default function SinglePost({id}: Props) {
         <Tag>{post.hairColor}</Tag>
       </div>
 
-      {post.user && (
+      {post.userName && (
       <div className={style.userBadge}>
-        <Link href={`/${post.user.name}`}>
-          {post.user.profilePath === '' ?
+        <Link href={`/${post.userName}`}>
+          {post.userProfilePath === '' ?
             <Avatar size={44} icon={<UserOutlined/>} /> :
-            <Avatar size={44} src={post.user.profilePath} />
+            <Avatar size={44} src={post.userProfilePath} />
           }
-          <div className={style.userName}>{post.user.name}</div>
+          <div className={style.userName}>{post.userName}</div>
         </Link>
       </div>
       )}
