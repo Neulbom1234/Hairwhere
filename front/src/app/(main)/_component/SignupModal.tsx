@@ -29,8 +29,8 @@ export default function SignupModal() {
             <div className={style.modalBody}>
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="loginId">아이디</label>
-                <input id="loginId" name="loginId" className={style.input} type="text" placeholder=""
-                       required
+                <input id="loginId" spellCheck="false" name="loginId" className={style.input} type="text" placeholder=""
+                       required 
                 />
                 {state?.message === 'no_id' ?
                   <span className="errorMessage" style={{color: 'red', fontSize: '10px'}}>아이디를 입력해주세요.</span>
@@ -63,7 +63,7 @@ export default function SignupModal() {
               </div>
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="email">이메일</label>
-                <input id="email" name="email" className={style.input} type="email" placeholder=""
+                <input id="email" spellCheck="false" name="email" className={style.input} type="email" placeholder=""
                        required
                 />
                 {state?.message === 'no_email' ?
@@ -74,7 +74,7 @@ export default function SignupModal() {
               </div>
               <div className={style.inputDiv}>
                 <label className={style.inputLabel} htmlFor="name">닉네임</label>
-                <input id="name" name="name" className={style.input} type="text" placeholder=""
+                <input id="name" spellCheck="false" name="name" className={style.input} type="text" placeholder=""
                        required
                 />
                 {state?.message === 'no_name' &&
