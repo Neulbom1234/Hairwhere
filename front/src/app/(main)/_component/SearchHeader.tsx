@@ -66,13 +66,13 @@ export default function SearchHeader() {
             setHairColor={setHairColor} 
           />
         </section>
-        <form>
+        <form onSubmit={redirectToPage}>
           <div className={style.inputDiv}>
             <input className={style.input} name="search" type="search" placeholder="헤어명을 입력하세요"
               value={hairName}
               onChange={onChangeHairName}
             />
-            <button className={style.searchButton} onClick={redirectToPage}>
+            <button className={style.searchButton} type="submit">
               <svg width={26} viewBox="0 0 24 24" aria-hidden="true"
                   className="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-cnnz9e">
                 <g>

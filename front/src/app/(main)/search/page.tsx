@@ -9,32 +9,32 @@ export default function Search() {
   const [searchKeywords, setSearchKeywords] = useState<string[]>([]);
   const router = useRouter();
 
-  useEffect(() => {
-    setSearchKeywords(['리프펌', '가르마펌', '허쉬컷']);
-  }, []);
+  // useEffect(() => {
+  //   setSearchKeywords(['리프펌', '가르마펌', '허쉬컷']);
+  // }, []);
 
-  const onAllDelete = () => {
-    setSearchKeywords([]);
-  }
+  // const onAllDelete = () => {
+  //   setSearchKeywords([]);
+  // }
 
-  const onDelete = (index: number) => {
-    const updateKeywords = [...searchKeywords];
-    updateKeywords.splice(index, 1);
-    setSearchKeywords(updateKeywords);
-  }
+  // const onDelete = (index: number) => {
+  //   const updateKeywords = [...searchKeywords];
+  //   updateKeywords.splice(index, 1);
+  //   setSearchKeywords(updateKeywords);
+  // }
 
-  const redirectToPage = (searchedKeyword: string) => {
-    router.push(`/searchResult?hairName=${searchedKeyword}&gender=''&hairLength=''&hairColor=''`);
-  };
+  // const redirectToPage = (searchedKeyword: string) => {
+  //   router.push(`/searchResult?hairName=${searchedKeyword}&gender=''&hairLength=''&hairColor=''`);
+  // };
 
     return (
       <>
         <SearchHeader/>
-        <div className={style.header}>
+        {/* <div className={style.header}>
           <h2 className={style.recentSearch}>최근 검색어</h2>
           <span className={style.allClear} onClick={onAllDelete}>전체 삭제</span>
-        </div>
-          {searchKeywords.map((v, index) => (
+        </div> */}
+          {/* {searchKeywords.map((v, index) => (
             <>
               <div className={style.body}>
                 <div onClick={() => redirectToPage(v)}>{v}</div>
@@ -49,7 +49,7 @@ export default function Search() {
                 </span>
               </div>
             </>
-          ))}
+          ))} */}
       </>
     )
   }
