@@ -27,7 +27,6 @@ export default function FindShop() {
     const checkScriptLoaded = () => {
       if (window.kakao && window.kakao.maps) {
         console.log('Kakao Maps script and services library loaded successfully');
-        console.log(window.kakao.maps);
       } else {
         setTimeout(checkScriptLoaded, 100);
       }
@@ -55,7 +54,6 @@ export default function FindShop() {
             placeCategory: place.category_name,
           }));
           setFindShops(shops);
-          console.log(shops);
         } else {
           alert('검색 결과가 없습니다.');
         }

@@ -23,7 +23,6 @@ export default function RecommentInput({id, parentId}: Props) {
 
   const addComment = useMutation({
     mutationFn: () => {
-      console.log(`텍스트입니당: ${text}`);
       return fetch(`/comment/${id}`, {
         method: 'POST',
         credentials: 'include',

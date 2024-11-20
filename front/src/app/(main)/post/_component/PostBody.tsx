@@ -37,14 +37,12 @@ export default function PostBody({params}: Props) {
     if(params) {
       setShop(params.sn);
       setShopAddress(params.sa);
-      console.log(`shop: ${shop}, shopAdress: ${shopAddress}`);
     }
   }, [params])
 
   const mutation = useMutation({
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
-      console.log(document.cookie);
       // FormData 객체 생성 및 preview 파일 추가
       const formData = new FormData();
       preview.forEach((p) => {
@@ -58,10 +56,7 @@ export default function PostBody({params}: Props) {
       formData.append('hairSalon', shop);
       formData.append('hairSalonAddress', shopAddress);
       formData.append('created', new Date().toISOString().split('.')[0]);
-
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:, ${value}`);
-      }
+      
       const response = await fetch(`/photo/upload`, {
         method: 'POST',
         credentials: 'include',

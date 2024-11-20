@@ -23,8 +23,6 @@ export default function UserInfo({username}: Props) {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editName, setEditName] = useState<string>('');
   const [editImage, setEditImage] = useState<File | null>(null);
-  console.log(`내 정보: ${JSON.stringify(me, null, 2)}`);
-  console.log('이미지', image);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
