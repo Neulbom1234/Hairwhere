@@ -1,0 +1,78 @@
+
+/*  */
+.card {
+  background-color: white;
+  display: flex;
+  position: relative;
+  flex: 0 0 calc(33.3333%);
+  width: calc(33.3333%);
+  flex-direction: column;
+}
+
+.cover {
+  position: relative;
+  width: 90%; /* 부모 요소에 대해 100% 너비를 가지도록 설정 */
+  padding-top: 120%; /* 240px(높이) / 200px(너비) * 100 */
+  overflow: hidden;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.cover img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover; /* 이미지가 요소에 꽉 차도록 설정 */
+}
+
+.body {
+  min-width: 0px;
+  margin: 5px 10px 30px 10px;
+}
+
+.hairName {
+  display: flex;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.hairSalon {
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+.hairSalonAddress {
+  color: rgb(170, 170, 170);
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+.heartButton {
+  position: absolute;
+  bottom: 5px; 
+  right: 5px; 
+  z-index: 10; 
+}
+
+.heartButton button {
+  background-color: transparent;
+  border: none;
+}
+
+.heartButton svg {
+  fill: white;
+}
+
+.heartCount {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  margin-top: 5px;
+  color: #FF0000;
+}
+
+.heartCount svg {
+  fill: #FF0000;
+}

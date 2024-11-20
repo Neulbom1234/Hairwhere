@@ -1,0 +1,214 @@
+.modalBackground {
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  @media (prefers-color-scheme: dark) {
+    .modalBackground {
+        background-color: rgba(91, 112, 131, 0.4);
+    }
+  }
+  .modal {
+    background-color: rgb(var(--background-end-rgb));
+    border-radius: 16px;
+    position: relative;
+    top: 15%;
+    /* max-width: 80vw;
+    min-width: 600px; */
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    z-index: 99;
+  }
+  
+  .modalHeader {
+    margin: auto;
+    font-size: 31px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  .findPW{
+    font-size: 26px;
+    margin: auto; 
+  }
+  .modal form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .modalBody {
+    /* flex: 1; */
+    padding: 0 80px;
+  }
+  @media all and (min-width: 687px) {
+    .modal {
+        top: 5%;
+        min-width: 502px;
+        max-width: 502px;
+        height: 450px;
+        min-height: 80dvh;
+        max-height: 80dvh;
+        padding: 0;
+        border-radius: 16px !important;
+    }
+    .modalHeader {
+       /* padding: 36px 80px 20px; */
+       max-width: 100%;
+       /* padding: 0px 80px 20px; */
+       margin-bottom: 0px;
+       /* min-height: 10%; */
+       padding: 16px 80px 20px;
+    }
+    .modalBody {
+        padding: 0 80px;
+    }
+    .modalFooter{
+      min-height: 10%;
+      position: relative;
+      bottom: -10% !important;
+    }
+  }
+  @media all and (min-width: 300px) {
+    .modal{
+      top: 0%;
+      height: 100dvh;
+      width: 100dvw;
+      border-radius: 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .modalHeader{
+      width: 100%;
+      max-width: 100dvw;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      align-items: center;
+      /* padding-top: 16px; */
+      /* top: 32px; */
+      min-height: 10%;
+    }
+    .modalBody{
+      margin: 0 auto;
+      flex: 0;
+      max-width: 90dvw;
+      /* display: flex; */
+      /* flex-direction: column; */
+      /* align-items: center; */
+      /* justify-content: center; */
+      padding: 0 0;
+  
+      position: relative;
+      top: 5%;
+      min-height: 75%;
+      max-height: 75%;
+    }
+    
+    .modalFooter{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 10%;
+      bottom: -5%;
+    }
+    .actionButton{
+      width: 90%;
+      max-width: 90dvw;
+      margin: auto;
+    }
+  
+  }
+  
+  .inputDiv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 56px;
+    position: relative;
+    margin: 16px 0;
+  }
+  .inputLabel {
+    width: 100%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    border: 1px solid rgb(207, 217, 222);
+    border-radius: 4px;
+    font-size: 13px;
+    height: 56px;
+    padding: 8px 8px 0;
+    color: rgb(83, 100, 113);
+  }
+  .inputLabel:focus-within {
+    color: red;
+  }
+  .input {
+    width: 100%;
+    border: none;
+    font-size: 17px;
+    margin-top: 16px;
+    padding: 12px 8px 8px;
+    outline: none;
+  }
+  
+  .modalFooter {
+    padding: 0px 80px;
+  }
+  
+  .actionButton {
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgb(15, 20, 25);
+    color: white;
+    font-size: 17px;
+  }
+  .actionButton:disabled {
+    opacity: 0.5;
+  }
+  .actionButton:hover {
+    background-color: rgb(39,44,48);
+  }
+  
+  .closeButton {
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    border: none;
+    cursor: pointer;
+    background-color: #fff;
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .closeButton:hover {
+    background-color: rgba(15,20,25, 0.1);
+  }
+  @media all and (min-width: 687px) {
+    .closeButton {
+        left: 16px;
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    .closeButton {
+        background-color: black;
+    }
+    .closeButton svg {
+        fill: white;
+    }
+  }
