@@ -55,11 +55,11 @@ export default function SinglePost({id}: Props) {
       게시글을 찾을 수 없습니다.
     </div>
   }
+  
   if (!post) {
     return null;
   }
 
-  console.log(`포스트: ${post}`);
   return (
     <>
       <Header post={post}/>

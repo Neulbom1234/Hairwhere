@@ -36,19 +36,16 @@ export default function Post({ post }: Props) {
     onMutate() {
       const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
       const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
-      console.log('쿼리키들입니당', queryKeys);
       queryKeys.forEach((queryKey) => {
         if(queryKey[0] === "posts") {
           const value: InfiniteData<PageInfo> | undefined = queryClient.getQueryData(queryKey);
           if (value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
-            console.log("밸루입니당: ", value)
             const obj = value.pages.flat().map((page) => {
               return page.content.find((v) => {
                 return v.id === post.id;
               })
             });
             if (obj) {
-              console.log('obj입니다', obj);
               const pi = value.pages.map((pageInfo) => {
                 return pageInfo.content.map((p) => {
                   if (p.id === post.id) {
@@ -95,14 +92,12 @@ export default function Post({ post }: Props) {
         if(queryKey[0] === "posts") {
           const value: InfiniteData<PageInfo> | undefined = queryClient.getQueryData(queryKey);
           if (value) { // single 포스트도 queryKey[0]이 "posts"라 구분하는 것
-            console.log("밸루입니당: ", value)
             const obj = value.pages.flat().map((page) => {
               return page.content.find((v) => {
                 return v.id === post.id;
               })
             });
             if (obj) {
-              console.log('obj입니다', obj);
               const pi = value.pages.map((pageInfo) => {
                 return pageInfo.content.map((p) => {
                   if (p.id === post.id) {

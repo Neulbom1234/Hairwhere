@@ -38,11 +38,8 @@ export default function WomenPosts() {
   useEffect(() => {
     if (inView) {
       !isFetching && hasNextPage && fetchNextPage();
-      console.log(`데이터: ${data}`);
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
-
-  console.log(data)
 
   return (
     <>

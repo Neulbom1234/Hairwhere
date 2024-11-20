@@ -11,12 +11,10 @@ export default function CommonLayout() {
 
   const openAllCategoryClick = () => {
     setAllCategoryVisible(false);
-    console.log('바뀜');
   };
 
   const closeAllCategoryClick = () => {
     setAllCategoryVisible(true);
-    console.log('바뀜');
   };
 
   const changeManCategory = () => {

@@ -48,10 +48,6 @@ export default function SeeMore({ post }: Props) {
     },
   ];
 
-  useEffect(() => {
-    console.log(`값이다: ${isOpen}`)
-  }, [isOpen])
-
   const mutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(`/photo/delete/${post.id}`, {

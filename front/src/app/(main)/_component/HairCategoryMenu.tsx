@@ -16,8 +16,6 @@ export default function HairCategoryMenu() {
   }));
 
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
-
     const newSelectedKeys = [...selectedKeys];
 
     // 성별 선택
