@@ -1,8 +1,6 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
-import { getSession } from "next-auth/react"; 
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (prevState: any, formData: FormData) => {
@@ -36,12 +34,6 @@ export default async (prevState: any, formData: FormData) => {
 
   // secondPw 필드를 제거
   formData.delete('secondPw');
-
-  // 전송할 데이터 확인
-  console.log('Sending FormData contents (after removing secondPw):');
-  formData.forEach((value, key) => {
-    console.log(`${key}:`, value);
-  });
 
   let shouldRedirect = false;
   try {

@@ -1,5 +1,3 @@
-
-/*  */
 .card {
   background-color: white;
   display: flex;
@@ -11,8 +9,8 @@
 
 .cover {
   position: relative;
-  width: 90%; /* 부모 요소에 대해 100% 너비를 가지도록 설정 */
-  padding-top: 120%; /* 240px(높이) / 200px(너비) * 100 */
+  width: 90%; 
+  padding-top: 120%; 
   overflow: hidden;
   margin: 10px;
   border-radius: 10px;
@@ -24,7 +22,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  object-fit: cover; /* 이미지가 요소에 꽉 차도록 설정 */
+  object-fit: cover; 
 }
 
 .body {

@@ -49,8 +49,6 @@ export default function SearchResult({ searchParams }: Props) {
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
-  console.log(data);
-
   return (
     <>
       {data?.pages?.map((page, idx) => (

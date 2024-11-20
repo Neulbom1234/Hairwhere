@@ -17,7 +17,7 @@ const User = [
   {id: 'trump', nickname: '트럼프입니다', profile: faker.image.avatar()},
   {id: 'bbook', nickname: '뿍뿍이입니다', profile: faker.image.avatar()},
 ]
-const Posts = [];
+
 const delay = (ms: number) => new Promise((res) => {
   setTimeout(res, ms);
 });

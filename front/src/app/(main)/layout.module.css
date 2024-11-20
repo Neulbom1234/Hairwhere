@@ -1,8 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 수직 가운데 정렬 */
-  height: 100vh; /* 최소한 화면 높이만큼의 높이를 가지도록 설정 */
+  align-items: center; 
+  height: 100vh; 
   background-color: #fff;
 }
 
@@ -56,6 +56,7 @@
   }
 }
 
+/* 패드 화면에 대한 스타일 */
 @media all and (min-width: 602px) {
   .main {
     width: 602px;

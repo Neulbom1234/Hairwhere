@@ -3,7 +3,6 @@
 import { InfiniteData, useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { getWomenPosts } from "../_lib/getWomenPosts";
 import Post from "./Post";
-import type { Post as IPost } from "@/model/Post";
 import type { PageInfo } from "@/model/PageInfo";
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -38,11 +37,8 @@ export default function WomenPosts() {
   useEffect(() => {
     if (inView) {
       !isFetching && hasNextPage && fetchNextPage();
-      console.log(`데이터: ${data}`);
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
-
-  console.log(data)
 
   return (
     <>

@@ -2,7 +2,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import style from './imageSlider.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import { Post } from '@/model/Post';
 
 type Props = {
@@ -10,20 +10,11 @@ type Props = {
 };
 
 export default function ImageSlider({ post }: Props) {
-  // const [images, setImages] = useState<Image[]>([]);
-
   useEffect(() => {
-    // const loadImages = async () => {
-    //   setImages(target.Images);
-    //   console.log('Images loaded:', target.Images);
-    // };
-
-    // loadImages();
-
-  const slickList = document.querySelector('.slick-list') as HTMLElement; //Slick 내부의 .slick-list를 수정하기 위한 코드
-  if (slickList) {
-    slickList.style.width = '100%';
-  }
+    const slickList = document.querySelector('.slick-list') as HTMLElement; //Slick 내부의 .slick-list를 수정하기 위한 코드
+    if (slickList) {
+      slickList.style.width = '100%';
+    }
   }, [post]);
 
   const settings = {

@@ -51,7 +51,6 @@ export default function SearchIDModal() {
       }),
       credentials: 'include',
     }).then((response: Response) => {
-      console.log(response.status);
       if (response.status === 200) {
         router.replace('/home');
       }

@@ -14,11 +14,9 @@ export const {
   },
   callbacks: {
     jwt({ token}) {
-      console.log('auth.ts jwt', token);
       return token;
     },
-    session({ session, newSession, user}) {
-      console.log('auth.ts session', session, newSession, user);
+    session({ session}) {
       return session;
     }
   },
@@ -36,14 +34,7 @@ export const {
           }),
         });
       
-        console.log('authResponse status:', authResponse.status);
-        for (const [key, value] of authResponse.headers.entries()) {
-          console.log(`로그인 후 받는 값: ${key}: ${value}`);
-        }
-        console.log('이게 값', authResponse);
-      
         let setCookie = authResponse.headers.get('set-cookie');
-        console.log('set-cookie', setCookie);
         if (setCookie) {
           const parsed = cookie.parse(setCookie);
           cookies().set('JSESSIONID', parsed['JSESSIONID'], {
@@ -60,12 +51,10 @@ export const {
       
         // 응답 텍스트 출력 및 JSON 파싱 시도
         const responseText = await authResponse.text();
-        console.log('Response Text:', responseText);
-      
         let user;
+
         try {
           user = JSON.parse(responseText);
-          console.log('Parsed user object:', user);
         } catch (error) {
           console.error('Failed to parse JSON:', error);
           return null;
@@ -76,8 +65,6 @@ export const {
           console.error('User object is missing required properties:', user);
           return null;
         }
-      
-        console.log('User object looks good:', user);
       
         return {
           id: user.loginId,
