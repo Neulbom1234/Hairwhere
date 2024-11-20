@@ -8,7 +8,7 @@
 
 .imageWrapper {
   position: relative;
-  width: 100%; /* 부모 요소에 대해 100% 너비를 가지도록 설정 */
+  width: 100%; 
   overflow: hidden;
   display: flex;
   justify-content: center;

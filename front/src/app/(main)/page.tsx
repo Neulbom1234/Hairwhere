@@ -1,32 +1,22 @@
 import style from "@/app/(main)/home.module.css"
-import Post from "./_component/Post"
 import CommonLayout from "./_component/CommonLayout"
 import Header from "./_component/Headet";
+import CategoryProvider from "./_component/CategoryProvider";
+import { Suspense } from "react";
+import Loading from "./loading";
+import CategoryDeciderSuspense from "./_component/CategoryDeciderSuspense";
 
-export default function Home() {
-
-  const me = false;
+export default async function Home() {
 
   return (
     <div className={style.main}>
-      <Header me={me}/>
-      <div className={style.postsWrapper}>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-      </div>
-      <CommonLayout/>
+      <CategoryProvider>
+        <Header/>
+        <Suspense fallback={<Loading/>}>
+          <CategoryDeciderSuspense/>
+        </Suspense>
+        <CommonLayout/>
+      </CategoryProvider>
     </div>
   )
 }

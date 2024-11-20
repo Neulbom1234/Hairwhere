@@ -3,7 +3,10 @@ package com.example.neulbom.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 public class Photo {
 
     private static final int DEFAULT_LIKE_NUM = 0;
@@ -21,16 +25,17 @@ public class Photo {
     @Column(name = "photo_id")
     private Long id;
 
-    @Column(name = "photo_title")
-    private String photoTitle;
-
     @Column(name = "user_name")
     private String userName;
 
+    @ElementCollection
+    @CollectionTable(name = "photo_image_paths", joinColumns = @JoinColumn(name = "photo_id"))
     @Column(name = "photo_imagePath")
-    private String photoImagePath;
+    @Builder.Default
+    private List<String> photoImagePath = new ArrayList<>();
 
     @Column(name = "like_count")
+    @Builder.Default
     private int likeCount = DEFAULT_LIKE_NUM;
 
     @Column(name = "hair_name")
@@ -39,13 +44,31 @@ public class Photo {
     @Column(name = "text")
     private String text;
 
-    @OneToMany(mappedBy = "photo")
-    @JsonIgnore
-    private List<Like> likes = new ArrayList<>();
+    @Column(name = "gender")
+    private String gender; // male or female or all
+
+    @Column(name = "created")
+    private LocalDateTime created;
+
+    @Column(name = "hairSalon")
+    private String hairSalon;
+
+    @Column(name = "hairSalonAddress")
+    private String hairSalonAddress;
+
+    @Column(name = "hairLength")
+    private String hairLength;
+
+    @Column(name = "hairColor")
+    private String hairColor;
 
     @OneToMany(mappedBy = "photo")
     @JsonIgnore
-    private List<User> users = new ArrayList<>();
+    @Builder.Default
+    private List<Like> likes = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
     public void increaseLikeCount() {
         this.likeCount++;

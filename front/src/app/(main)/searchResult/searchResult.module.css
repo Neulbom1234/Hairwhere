@@ -1,0 +1,4 @@
+.postsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}

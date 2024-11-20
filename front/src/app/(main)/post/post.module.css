@@ -4,141 +4,208 @@
     align-items: stretch;
     overflow-y: auto;
     position: relative;
+    margin-bottom: 10px;
   }
   
-  .header{
-    align-items: center;
-    background-color: white;
-    width: inherit;
-    height: 64px;
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    border-color: rgb(239, 243, 244);
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-  }
-  .header span{
-    margin: auto;
-    font-weight: 900;
-  }
+.header{
+  align-items: center;
+  background-color: white;
+  width: inherit;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-color: rgb(239, 243, 244);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  margin-bottom: 3%;
+}
 
+.header span{
+  margin: auto;
+  font-weight: 900;
+}
 
-  .iconBox{
-    display: flex;
-    align-items: center;
-    margin: 0 3%;
-    flex-wrap: wrap;
-    gap: 15px;
+.iconBox{
+  display: flex;
+  align-items: center;
+  margin: 0 3%;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.reLoading{
+  min-width: 8%;
+  height: 30px;
+  border: 1px solid #cfd9de;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.reLoading svg{
+  width: 15px;
+  height: 15px;
+}
+
+.gender, .hairLength, .hairColor{
+  border: 1px solid rgb(207, 217, 222);
+  height: 30px;
+  border-radius: 30px;
+  padding-left: 8px;
+  cursor: pointer;
+}
+
+.photo{
+  display: none;
+}
+
+.imgBtn{
+  display: block;
+  text-align: center;
+  margin: 0 0 3% 3%;
+  width: 80px;
+  border: 2px solid rgb(207, 217, 222);
+  padding: 8px;
+  border-radius: 10px;
+  color: #000;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.addPhoto{
+  margin: 5% 3%;
+}
+
+.imgContainer{
+  width: 100%;
+  display: flex;
+}
+
+.imgBox{
+  position: relative;
+  margin: 3%;
+}
+
+.previewImage{
+  width: 150px;
+  height: 150px;
+}
+
+.closeButton{
+  top: 5px;
+  right: 0px;
+  position: absolute;
+  width: 30px;
+  background-color: inherit;
+  border: none;
+  fill: #fff;
+}
+
+.closeButton svg {
+  stroke: black; 
+  stroke-width: 0.6;
+}
+
+.imgMax{
+  margin: 0 0 3% 3%;
+  color: red;
+  font-size: 12px;
+}
+
+.choiceShop{
+  margin: 5% 3%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.shopInput{
+  width: 70%;
+  height: 50px;
+  border: 2px solid rgb(207, 217, 222);
+  padding-left: 8px;
+}
+
+.shopBtn{
+  width: 25%;
+  background-color: rgb(130, 129, 129);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 5px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hairNameDiv{
+  margin: 0 3% 5%;
+}
+
+.hairNameInput{
+  width: 100%;
+  height: 50px;
+  border: 2px solid rgb(207, 217, 222);
+  padding-left: 8px;
+}
+
+.postText{
+  margin: 0 3% 3%;
+  
+}
+
+.text{
+  width: 100%;
+  height: 200px;
+  border: 2px solid rgb(207, 217, 222);
+  padding-left: 8px;
+  padding-top: 8px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.postButton{
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
+  background-color: black;
+  width: 30%;
+  height: 45px;
+  border-radius: 5px;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+@media all and (min-width: 300px) {
+  .choiceShop{
+    max-width: 600px;
   }
-  .reLoading{
-    min-width: 8%;
-    height: 30px;
-    border: 1px solid #cfd9de;
-    border-radius: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .reLoading svg{
-    width: 15px;
-    height: 15px;
+  .previewImage{
+    width: 100px;
+    height: 100px;
   }
   .gender, .hairLength, .hairColor{
-    border: 1px solid rgb(207, 217, 222);
-    width: 90px;
-    height: 30px;
-    border-radius: 30px;
-    padding-left: 8px;
+    width: 60px;
   }
-  
-  
-  .addPhoto{
-    margin: 5% 3%;
-  }
-  .photos{
-    width: 100%;
-    display: flex;
+}
 
-  }
+@media all and (min-width: 602px){
   .previewImage{
     width: 150px;
     height: 150px;
   }
-
-  .choiceShop{
-    margin: 5% 3%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
+  .gender, .hairLength, .hairColor{
+    width: 115px;
   }
-
-  .shopInput{
-    width: 70%;
-    height: 50px;
-    border: 2px solid rgb(207, 217, 222);
-    padding-left: 8px;
-  }
-  .shopBtn{
-    width: 25%;
-    background-color: rgb(130, 129, 129);
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-weight: 600;
-    font-size: 12px;
-    padding: 0 5px;
-    margin-left: 10px;
-    border-radius: 5px;
-  }
-
-  .choiceHair{
-    margin: 0 3% 5%;
-  }
-  .hairInput{
-    width: 100%;
-    height: 50px;
-    border: 2px solid rgb(207, 217, 222);
-    padding-left: 8px;
-  }
-
-  .postContent{
-    margin: 0 3% 3%;
-    
-  }
-  .content{
-    width: 100%;
-    height: 200px;
-    border: 2px solid rgb(207, 217, 222);
-    padding-left: 8px;
-    resize: none;
-    box-sizing: border-box;
-  }
-
-  .postButton{
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
-    background-color: black;
-    width: 30%;
-    height: 45px;
-    border-radius: 5px;
-    border: none;
-    color: rgb(255, 255, 255);
-    font-weight: 700;
-    font-size: 14px;
-  }
-  @media all and (min-width: 300px) {
-    .choiceShop{
-    max-width: 600px;
-  }
-  
-  }
-
-  /* 게시글 작성 ... 을 위로 올리고 싶엉요 */
-  /* 이미지 여러 개 추가했는데 왜 안되지..... */
-  /* 길이, 색상 옵션 고민해야 해용 */
+}

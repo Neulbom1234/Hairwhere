@@ -1,49 +1,90 @@
 "use client"
 
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import SeeMore from './SeeMore';
 import style from './header.module.css'
 import { useRouter } from 'next/navigation'
-
-type Image = {
-  imageId: number;
-  link: string;
-};
-
-type User = {
-  id: string;
-  nickname: string;
-  profile: string;
-};
-
-type Target = {
-  postId: number;
-  User: User;
-  content: string;
-  createdAt: Date;
-  Images: Image[];
-  likes: string[];
-};
+import { Post as IPost } from '@/model/Post';
+import { useSession } from 'next-auth/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type Props = {
-  target: Target;
+  post: IPost;
 };
 
-export default function Header({ target }: Props) {
-  const [liked, setLiked] = useState(false);
+export default function Header({ post }: Props) {
+  const queryClient = useQueryClient();
+  const {data: session} = useSession();
   const router = useRouter();
+  const liked = !!post.likedUserNames?.find((v) => v === session?.user?.name);
 
   const onClickBack = () => {
     router.back();
   }
 
-  const onClickHeart = () => {
-    if(!liked) {
-      target.likes.push(target.User.id);
-    } else {
-      target.likes.pop();
+  const heart = useMutation({
+    mutationFn: () => {
+      return fetch(`/like/${post.id}`, {
+        method: 'post',
+        credentials: 'include',
+      })
+    },
+    onMutate() {
+      const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
+      const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "post") {
+          const value: IPost | undefined = queryClient.getQueryData(queryKey);
+          if (value) {
+            if(value.id === post.id) {
+              const shallow = {
+                ...value,
+                likedUserNames: [...value.likedUserNames, session?.user?.name],
+                likeCount: value.likeCount + 1,
+              }
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      })
     }
-    setLiked(!liked);
+  })
+
+  const unHeart = useMutation({
+    mutationFn: () => {
+      return fetch(`/like/${post.id}`, {
+        method: 'post',
+        credentials: 'include',
+      })
+    },
+    onMutate() {
+      const queryCache = queryClient.getQueryCache(); //react query dev tools에서 볼 수 있는 값들
+      const queryKeys = queryCache.getAll().map(cache => cache.queryKey); //query key들을 전부 가져온다.
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "post") {
+          const value: IPost | undefined = queryClient.getQueryData(queryKey);
+          if (value) {
+            if(value.id === post.id) {
+              const shallow = {
+                ...value,
+                likedUserNames: value.likedUserNames.filter((v) => v !== session?.user?.name),
+                likeCount: value.likeCount - 1,
+              }
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      })
+    }
+  })
+
+  const onClickHeart:MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    if(liked) {
+      unHeart.mutate();
+    } else {
+      heart.mutate();
+    }
   }
 
   return (
@@ -69,10 +110,10 @@ export default function Header({ target }: Props) {
               </svg>
             }
           </button>
-          <span>{target.likes.length}</span>
+          <span>{post.likeCount}</span>
         </div>
         <div className={style.seemore}>
-          <SeeMore/>  
+          <SeeMore post={post}/>  
         </div> 
       </div>
     </>

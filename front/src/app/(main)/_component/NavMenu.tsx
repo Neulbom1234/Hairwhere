@@ -6,17 +6,13 @@ import Link from "next/link"
 
 export default function NavMenu() {
   const segment = useSelectedLayoutSegment();
-  console.log(segment);
-  const me = { //임시 정보
-    id: 'person'
-  }
 
   return (
     <>
       <li> {/* 메인페이지 */}
         <Link href="/">
           <div className={style.navPill}>
-            {segment && (['search', 'post', 'notice', 'likes', `${me.id}`].includes(segment)) ? // segment === ''이 안 되기 때문에 include 사용
+            {segment && (['search', 'searchResult', 'post', 'notice', 'likes', 'myPage'].includes(segment)) ? // segment === ''이 안 되기 때문에 include 사용
               <>
                 <svg width={26} viewBox="0 0 24 24" aria-hidden="true"
                     className="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-cnnz9e">
@@ -41,7 +37,7 @@ export default function NavMenu() {
       <li> {/* 검색페이지 */}
         <Link href="/search">
           <div className={style.navPill}>
-            {segment === 'search' ?
+            {segment && (['search', 'searchResult'].includes(segment)) ?
               <>
                 <svg width={26} viewBox="0 0 24 24" aria-hidden="true"
                     className="r-18jsvk2 r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-cnnz9e">
@@ -68,15 +64,15 @@ export default function NavMenu() {
           <div className={style.navPill}>
             {segment === 'post' ? 
             <svg aria-label="새로운 게시물 클릭됨" className="x1lliihq x1n2onr6 x5n08af" fill="black" height={26} role="img" viewBox="0 0 24 24" width={26}>
-              <path d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width={2}></path>
-              <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width={2} x1={6.545} x2={17.455} y1={12.001} y2={12.001}></line>
-              <line fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width={2} x1={12.003} x2={12.003} y1={6.545} y2={17.455}></line>
+              <path d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z" fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}></path>
+              <line fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} x1={6.545} x2={17.455} y1={12.001} y2={12.001}></line>
+              <line fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} x1={12.003} x2={12.003} y1={6.545} y2={17.455}></line>
             </svg>:
             <svg aria-label="새로운 게시물" className="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height={26} role="img" viewBox="0 0 24 24" width={26}>
               <path d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z" 
-              fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width={2}></path>
-              <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width={2} x1={6.545} x2={17.455} y1={12.001} y2={12.001}></line>
-              <line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width={2} x1={12.003} x2={12.003} y1={6.545} y2={17.455}></line>
+              fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}></path>
+              <line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} x1={6.545} x2={17.455} y1={12.001} y2={12.001}></line>
+              <line fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} x1={12.003} x2={12.003} y1={6.545} y2={17.455}></line>
               </svg>
             }
           </div>
@@ -98,9 +94,9 @@ export default function NavMenu() {
         </Link>
       </li>
       <li> {/*  프로필페이지 */}
-        <Link href={`/${me.id}`}>
+        <Link href={"/myPage"}>
           <div className={style.navPill}>
-            {segment === me.id?
+            {segment === 'myPage'?
             <svg viewBox="0 0 24 24" aria-hidden="true" className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-18jsvk2 r-lwhw9o r-cnnz9e" width={26} height={26}>
               <g>
                 <path d="M17.863 13.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H3.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46C7.627 11.85 9.648 11 12 11s4.373.85 5.863 2.44zM12 2C9.791 2 8 3.79 8 6s1.791 4 4 4 4-1.79 4-4-1.791-4-4-4z"></path>

@@ -21,6 +21,11 @@
   margin: auto;
 }
 
+.logo img {
+  width: 60px;
+  height: 60px;
+}
+
 .loginButton {
   position: absolute;
   right: 0;
@@ -37,4 +42,5 @@
   color: rgb(255, 255, 255);
   font-weight: 700;
   font-size: 14px;
+  cursor: pointer;
 }

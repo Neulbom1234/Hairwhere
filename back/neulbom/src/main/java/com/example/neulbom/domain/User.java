@@ -1,19 +1,24 @@
 package com.example.neulbom.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
 @Table(name = "user")
 @NoArgsConstructor
+@Setter
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public int id;
+    public Long id;
 
     @Column(name = "loginId")
     private String loginId;
@@ -24,13 +29,23 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
-    public Photo photo;
+    @Column(name = "email")
+    private String email;
 
-    public User(String loginId, String pw, String name) {
+    @Column(name = "profilePath")
+    private String profilePath;
+
+    @OneToMany(mappedBy = "id")
+    @JsonIgnore
+    public List<Photo> photo;
+
+    public User(String loginId, String pw, String name, String email,String profilePath) {
         this.loginId = loginId;
         this.pw = pw;
         this.name = name;
+        this.email = email;
+        this.profilePath = profilePath;
     }
+
 }
 

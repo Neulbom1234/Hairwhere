@@ -1,0 +1,213 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow-y: hidden;
+  position: relative;
+  height: 100vh;
+}
+
+.header{
+  align-items: center;
+  background-color: white;
+  width: inherit;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-color: rgb(239, 243, 244);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  box-sizing: border-box;
+}
+
+.header span{
+  margin: auto;
+  font-weight: 900;
+}
+
+.editCancle {
+  position: absolute;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.editComplete {
+  position: absolute;
+  right: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
+  background-color: black;
+  border-radius: 5px;
+  border: none;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.disabledButton {
+  position: absolute;
+  right: 0;
+  margin: 16px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 35px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 28px;
+  background-color: #bfbfbf;
+  border-radius: 5px;
+  border: none;
+  color: #585858;
+  font-weight: 700;
+  font-size: 14px;
+  border-color: #bfbfbf;     
+  cursor: not-allowed;       
+}
+
+.body{
+  height: 100dvh;
+  margin-bottom: 60px;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+}
+
+.body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.container{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items:flex-end;
+  margin-bottom: 2px;
+}
+
+.profileDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  height: auto;
+}
+
+.profile{
+  width: 100px;
+  height: 100px;
+  margin-top: 30px;
+  transition: opacity 0.3s;
+}
+
+.avatarWrapper {
+  position: relative; 
+  display: inline-block; 
+}
+
+.plusIcon {
+  margin-top: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: white; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  border-radius: 50%;
+  width: 98px;
+  height: 98px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; 
+  z-index: 1; 
+}
+
+.fileInput {
+  display: none; 
+}
+
+.nickname{
+  font-weight: 900;
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.editName {
+  margin: 10px 0;
+  width: 140px;
+  height: 30px;
+}
+
+.editProfile{
+  padding: 4px 9px;
+  border: 1px solid #000;
+  border-radius: 20px;
+  font-size: 13px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.contents{
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content{
+  position: relative;
+  width: calc((100% - 6px) / 3);
+  padding-bottom: calc((100% - 6px) / 3);
+  overflow: hidden;
+  margin: 2px 1px 0 1px;
+}
+
+.content img{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+}
+
+.postsWrapper {
+display: flex;
+flex-wrap: wrap;
+flex: 1;
+overflow-y: auto;
+}
+
+.nonePostsWrapper {
+  margin: 100px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.nonePostsWrapper svg {
+  stroke-width: 2;
+}
+
+.nonePostsWrapper span {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 800;
+}

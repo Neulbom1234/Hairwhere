@@ -1,24 +1,54 @@
 "use client";
 
 import style from '@/app/(main)/_component/login.module.css';
-import {useState} from "react";
+import {ChangeEventHandler, FormEventHandler, useState} from "react";
 import {useRouter} from "next/navigation";
 import Link from 'next/link';
+import {signIn} from "next-auth/react";
 
 export default function LoginModal() {
-  const [id, setId] = useState();
-  const [password, setPassword] = useState();
-  const [message, setMessage] = useState();
+  const [id, setId] = useState<string | undefined>(undefined);
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [idError, setIdError] = useState<string>('');
 
   const router = useRouter();
-  const onSubmit = () => {};
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    
+    // 로그인 시도
+    const result = await signIn("credentials", {
+      username: id,
+      password,
+      redirect: false, // 클라이언트 컴포넌트에서 서버 redirect는 false로 설정
+    });
+
+    if (result?.error) {
+      setMessage('아이디와 비밀번호가 일치하지 않습니다.'); // 오류 메시지 설정
+    } else {
+      router.back(); // 로그인 성공 시 이전 페이지로 이동
+    }
+  };
+
   const onClickClose = () => {
     router.back();
   };
 
-  const onChangeId = () => {};
+  const onChangeId: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const value=e.target.value;
+    setId(value);
+    const list=/[^a-zA-Z0-9]/;
+    if(list.test(value)){
+      setMessage('영어와 숫자만 입력 가능합니다.');
+    } else{
+      setIdError('');
+    } 
+  };
 
-  const onChangePassword = () => {};
+  const onChangePassword: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setPassword(e.target.value);
+  };
 
   return (
     <div className={style.modalBackground}>
@@ -37,25 +67,21 @@ export default function LoginModal() {
         </div>
         <form onSubmit={onSubmit}>
           <div className={style.modalBody}>
-            <div className={style.loginLogo}>LOGO</div>
+            <img src='/logo.svg' alt='Logo'/>
             <div className={style.inputDiv}>
-              <input id="id" className={style.topInput} value={id} onChange={onChangeId} type="text" placeholder="아이디"/>
+              <input id="loginId" className={style.topInput} value={id} onChange={onChangeId} type="text" placeholder="아이디"/>
             </div>
             <div className={style.inputDiv}>
-              <input id="password" className={style.bottomInput} value={password} onChange={onChangePassword} type="password" placeholder="비밀번호"/>
+              <input id="pw" className={style.bottomInput} value={password} onChange={onChangePassword} type="password" placeholder="비밀번호"/>
             </div>
-            <div className={style.message}>{message}</div>
+            {idError && <span className="errorMessage" style={{color: 'red', fontSize: '10px', maxWidth: '340px', display:'block', margin:'4px auto'}}>{idError}</span>}
           </div>
-          
+          <div className={style.message}>{message}</div>
           <div className={style.modalFooter}>
             <button className={style.actionButton} disabled={!id && !password}>로그인</button>
-
+            <hr className={style.hr}></hr>
             <div className={style.user}>
-              <Link href="/signup">회원가입</Link>
-              <div className={style.stick}></div>
-              <Link href="/searchID">아이디 찾기</Link>
-              <div className={style.stick}></div>
-              <Link href="/searchPW">비밀번호 찾기</Link>
+              <Link href="/register">계정이 없으신가요?</Link>
             </div>
           </div>
         </form>
