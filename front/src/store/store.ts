@@ -34,6 +34,8 @@ type StoreState = {
   setName: (name: string) => void;
   image: File|null;
   setImage: (image: File) => void;
+  selectedKeys: string[];
+  setSelectedKeys: (selectedKeys: string[]) => void;
 };
 
 export const useStore = create<StoreState>((set) => ({
@@ -65,5 +67,7 @@ export const useStore = create<StoreState>((set) => ({
   name: undefined,
   setName: (name) => set({ name }),
   image: null,
-  setImage: (image) => set({ image })
+  setImage: (image) => set({ image }),
+  selectedKeys: [],
+  setSelectedKeys: (selectedKeys) => set({ selectedKeys})
 }));
