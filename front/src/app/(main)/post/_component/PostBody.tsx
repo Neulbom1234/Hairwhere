@@ -86,13 +86,20 @@ export default function PostBody({params}: Props) {
       setGender("0");
       setShop('');
       setShopAddress('');
-      // '/' 경로로 먼저 이동
+      // '/' 경로로 이동
       router.push('/');
 
-      // 짧은 시간 후에 `/${target.userName}/${target.id}`로 이동
-      setTimeout(() => {
-        router.push(`/${responseData.user.name}/${responseData.id}`);
-      }, 100);
+      // 경로가 '/'로 변경된 후 상세 페이지로 이동
+      const checkRouteChange = async () => {
+        if (window.location.pathname === '/') {
+          router.push(`/${responseData.user.name}/${responseData.id}`);
+        } else {
+          // 경로가 '/'가 아니라면 재시도
+          setTimeout(checkRouteChange, 100);
+        }
+      };
+
+      checkRouteChange(); // 비동기 확인 시작
     },
     onError(error) {
       console.error(error);
