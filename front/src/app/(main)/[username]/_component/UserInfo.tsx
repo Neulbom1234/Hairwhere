@@ -5,7 +5,6 @@ import UserPosts from "./UserPosts"
 import style from './userInfo.module.css';
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../_lib/getUser";
-import { useSession } from "next-auth/react";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 

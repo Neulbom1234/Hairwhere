@@ -16,7 +16,7 @@ export const {
     jwt({ token}) {
       return token;
     },
-    session({ session, newSession, user}) {
+    session({ session}) {
       return session;
     }
   },

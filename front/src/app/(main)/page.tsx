@@ -5,7 +5,6 @@ import CategoryProvider from "./_component/CategoryProvider";
 import { Suspense } from "react";
 import Loading from "./loading";
 import CategoryDeciderSuspense from "./_component/CategoryDeciderSuspense";
-import { auth } from "@/auth";
 
 export default async function Home() {
 

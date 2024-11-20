@@ -1,8 +1,8 @@
 "use client";
 
-import React, { MouseEventHandler, useEffect, useState } from 'react';
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogAction, AlertDialogCancel } from '@radix-ui/react-alert-dialog';
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import React, { useState } from 'react';
+import { AlertDialog, AlertDialogContent, AlertDialogAction, AlertDialogCancel } from '@radix-ui/react-alert-dialog';
+import {useMutation} from "@tanstack/react-query";
 import { MoreOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
 import style from './seeMore.module.css';

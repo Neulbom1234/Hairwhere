@@ -2,9 +2,8 @@
 
 import style from "@/app/(main)/post/post.module.css";
 import Link from "next/link";
-import { ChangeEventHandler, FormEvent, useEffect, useState, useRef} from "react";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import type { PageInfo } from "@/model/PageInfo";
+import { ChangeEventHandler, FormEvent, useEffect, useRef} from "react";
+import {useMutation} from "@tanstack/react-query";
 import { useStore } from "@/store/store";
 import { useRouter } from "next/navigation";
 
@@ -21,16 +20,15 @@ export default function PostBody({params}: Props) {
   const {
     shop, setShop,
     shopAddress, setShopAddress,
-    hairName, setHairName,
+    postHairName, setPostHairName,
     text, setText,
     preview, setPreview,
     imgMax, setImgMax,
-    gender, setGender,
-    hairLength, setHairLength,
-    hairColor, setHairColor
+    postGender, setPostGender,
+    postHairLength, setPostHairLength,
+    postHairColor, setPostHairColor
   } = useStore();
   const imageRef = useRef<HTMLInputElement>(null);
-  const queryClient = useQueryClient();
   const router = useRouter();
 
   useEffect(() => {
@@ -43,16 +41,15 @@ export default function PostBody({params}: Props) {
   const mutation = useMutation({
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
-      // FormData 객체 생성 및 preview 파일 추가
       const formData = new FormData();
       preview.forEach((p) => {
         p && formData.append('photoImagePath', p.file);
       });
       formData.append('text', text);
-      formData.append('hairName', hairName);
-      formData.append('hairLength', hairLength);
-      formData.append('hairColor', hairColor);
-      formData.append('gender', gender);
+      formData.append('hairName', postHairName);
+      formData.append('hairLength', postHairLength);
+      formData.append('hairColor', postHairColor);
+      formData.append('gender', postGender);
       formData.append('hairSalon', shop);
       formData.append('hairSalonAddress', shopAddress);
       formData.append('created', new Date().toISOString().split('.')[0]);
@@ -64,7 +61,6 @@ export default function PostBody({params}: Props) {
       });
 
       if (!response.ok) {
-        // response.ok가 false면 onError로 넘어갑니다.
         throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
   
@@ -75,13 +71,13 @@ export default function PostBody({params}: Props) {
       const responseData = await response.json();
       setText('');
       setPreview([]);
-      setHairName('');
-      setHairColor("0");
-      setHairLength("0");
-      setGender("0");
+      setPostHairName('');
+      setPostHairColor("0");
+      setPostHairLength("0");
+      setPostGender("0");
       setShop('');
       setShopAddress('');
-      // '/' 경로로 이동
+
       router.push('/');
 
       // 경로가 '/'로 변경된 후 상세 페이지로 이동
@@ -109,7 +105,7 @@ export default function PostBody({params}: Props) {
   };
 
   const onChangeHairName: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setHairName(e.target.value);
+    setPostHairName(e.target.value);
   };
 
   const onChangeText: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -170,20 +166,20 @@ export default function PostBody({params}: Props) {
   };
 
   const reLoad = () => {
-    setGender("");
-    setHairLength("");
-    setHairColor("");
+    setPostGender("");
+    setPostHairLength("");
+    setPostHairColor("");
   };
 
   const isButtonEnabled =
     shop !== "" &&
     shopAddress !== "" &&
-    hairName !== "" &&
+    postHairName !== "" &&
     text !== "" &&
     imgMax === "" &&
-    gender !== "" &&
-    hairLength !== "" &&
-    hairColor !== "" &&
+    postGender !== "" &&
+    postHairLength !== "" &&
+    postHairColor !== "" &&
     preview.length > 0;
 
   return (
@@ -225,9 +221,9 @@ export default function PostBody({params}: Props) {
         {/* 성별 선택 */}
         <div className={style.hairDiv}>
           <select className={style.gender} 
-            value={gender} 
-            onChange={(e) => setGender(e.target.value)}
-            style={{ border: gender !== "" ? "2px solid black" : ''}}
+            value={postGender} 
+            onChange={(e) => setPostGender(e.target.value)}
+            style={{ border: postGender !== "" ? "2px solid black" : ''}}
             >
             <option value="" hidden selected>성별</option>
             <option value="male">남성</option>
@@ -238,9 +234,9 @@ export default function PostBody({params}: Props) {
         {/* 헤어 길이 선택 */}
         <div className={style.hairDiv}>
           <select className={style.hairLength} 
-            value={hairLength} 
-            onChange={(e) => setHairLength(e.target.selectedOptions[0].text)}
-            style={{ border: hairLength !== "" ? "2px solid black" : ''}}>
+            value={postHairLength} 
+            onChange={(e) => setPostHairLength(e.target.selectedOptions[0].text)}
+            style={{ border: postHairLength !== "" ? "2px solid black" : ''}}>
           <option value="" hidden selected>길이</option>
           <option value="롱">롱</option>
           <option value="미디움">미디움</option>
@@ -251,9 +247,9 @@ export default function PostBody({params}: Props) {
         {/* 헤어 색상 선택 */}
         <div className={style.hairDiv}>
           <select className={style.hairColor} 
-            value={hairColor} 
-            onChange={(e) => setHairColor(e.target.selectedOptions[0].text)}
-            style={{ border: hairColor !== "" ? "2px solid black" : ''}}>
+            value={postHairColor} 
+            onChange={(e) => setPostHairColor(e.target.selectedOptions[0].text)}
+            style={{ border: postHairColor !== "" ? "2px solid black" : ''}}>
           <option value="" hidden selected>색상</option>
           <option value="골드브라운">골드브라운</option>
           <option value="그레이">그레이</option>
@@ -304,7 +300,7 @@ export default function PostBody({params}: Props) {
 
       {/* 헤어이름 입력 */}
       <div className={style.hairNameDiv}>
-        <input id="hairName" className={style.hairNameInput} value={hairName} onChange={onChangeHairName} type="text" placeholder="헤어이름 입력..." />
+        <input id="hairName" className={style.hairNameInput} value={postHairName} onChange={onChangeHairName} type="text" placeholder="헤어이름 입력..." />
       </div>
 
       {/* 게시글 내용 작성 */}

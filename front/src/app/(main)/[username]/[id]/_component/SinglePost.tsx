@@ -81,7 +81,6 @@ export default function SinglePost({id}: Props) {
         <Tag>{post.hairLength}</Tag>
         <Tag>{post.hairColor}</Tag>
       </div>
-
       {post.userName && (
       <div className={style.userBadge}>
         <Link href={`/${post.userName}`}>

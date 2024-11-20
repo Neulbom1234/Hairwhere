@@ -7,7 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import type {Post}  from '../../../model/Post';
 import { PageInfo } from '@/model/PageInfo';
-import {MouseEventHandler, useEffect} from "react";
+import {MouseEventHandler} from "react";
 import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import {useRouter} from "next/navigation";
@@ -69,12 +69,6 @@ export default function Post({ post }: Props) {
           } 
         }
       })
-    },
-    onError() {
-
-    },
-    onSettled() {
-
     }
   })
 
@@ -121,12 +115,6 @@ export default function Post({ post }: Props) {
           }
         }
       })
-    },
-    onError() {
-
-    },
-    onSettled() {
-
     }
   })
 

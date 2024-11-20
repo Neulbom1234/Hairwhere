@@ -5,19 +5,15 @@ import style from './recomment.module.css'
 import { useStore } from '@/store/store';
 import { getRecomments } from '../_lib/getRecomments';
 import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import Recomments from './Recomments';
 import RecommentInput from './RecommentInput';
-import BackButton from './BackButton';
 import { useRouter } from 'next/navigation';
 
 export default async function RecommentModal() {
   const router = useRouter();
-  const { recomment, setRecomment, photoId, setPhotoId } = useStore((state) => ({
+  const { recomment, photoId } = useStore((state) => ({
     recomment: state.recomment,
-    setRecomment: state.setRecomment,
     photoId: state.photoId,
-    setPhotoId: state.setPhotoId
   }));
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({queryKey: ['recomment', photoId!, recomment?.id ? recomment.id.toString() : 'defaultId'], queryFn: getRecomments});
