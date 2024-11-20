@@ -90,7 +90,7 @@ export default function PostBody({params}: Props) {
       router.push('/');
 
       // 경로가 '/'로 변경된 후 상세 페이지로 이동
-      const checkRouteChange = async () => {
+      const checkRouteChange = () => {
         if (window.location.pathname === '/') {
           router.push(`/${responseData.user.name}/${responseData.id}`);
         } else {

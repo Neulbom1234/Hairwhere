@@ -8,6 +8,7 @@ import { Dropdown, Space } from 'antd';
 import style from './seeMore.module.css';
 import { Post } from '@/model/Post';
 import { useRouter } from "next/navigation";
+import { useSession } from 'next-auth/react';
 
 type Props = {
   post: Post
@@ -18,13 +19,14 @@ const items = [
     label: "클립보드 복사",
     key: '0',
   },
-  {
-    label: "신고하기",
-    key: '1',
-  },
+  // {
+  //   label: "신고하기",
+  //   key: '1',
+  // },
 ];
 
 export default function SeeMore({ post }: Props) {
+  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
@@ -81,7 +83,7 @@ export default function SeeMore({ post }: Props) {
 
   return (
     <>
-      <Dropdown menu={{ items: post.userName ? loginItems : items }} trigger={['click']}>
+      <Dropdown menu={{ items: post.userName ===  session?.user?.name ? loginItems : items }} trigger={['click']}>
         <a onClick={(e) => e.preventDefault()}>
           <Space>
             <MoreOutlined />
