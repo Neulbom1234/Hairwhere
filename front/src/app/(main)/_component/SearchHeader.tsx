@@ -4,14 +4,18 @@ import style from './searchHeader.module.css';
 import { useState, ChangeEventHandler, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import HairCategoryMenu from './HairCategoryMenu';
+import { useStore } from "@/store/store";
 
 export default function SearchHeader() {
-  const [hairName, setHairName] = useState<string>('');
-
+  const { hairName, setHairName, gender, hairLength, hairColor, selectedKeys } = useStore((state) => ({
+    hairName: state.hairName,
+    setHairName: state.setHairName,
+    gender: state.gender,
+    hairLength: state.hairLength,
+    hairColor: state.hairColor,
+    selectedKeys: state.selectedKeys
+  }))
   const [categoryVisible, setCategoryVisible] = useState(false);
-  const [gender, setGender] = useState<string>('');
-  const [hairLength, setHairLength] = useState<string>('');
-  const [hairColor, setHairColor] = useState<string>('');
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -31,7 +35,7 @@ export default function SearchHeader() {
 
   const redirectToPage = (e: React.FormEvent) => {
     e.preventDefault(); // 기본 동작 방지
-    if (hairName.trim() !== '') {
+    if (hairName.trim() || selectedKeys.length) {
       router.push(`/searchResult?hairName=${hairName}&gender=${gender}&hairLength=${hairLength}&hairColor=${hairColor}`);
     }
   };
@@ -57,18 +61,12 @@ export default function SearchHeader() {
               </svg>
           </button>
           </div>
-          <HairCategoryMenu 
-            gender={gender} 
-            setGender={setGender} 
-            hairLength={hairLength} 
-            setHairLength={setHairLength} 
-            hairColor={hairColor} 
-            setHairColor={setHairColor} 
-          />
+          <HairCategoryMenu />
         </section>
         <form onSubmit={redirectToPage}>
           <div className={style.inputDiv}>
             <input className={style.input} name="search" type="search" placeholder="헤어명을 입력하세요"
+              spellCheck="false"
               value={hairName}
               onChange={onChangeHairName}
             />

@@ -3,7 +3,6 @@
 import { InfiniteData, useSuspenseInfiniteQuery} from "@tanstack/react-query";
 import { getPostRecommends } from "../_lib/getPostRecommends";
 import Post from "./Post";
-import type { Post as IPost } from "@/model/Post";
 import type { PageInfo } from "@/model/PageInfo";
 import { Fragment, useEffect } from "react";
 import {useInView} from "react-intersection-observer";
@@ -19,7 +18,6 @@ export default function PostRecommends() {
     queryFn: getPostRecommends,
     initialPageParam:0,
     getNextPageParam: (lastPage) => {
-      console.log("Last page:", lastPage); // lastPage 값을 로그로 확인
       if (lastPage.last) {
         return undefined;
       }
@@ -37,11 +35,8 @@ export default function PostRecommends() {
   useEffect(() => {
     if (inView) {
       !isFetching && hasNextPage && fetchNextPage();
-      console.log(`데이터: ${data}`);
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
-
-  console.log(data)
   
   return (
     <>

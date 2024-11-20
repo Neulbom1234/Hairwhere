@@ -47,12 +47,6 @@ export default function Header({ post }: Props) {
           }
         }
       })
-    },
-    onError() {
-
-    },
-    onSettled() {
-
     }
   })
 
@@ -81,12 +75,6 @@ export default function Header({ post }: Props) {
           }
         }
       })
-    },
-    onError() {
-
-    },
-    onSettled() {
-
     }
   })
 

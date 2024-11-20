@@ -1,6 +1,3 @@
-import { HairCategory } from "./HairCategory";
-import { HairInfo } from "./HairInfo";
-import { PostImage } from "./PostImage";
 import { User } from "./User";
 
 export interface Post {
@@ -9,7 +6,6 @@ export interface Post {
   userName: string;
   userProfilePath: string;
   photoImagePath: string[];
-  // like: string[];
   likedUserNames: string[];
   likeCount:number;
   hairName: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import { InfiniteData, useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery} from "@tanstack/react-query";
 import {getUserPosts} from "../_lib/getUserPosts";
 import Post from "../../_component/Post";
 import { PageInfo } from "@/model/PageInfo";
@@ -41,10 +41,6 @@ export default function UserPosts({username}: Props) {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
-
-
-  const queryClient = useQueryClient()
-  const user = queryClient.getQueryData(['users', username]);
 
   return (
     <>

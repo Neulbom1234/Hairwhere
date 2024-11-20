@@ -17,10 +17,8 @@ type Props = {
 }
 
 export default function Comment({comment, id}: Props) {
-  const { recomment, setRecomment, photoId, setPhotoId } = useStore((state) => ({
-    recomment: state.recomment,
+  const {setRecomment, setPhotoId } = useStore((state) => ({
     setRecomment: state.setRecomment,
-    photoId: state.photoId,
     setPhotoId: state.setPhotoId
   }));
   const router = useRouter();
