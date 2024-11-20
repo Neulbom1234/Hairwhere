@@ -1,7 +1,6 @@
 "use client"
 
 import style from './header.module.css';
-import { useRef } from 'react';
 import { useRouter } from 'next/navigation'
 
 type Props = {
@@ -10,21 +9,7 @@ type Props = {
 
 export default function Header({salonName}: Props) {
   const decodedSalonName = decodeURIComponent(salonName);
-  const textRef = useRef<HTMLSpanElement>(null);
   const router = useRouter();
-
-  // 미용실 이름 아래 주소 넣을 시 아래 코드 추가
-  // const copyToClipboard = () => {
-  //   if (textRef.current) {
-  //     navigator.clipboard.writeText(textRef.current.innerText)
-  //       .then(() => {
-  //         alert('주소가 클립보드에 복사되었습니다.');
-  //       })
-  //       .catch((err) => {
-  //         console.error('복사 중 에러 발생:', err);
-  //       });
-  //   }
-  // };
 
   const onClickBack = () => {
     router.back();
@@ -40,7 +25,6 @@ export default function Header({salonName}: Props) {
         </button>
         <div className={style.hairSalonWrapper}>
           <span className={style.hairSalon}>{decodedSalonName}</span>
-          {/* <span className={style.hairSalonAddress} ref={textRef} onClick={copyToClipboard}>{hairInfo.hairSalonAddress}</span> */}
         </div>
       </div>
     </>

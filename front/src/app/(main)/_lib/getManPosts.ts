@@ -3,7 +3,7 @@ type Props = {pageParam?: number};
 export async function getManPosts({pageParam}: Props) {
   const res = await fetch(`/photo/findByGender/male?page=${pageParam}&size=15`,{
     next: {
-        tags: ['posts', 'mans'], //캐시 초기화를 위한 태그
+        tags: ['posts', 'mans'], 
       },
       cache: 'no-store'
   })

@@ -7,8 +7,8 @@ export default function BackButton() {
   const router = useRouter();
   const onClickClose = () => {
     router.back();
-    // TODO: 뒤로가기가 /home이 아니면 /home으로 보내기
   }
+  
   return (
     <button className={style.closeButton} onClick={onClickClose}>
       <svg width={30} viewBox="0 0 24 24" aria-hidden="true"

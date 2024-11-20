@@ -1,8 +1,6 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
-import { getSession } from "next-auth/react"; 
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (prevState: any, formData: FormData) => {

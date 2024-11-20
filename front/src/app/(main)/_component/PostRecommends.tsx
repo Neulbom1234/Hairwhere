@@ -3,7 +3,6 @@
 import { InfiniteData, useSuspenseInfiniteQuery} from "@tanstack/react-query";
 import { getPostRecommends } from "../_lib/getPostRecommends";
 import Post from "./Post";
-import type { Post as IPost } from "@/model/Post";
 import type { PageInfo } from "@/model/PageInfo";
 import { Fragment, useEffect } from "react";
 import {useInView} from "react-intersection-observer";
