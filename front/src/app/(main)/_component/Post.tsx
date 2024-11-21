@@ -55,16 +55,18 @@ export default function Post({ post }: Props) {
                 }).filter((number) => number !== null); // null 값을 필터링하여 반환
               }).flat(); // 결과를 1차원 배열로 만듭니다
               const pageIndex =pi[0]; // pi의 첫 번째 요소를 대입, 배열이 비어있을 경우 null
-              const index = value.pages[pageIndex].content.findIndex((v) => v.id === post.id);
-              const shallow = {...value};
-              value.pages = {...value.pages};
-              value.pages[pageIndex] = {...value.pages[pageIndex]};
-              shallow.pages[pageIndex].content[index] = {
-                ...shallow.pages[pageIndex].content[index],
-                likedUserNames: [ ...shallow.pages[pageIndex].content[index].likedUserNames, session?.user?.name as string ],
-                likeCount: shallow.pages[pageIndex].content[index].likeCount + 1
+              if(pageIndex !== null && pageIndex !== undefined) {
+                const index = value.pages[pageIndex].content.findIndex((v) => v.id === post.id);
+                const shallow = {...value};
+                value.pages = {...value.pages};
+                value.pages[pageIndex] = {...value.pages[pageIndex]};
+                shallow.pages[pageIndex].content[index] = {
+                  ...shallow.pages[pageIndex].content[index],
+                  likedUserNames: shallow.pages[pageIndex].content[index].likedUserNames.filter((v) => { v !== session?.user?.name }),
+                  likeCount: shallow.pages[pageIndex].content[index].likeCount - 1
+                }
+                queryClient.setQueryData(queryKey, shallow);
               }
-              queryClient.setQueryData(queryKey, shallow);
             }
           } 
         }
@@ -101,7 +103,7 @@ export default function Post({ post }: Props) {
                 }).filter((number) => number !== null); // null 값을 필터링하여 반환
               }).flat(); // 결과를 1차원 배열로 만듭니다
               const pageIndex =pi[0]; // pi의 첫 번째 요소를 대입, 배열이 비어있을 경우 null
-              if(pageIndex !== null) {
+              if(pageIndex !== null && pageIndex !== undefined) {
                 const index = value.pages[pageIndex].content.findIndex((v) => v.id === post.id);
                 const shallow = {...value};
                 value.pages = {...value.pages};
