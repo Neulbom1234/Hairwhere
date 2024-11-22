@@ -8,6 +8,7 @@ export const {
   auth,
   signIn,
 } = NextAuth({
+  trustHost: true,
   pages: { // 로그인 페이지 등록
     signIn: '/login',
     newUser: '/register',
@@ -18,7 +19,7 @@ export const {
     },
     session({ session}) {
       return session;
-    }
+    },
   },
   providers: [  // 로그인 하는 코드
     CredentialsProvider({

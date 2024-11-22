@@ -17,7 +17,7 @@ export default function LoginButton() {
     signOut({redirect: false})
       .then(() => {
         deleteCookie('JSESSIONID');
-        router.push("/");
+        window.location.href = "/";
       })
   }
 

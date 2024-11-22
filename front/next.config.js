@@ -19,7 +19,7 @@ const nextConfig = {
         destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/comment/:path*`
       },
     ];
-  },
+  }
 };
 
 module.exports = nextConfig;

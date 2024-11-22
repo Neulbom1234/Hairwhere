@@ -27,7 +27,7 @@ export default function LoginModal() {
     if (result?.error) {
       setMessage('아이디와 비밀번호가 일치하지 않습니다.'); // 오류 메시지 설정
     } else {
-      router.back(); // 로그인 성공 시 이전 페이지로 이동
+      window.location.href = "/";
     }
   };
 
