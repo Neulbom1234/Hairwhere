@@ -35,7 +35,6 @@
   border-color: rgb(239, 243, 244);
   border-width: 1px 1px 0px 1px;
   border-style: solid;
-  z-index: 999; /* NavMenu가 다른 요소들 위에 오도록 설정 */
 }
 
 .nav li {
@@ -55,6 +54,16 @@
     width: 100dvw; 
     height: auto; 
     margin: 0; 
+    padding: 0;
+    bottom: 0;
+  }
+
+  .nav {
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    width: inherit;
+    z-index: 999; /* NavMenu가 다른 요소들 위에 오도록 설정 */
   }
 }
 
