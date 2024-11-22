@@ -165,3 +165,7 @@ a {
     @apply bg-background text-foreground;
   }
 }
+
+input, textarea {
+  touch-action: manipulation;
+}

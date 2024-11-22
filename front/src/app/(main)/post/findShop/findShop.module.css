@@ -66,6 +66,13 @@ margin-top: 2px;
   color: rgb(53, 53, 53);
 }
 
+@media all and (min-width: 300px) {
+  .input{
+      width: calc(100dvw - 94px);
+      margin-left: 26px;
+  }
+}
+
 @media all and (min-width: 602px) {
     .input{
         width: 510px;
