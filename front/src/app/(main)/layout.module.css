@@ -13,6 +13,7 @@
   border-color: rgb(239, 243, 244);
   border-width: 0px 1px 0px 1px;
   border-style: solid;
+  padding-bottom: 60px;
 }
 
 .main::-webkit-scrollbar { /*웹킷 기반 브라우저(chrome, safari등)에서 스크롤바 숨기기*/
@@ -34,6 +35,7 @@
   border-color: rgb(239, 243, 244);
   border-width: 1px 1px 0px 1px;
   border-style: solid;
+  z-index: 999; /* NavMenu가 다른 요소들 위에 오도록 설정 */
 }
 
 .nav li {
