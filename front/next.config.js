@@ -18,6 +18,10 @@ const nextConfig = {
         source: '/comment/:path*',
         destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/comment/:path*`
       },
+      {
+        source: '/find/:path*',
+        destination: `${process.env.NEXT_PUBLIC_BACKEND_API_SERVER}/find/:path*`
+      },
     ];
   }
 };

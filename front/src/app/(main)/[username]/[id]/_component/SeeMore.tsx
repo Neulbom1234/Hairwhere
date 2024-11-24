@@ -14,25 +14,46 @@ type Props = {
   post: Post
 }
 
-const items = [
-  {
-    label: "클립보드 복사",
-    key: '0',
-  },
-  // {
-  //   label: "신고하기",
-  //   key: '1',
-  // },
-];
 
 export default function SeeMore({ post }: Props) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  
+  const copyToClipboard = () => {
+    const currentUrl = window.location.href;
+    navigator.clipboard
+    .writeText(currentUrl)
+    .then(() => {
+      alert('주소가 클립보드에 복사되었습니다.');
+    })
+    .catch((err) => {
+      console.error('복사 중 에러 발생:', err);
+    });
+  };
+
+  const items = [
+    {
+      label: (
+        <span onClick={copyToClipboard}>
+          클립보드 복사
+        </span>
+      ),
+      key: '0',
+    },
+    // {
+    //   label: "신고하기",
+    //   key: '1',
+    // },
+  ];
 
   const loginItems = [
     {
-      label: "클립보드 복사",
+      label: (
+        <span onClick={copyToClipboard}>
+          클립보드 복사
+        </span>
+      ),
       key: '0',
     },
     {

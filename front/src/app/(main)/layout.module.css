@@ -63,7 +63,7 @@
     position: fixed;
     bottom: 0;
     width: inherit;
-    z-index: 97; /* NavMenu가 다른 요소들 위에 오도록 설정 */
+    z-index: 95; /* NavMenu가 다른 요소들 위에 오도록 설정 */
   }
 }
 

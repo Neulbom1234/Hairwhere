@@ -80,10 +80,12 @@ export default function Header({ post }: Props) {
 
   const onClickHeart:MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
-    if(liked) {
+    if (liked) {
       unHeart.mutate();
-    } else {
+    } else if(session){
       heart.mutate();
+    } else {
+      router.push('/login');
     }
   }
 
