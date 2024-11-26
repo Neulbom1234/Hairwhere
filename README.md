@@ -62,6 +62,15 @@
 
 <h3 align="center">Backend</h3>
 
+<div align="center">
+  <img src="https://img.shields.io/badge/Java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
+  <img src="https://img.shields.io/badge/Spring%20Framework-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Framework" />
+  <img src="https://img.shields.io/badge/Spring%20Boot-%236DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/MySQL-%234479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+  <img src="https://img.shields.io/badge/Naver%20Cloud-%2300C73C.svg?style=for-the-badge&logo=naver&logoColor=white" alt="Naver Cloud" />
+  <img src="https://img.shields.io/badge/Ubuntu-%23E95420.svg?style=for-the-badge&logo=ubuntu&logoColor=white" alt="Ubuntu" />
+</div>
+
 
 <br>
 
@@ -99,11 +108,8 @@
 
 ### 😸박동준
 
-- **UI**
-    - 페이지 : splash 페이지, sns 로그인 페이지, 로그인, 회원가입
-    - 공통 컴포넌트 : 상품 카드, 사용자 배너
 - **기능**
-    - splash 페이지, sns로그인 페이지, 로그인 유효성 및 중복 검사, 회원가입 유효성 및 중복 검사, 이메일 검증, 프로필 설정, 접근제한 설정
+    - 로그인/로그아웃, 회원가입, 게시글 불러오기, 게시글 등록 및 삭제, 검색, 좋아요, 프로필 수정, 댓글/대댓글 등의 전체적인 백엔드 기능 담당
     
 <br>
 
