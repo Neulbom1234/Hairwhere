@@ -248,7 +248,13 @@
 
 <br>
 
-## 5. 프로젝트 구조
+## 5. ERD
+
+<img width="1004" alt="image" src="https://github.com/user-attachments/assets/a09c13ce-4053-4352-b73a-582d9a77b0b8">
+
+<br>
+
+## 6. 프로젝트 구조
 
 ### [Frontend]
 
@@ -346,6 +352,5 @@
       application.yml
   └──test
 ```
-<img width="1004" alt="image" src="https://github.com/user-attachments/assets/a09c13ce-4053-4352-b73a-582d9a77b0b8">
 
 <br>
