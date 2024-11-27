@@ -303,4 +303,47 @@
                └── loading.tsx
 ```
 ### [Backend]
+```
+└──src
+  └──main
+    └──java
+      └──com.example.neulbom
+        └──config
+          └──NCPConfig
+          └──SecurityConfig
+        └──controller
+          └──CommentController
+          └──GlobalExeptionHandler
+          └──LikeController
+          └──PhotoController
+          └──UserController
+        └──domain
+          └──Comment
+          └──Like
+          └──Photo
+          └──User
+        └──dto
+          └──CommentRequest
+          └──CommentResponse
+          └──LoginRequest
+          └──PhotoResponse
+          └──Register
+          └──Upload
+          └──UserUploadResponse
+        └──repository
+          └──CommentRepository
+          └──LikeRepository
+          └──PhotoRepository
+          └──UserRepository
+        └──service
+          └──CommentService
+          └──LikeService
+          └──NCPStorageService
+          └──PhotoService
+          └──UserService
+      └──NeulbomApplication
+    └──resources
+      application.yml
+  └──test
+```
 <br>
