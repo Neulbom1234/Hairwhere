@@ -254,8 +254,6 @@
 
 <br>
 
-
-
 ## 6. 프로젝트 구조
 
 ### [Frontend]
@@ -269,7 +267,6 @@
 ├── next.config.json
 ├── tailwind.config.json
 ├── tsconfig.json
-│
 ├── public
 │    ├── logo.svg
 │    └── mockServiceWorker.js
