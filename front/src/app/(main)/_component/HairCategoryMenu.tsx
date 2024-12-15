@@ -23,7 +23,7 @@ export default function HairCategoryMenu() {
         setGender('');
         newSelectedKeys.splice(newSelectedKeys.indexOf(e.key), 1);
       } else {
-        setGender('남성');
+        setGender('male');
         newSelectedKeys.push(e.key);
       }
     } else if (e.key === '2') {
@@ -31,7 +31,7 @@ export default function HairCategoryMenu() {
         setGender('');
         newSelectedKeys.splice(newSelectedKeys.indexOf(e.key), 1);
       } else {
-        setGender('여성');
+        setGender('female');
         newSelectedKeys.push(e.key);
       }
     }
