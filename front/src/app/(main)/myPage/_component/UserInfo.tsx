@@ -47,21 +47,6 @@ export default function UserInfo({username}: Props) {
 
   const updateProfile = async () => {
     try {
-      if(editName !== "") {
-        const encodedName = encodeURIComponent(editName);
-        const res = await fetch(`/update/name?name=${encodedName}`, {
-          method: 'PATCH',
-          credentials: 'include',
-        });
-        if (!res.ok) {
-          // JSON 형식의 오류 메시지 처리
-          const errorData = await res.json();
-          console.error("서버 오류 메시지:", errorData.message || errorData);
-          alert("닉네임 변경에 실패했습니다.");
-        } else {
-          setName(editName);
-        }
-      }
       if(editImage !== null) {
         const formData = new FormData();
         formData.append('profile', editImage);
@@ -77,6 +62,22 @@ export default function UserInfo({username}: Props) {
           alert("사진 변경에 실패했습니다.");
         } else {
           setImage(editImage);
+          setTimeout(() => {}, 1000);
+        }
+      }
+      if(editName !== "") {
+        const encodedName = encodeURIComponent(editName);
+        const res = await fetch(`/update/name?name=${encodedName}`, {
+          method: 'PATCH',
+          credentials: 'include',
+        });
+        if (!res.ok) {
+          // JSON 형식의 오류 메시지 처리
+          const errorData = await res.json();
+          console.error("서버 오류 메시지:", errorData.message || errorData);
+          alert("닉네임 변경에 실패했습니다.");
+        } else {
+          setName(editName);
         }
       }
       editModeToggle();
