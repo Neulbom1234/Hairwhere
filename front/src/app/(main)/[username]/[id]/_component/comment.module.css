@@ -43,3 +43,11 @@
   color: #737373;
   cursor: pointer;
 }
+
+.delete {
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 10px;
+  color: #737373;
+  cursor: pointer;
+}
