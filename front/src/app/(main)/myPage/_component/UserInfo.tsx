@@ -47,10 +47,11 @@ export default function UserInfo({username}: Props) {
 
   const updateProfile = async () => {
     try {
-      if(editImage !== null) {
+      if(editName !== "" && editImage !== null) {
         const formData = new FormData();
         formData.append('profile', editImage);
-        const res = await fetch(`/update/profile`, {
+        formData.append('name', editName);
+        const res = await fetch(`/update/user`, {
           method: 'PATCH',
           credentials: 'include',
           body: formData
@@ -59,17 +60,36 @@ export default function UserInfo({username}: Props) {
           // JSON 형식의 오류 메시지 처리
           const errorData = await res.json();
           console.error("서버 오류 메시지:", errorData.message || errorData);
-          alert("사진 변경에 실패했습니다.");
+          alert("프로필 변경에 실패했습니다.");
         } else {
           setImage(editImage);
-          setTimeout(() => {}, 1000);
+          setName(editName);
         }
       }
-      if(editName !== "") {
-        const encodedName = encodeURIComponent(editName);
-        const res = await fetch(`/update/name?name=${encodedName}`, {
+      else if(editImage !== null) {
+        const formData = new FormData();
+        formData.append('profile', editImage);
+        const res = await fetch(`/update/user`, {
           method: 'PATCH',
           credentials: 'include',
+          body: formData
+        });
+        if (!res.ok) {
+          // JSON 형식의 오류 메시지 처리
+          const errorData = await res.json();
+          console.error("서버 오류 메시지:", errorData.message || errorData);
+          alert("프로필 사진 변경에 실패했습니다.");
+        } else {
+          setImage(editImage);
+        }
+      }
+      else if(editName !== "") {
+        const formData = new FormData();
+        formData.append('name', editName);
+        const res = await fetch(`/update/user`, {
+          method: 'PATCH',
+          credentials: 'include',
+          body: formData
         });
         if (!res.ok) {
           // JSON 형식의 오류 메시지 처리
