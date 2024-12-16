@@ -43,7 +43,7 @@ export default function PostBody({params}: Props) {
       e.preventDefault();
       const formData = new FormData();
       preview.forEach((p) => {
-        p && formData.append('photoImagePath', p.file);
+        p && formData.append('image', p.file);
       });
       formData.append('text', text);
       formData.append('hairName', postHairName);
@@ -52,7 +52,7 @@ export default function PostBody({params}: Props) {
       formData.append('gender', postGender);
       formData.append('hairSalon', shop);
       formData.append('hairSalonAddress', shopAddress);
-      formData.append('created', new Date().toISOString().split('.')[0]);
+      formData.append('createdStr', new Date().toISOString().split('.')[0]);
       
       const response = await fetch(`/photo/upload`, {
         method: 'POST',
