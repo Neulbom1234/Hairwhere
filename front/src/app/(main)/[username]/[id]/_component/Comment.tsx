@@ -63,7 +63,44 @@ export default function Comment({comment, id}: Props) {
     }
   })
 
+  const deleteRecomment = useMutation({
+    mutationFn: () => {
+      return fetch(`/comment/deleteComment/${comment.id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+    },
+    onMutate() {
+      const queryCache = queryClient.getQueryCache();
+      const queryKeys = queryCache.getAll().map(cache => cache.queryKey);
+      queryKeys.forEach((queryKey) => {
+        if(queryKey[0] === "recomment" && queryKey[1] === id && queryKey[2] === comment.parentId) {
+          const value: IComment[] | undefined = queryClient.getQueryData(queryKey);
+          const shallow = value ? [...value] : [];
+          console.log(shallow);
+          shallow.filter((c) => c.id !== comment.id);
+          console.log(shallow);
+          queryClient.setQueryData(queryKey, shallow);
+        }
+      })
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({queryKey: ['recomment', id, comment.parentId]});
+    },
+    onError: (error) => {
+      console.error("Error deleting comment:", error);
+    }
+  })
+
   const onDeleteComment = () => {
+    // if(window.location.pathname === "/recomment") {
+    //   deleteRecomment.mutate();
+    // } else {
+    //   deleteComment.mutate();
+    // }
     deleteComment.mutate();
   }
 
