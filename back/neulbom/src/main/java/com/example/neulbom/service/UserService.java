@@ -94,4 +94,23 @@ public class UserService {
         return user;
     }
 
+    public User updateNameAndProfile(String loginId, String newName, MultipartFile profile) {
+        if(userRepository.existsByName(newName)){
+            throw new IllegalArgumentException("이미 존재하는 이름입니다.");
+        }
+
+        String profilePath = ncpStorageService.upload(profile);  // s3Service를 ncpStorageService로 변경
+
+        User user = userRepository.findByLoginId(loginId)
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+
+        user.setProfilePath(profilePath);
+        user.setName(newName);
+
+        userRepository.save(user);
+
+        return user;
+    }
+
 }

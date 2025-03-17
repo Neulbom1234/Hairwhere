@@ -1,8 +1,6 @@
 package com.example.neulbom.Dto;
 
-import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
-import com.example.neulbom.domain.User;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -23,7 +21,13 @@ public class PhotoResponse {
     private String hairSalonAddress;
     private String hairLength;
     private String hairColor;
-    private User user;
+
+    // User 엔티티 대신 필요한 정보만 포함
+    private Long userId;
+    private String userEmail;
+    private String userLoginId;
+    private String userProfilePath;
+
     private List<String> likedUserNames;
 
     public static PhotoResponse fromEntity(Photo photo) {
@@ -40,14 +44,18 @@ public class PhotoResponse {
         response.setHairSalonAddress(photo.getHairSalonAddress());
         response.setHairLength(photo.getHairLength());
         response.setHairColor(photo.getHairColor());
-        response.setUser(photo.getUser());
 
+        // User 정보 설정
+        if (photo.getUser() != null) {
+            response.setUserId(photo.getUser().getId());
+            response.setUserEmail(photo.getUser().getEmail());
+            response.setUserLoginId(photo.getUser().getLoginId());
+            response.setUserProfilePath(photo.getUser().getProfilePath());
+        }
+
+        // 좋아요 한 사용자 이름 목록
         List<String> likedUserNames = photo.getLikes().stream()
-            .map(like ->
-            {
-                User user = like.getUser();
-                return user.getName();
-            })
+            .map(like -> like.getUser().getName())
             .collect(Collectors.toList());
         response.setLikedUserNames(likedUserNames);
 

@@ -1,11 +1,14 @@
 package com.example.neulbom.service;
 
 import com.example.neulbom.Dto.PhotoResponse;
+import com.example.neulbom.Dto.SearchRequest;
+import com.example.neulbom.Dto.UploadRequest;
 import com.example.neulbom.controller.UserController;
 import com.example.neulbom.domain.Like;
 import com.example.neulbom.domain.Photo;
 import com.example.neulbom.domain.User;
 import com.example.neulbom.repository.PhotoRepository;
+import com.example.neulbom.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -14,6 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +36,11 @@ public class PhotoService {
 
     private final int MIN_RANDOM_NUM = 1;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final UserRepository userRepository;
 
     @Transactional
     public Long upload(String name, MultipartFile[] image,
-                       int likeCount, String hairName, String text, String gender, LocalDateTime created,
-                       String hairSalon, String hairSalonAddress, String hairLength, String hairColor, User user) {
+                       int likeCount, LocalDateTime created, User user, UploadRequest uploadRequest) {
         List<String> imagePaths = new ArrayList<>();
 
         for(MultipartFile file : image) {
@@ -46,6 +53,14 @@ public class PhotoService {
                 throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
             }
         }
+
+        String hairName = uploadRequest.getHairName();
+        String text = uploadRequest.getText();
+        String gender = uploadRequest.getGender();
+        String hairSalon = uploadRequest.getHairSalon();
+        String hairSalonAddress = uploadRequest.getHairSalonAddress();
+        String hairLength = uploadRequest.getHairLength();
+        String hairColor = uploadRequest.getHairColor();
 
         Photo photo = Photo.builder()
             .userName(name)
@@ -96,8 +111,8 @@ public class PhotoService {
 
     @Transactional
     public Page<PhotoResponse> findAll(Pageable pageable) {
-        Page<Photo> photo = photorepository.findAll(pageable);
-        return photo.map(PhotoResponse::fromEntity);
+        Page<Photo> photoPage = photorepository.findAll(pageable);
+        return photoPage.map(PhotoResponse::fromEntity);
     }
 
     @Transactional
@@ -178,9 +193,20 @@ public class PhotoService {
         return photo.map(PhotoResponse::fromEntity);
     }
 
-    public Page<PhotoResponse> search(String hairName, String hairLength,String hairColor,
-                                      String gender, Pageable pageable){
-        Page<Photo> photo = photorepository.search(hairName,hairLength,hairColor,gender,pageable);
+    public Page<PhotoResponse> search(SearchRequest searchRequest, Pageable pageable) throws UnsupportedEncodingException {
+        String hairName = searchRequest.getHairName();
+        String hairLength = searchRequest.getHairLength();
+        String hairColor = searchRequest.getHairColor();
+        String gender = searchRequest.getGender();
+
+        // null 체크를 추가하여 디코딩
+        String decodeHairName = hairName != null ? URLDecoder.decode(hairName, StandardCharsets.UTF_8) : null;
+        String decodeHairLength = hairLength != null ? URLDecoder.decode(hairLength, StandardCharsets.UTF_8) : null;
+        String decodeHairColor = hairColor != null ? URLDecoder.decode(hairColor, StandardCharsets.UTF_8) : null;
+        String decodeGender = gender != null ? URLDecoder.decode(gender, StandardCharsets.UTF_8) : null;
+
+        Page<Photo> photo = photorepository.search(decodeHairName,decodeHairLength,decodeHairColor,decodeGender,pageable);
+
         return photo.map(PhotoResponse::fromEntity);
     }
 
@@ -192,4 +218,13 @@ public class PhotoService {
             return true;
         }
     }
+
+    public void updateName(String preName,String name){
+        //preName으로 게시글들 불러오고 name으로 바꾸기
+        List<Photo> photos = photorepository.findByUserName(preName);
+        for(Photo photo : photos){
+            photo.setUserName(name);
+        }
+    }
+
 }

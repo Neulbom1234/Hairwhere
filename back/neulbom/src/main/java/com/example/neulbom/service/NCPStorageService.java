@@ -22,7 +22,7 @@ public class NCPStorageService {
 
     private final AmazonS3 ncpClient;  // ObjectStorageService 대신 AmazonS3 사용
 
-    @Value("neulbom-bucket")
+    @Value("hairwhere-bucket")
     private String bucketName;
 
     public String upload(MultipartFile image) {
@@ -96,4 +96,5 @@ public class NCPStorageService {
     private String extractKeyFromUrl(String imageUrl) {
         return imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
     }
+
 }

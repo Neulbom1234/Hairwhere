@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -35,6 +36,7 @@ public class CommentService {
         comment.setContent(content);
         comment.setPhoto(photo);
         comment.setUser(user);
+        comment.setCreatedAt(LocalDateTime.now());
 
         if (parentId != null) {
             Comment parentComment = commentRepository.findById(parentId)
@@ -51,5 +53,12 @@ public class CommentService {
         }
 
         return commentRepository.findByPhotoIdAndParentIdOrderByCreatedAtDesc(PhotoId, parentId);
+    }
+
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+
+        commentRepository.delete(comment);
     }
 }

@@ -6,19 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "user")
 @NoArgsConstructor
-@Setter
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public Long id;
+    private Long id;
 
     @Column(name = "loginId")
     private String loginId;
@@ -35,11 +36,20 @@ public class User {
     @Column(name = "profilePath")
     private String profilePath;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
-    public List<Photo> photo;
+    private List<Photo> photos = new ArrayList<>();
 
-    public User(String loginId, String pw, String name, String email,String profilePath) {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Like> likes = new ArrayList<>();
+
+    public User(Long id, String loginId, String pw, String name, String email, String profilePath) {
+        this.id = id;
         this.loginId = loginId;
         this.pw = pw;
         this.name = name;
@@ -47,5 +57,11 @@ public class User {
         this.profilePath = profilePath;
     }
 
+    public User(String loginId, String pw, String name, String email, String profilePath) {
+        this.loginId = loginId;
+        this.pw = pw;
+        this.name = name;
+        this.email = email;
+        this.profilePath = profilePath;
+    }
 }
-

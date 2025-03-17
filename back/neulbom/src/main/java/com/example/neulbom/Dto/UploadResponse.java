@@ -4,17 +4,19 @@ import com.example.neulbom.domain.User;
 import lombok.Data;
 
 @Data
-public class UserUploadResponseDto {
+public class UploadResponse {
     private User user;
     private Long id;
     private String errorMessage;
 
-    public UserUploadResponseDto(User user, Long id){
+    public UploadResponse(User user, Long id){
         this.user = user;
         this.id = id;
     }
 
-    public UserUploadResponseDto(String errorMessage){
+    public UploadResponse(String errorMessage)
+    {
         this.errorMessage = errorMessage;
+
     }
 }

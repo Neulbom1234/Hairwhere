@@ -5,20 +5,38 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
 public class Photo {
 
     private static final int DEFAULT_LIKE_NUM = 0;
+
+    public Photo(Long id, String userName, List<String> photoImagePath, int likeCount, String hairName, String
+                 text, String gender, LocalDateTime created, String hairSalon, String hairSalonAddress, String
+                 hairLength, String hairColor, List<Comment> comments, List<Like> likes, User user) {
+        this.id = id;
+        this.userName = userName;
+        this.photoImagePath = photoImagePath;
+        this.likeCount = likeCount;
+        this.hairName = hairName;
+        this.text = text;
+        this.gender = gender;
+        this.created = created;
+        this.hairSalon = hairSalon;
+        this.hairSalonAddress = hairSalonAddress;
+        this.hairLength = hairLength;
+        this.hairColor = hairColor;
+        this.comments = comments;
+        this.likes = likes;
+        this.user = user;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +63,7 @@ public class Photo {
     private String text;
 
     @Column(name = "gender")
-    private String gender; // male or female or all
+    private String gender;
 
     @Column(name = "created")
     private LocalDateTime created;
@@ -62,12 +80,19 @@ public class Photo {
     @Column(name = "hairColor")
     private String hairColor;
 
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
+
     @OneToMany(mappedBy = "photo")
     @JsonIgnore
     @Builder.Default
     private List<Like> likes = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     public void increaseLikeCount() {

@@ -1,5 +1,7 @@
 package com.example.neulbom.Dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +9,8 @@ import lombok.Setter;
 @Setter
 public class CommentRequest {
 
+    @NotNull
+    @NotEmpty
     private String content;
     private Long parentId;
 
