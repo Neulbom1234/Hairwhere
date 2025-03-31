@@ -35,7 +35,7 @@ export default function NavMenu() {
         </Link>
       </li>
       <li> {/* 검색페이지 */}
-        <Link href="/search">
+        {/* <Link href="/search"> */}
           <div className={style.navPill}>
             {segment && (['search', 'searchResult'].includes(segment)) ?
               <>
@@ -57,10 +57,10 @@ export default function NavMenu() {
                 </svg>
               </>}
           </div>
-        </Link>
+        {/* </Link> */}
       </li>
       <li> {/* 글 작성페이지 */}
-        <Link href="/post">
+        {/* <Link href="/post"> */}
           <div className={style.navPill}>
             {segment === 'post' ? 
             <svg aria-label="새로운 게시물 클릭됨" className="x1lliihq x1n2onr6 x5n08af" fill="black" height={26} role="img" viewBox="0 0 24 24" width={26}>
@@ -76,10 +76,10 @@ export default function NavMenu() {
               </svg>
             }
           </div>
-        </Link>
+        {/* </Link> */}
       </li>
       <li> {/* 좋아요페이지 */}
-        <Link href="/likes">
+        {/* <Link href="/likes"> */}
           <div className={style.navPill}>
             {segment === 'likes'? 
             <svg aria-label="좋아요" fill="currentColor" role="img" viewBox="0 0 24 24" width={26} height={26}>
@@ -91,10 +91,10 @@ export default function NavMenu() {
             </svg>
           }
           </div>
-        </Link>
+        {/* </Link> */}
       </li>
       <li> {/*  프로필페이지 */}
-        <Link href={"/myPage"}>
+        {/* <Link href={"/myPage"}> */}
           <div className={style.navPill}>
             {segment === 'myPage'?
             <svg viewBox="0 0 24 24" aria-hidden="true" className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-18jsvk2 r-lwhw9o r-cnnz9e" width={26} height={26}>
@@ -108,7 +108,7 @@ export default function NavMenu() {
               </g>
             </svg>}
           </div>
-        </Link>
+        {/* </Link> */}
       </li>
     </>
   )

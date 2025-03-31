@@ -307,7 +307,7 @@ export const handlers = [
     const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
 
     return HttpResponse.json(
-      [
+      [ 
         {
           id: cursor + 1,
           User: User[1],

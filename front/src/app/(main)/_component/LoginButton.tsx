@@ -50,7 +50,7 @@ export default function LoginButton() {
         // </Link>
         <button className={style.loginButton} onClick={onLogout}>로그아웃</button>
       :
-      <Link href="/login" className={style.loginButton}>로그인</Link>
+      <div className={style.loginButton}>로그인</div>
       }
     </>
   )
