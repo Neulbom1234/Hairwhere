@@ -1,4 +1,4 @@
-# ✂️ 헤어스타일 커뮤니티 서비스 HAIRWHERE
+# ✂️ 헤어스타일 커뮤니티 서비스 HairWhere
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/6666ae4a-f8db-465d-82aa-552c49dd9999" alt="logo1" width="50%">
